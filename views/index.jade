@@ -7,7 +7,7 @@ html
     script(src='/js/socket.io.min.js')
     script(src='/js/jquery-1.11.1.js')
     script(src='/js/jquery-mousewheel.min.js')
-    script(src='/js/index.js')
+    script(src='/js/index.min.js')
     title #{pageData.title}
   body
     h1 #{pageData.title}
@@ -24,4 +24,4 @@ html
             div.images
               each file, key in obj.files
                 img(src="/images/" + obj.folder + "/" + file, alt="", index="#{key}").vignette
-        input(type="button", value="Share")#send
+        input(type="button", value="Record")#send

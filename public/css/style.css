@@ -3,35 +3,27 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-size: 1em;
 }
-
 textarea {
   resize: none;
 }
-
-.column{
-  position:relative;
-  display:inline-block;
+.column {
+  position: relative;
+  display: inline-block;
   vertical-align: top;
-  width:200px;
-  height:100px;
+  width: 200px;
+  height: 100px;
 }
-
-.column.legend{
-  width:400px;
+.column.legend {
+  width: 400px;
 }
-
-.column select{
-  display:none;
+.column select {
+  display: none;
 }
-
-.column .images{
-  position:relative;
-  height:100px;
+.column .images {
+  position: relative;
+  height: 100px;
 }
-
-.vignette{
-  max-height:100%;
-  position:absolute;
+.column .vignette {
+  max-height: 100%;
+  position: absolute;
 }
-
-
