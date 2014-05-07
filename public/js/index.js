@@ -55,18 +55,17 @@ function init() {
   When the server fires the "nameChanged" event, it means we
   must update the span with the given ID accordingly
   */
-  socket.on('nameChanged', function (data) {
-    $('#' + data.id).html(data.name + ' ' + (data.id === sessionId ? '(You)' : '') + '<br />');
-  });
+  // socket.on('nameChanged', function (data) {
+  //   $('#' + data.id).html(data.name + ' ' + (data.id === sessionId ? '(You)' : '') + '<br />');
+  // });
 
   /*
   When receiving a new chat message with the "incomingMessage" event,
   we'll prepend it to the messages section
   */
-  socket.on('incomingMessage', function (data) {
-    var message = data.message;
-    var name = data.name;
-    $('#messages').prepend('<b>' + name + '</b><br />' + message + '<hr />');
+  socket.on('incomingLine', function (data) {
+    console.log('incomingLine', data);
+    addNewLine(data);
   });
 
   /*
@@ -76,18 +75,30 @@ function init() {
     console.log('Unable to connect to server', reason);
   });
 
+
+  /* Events */
+  // $('#outgoingMessage').on('keydown', outgoingMessageKeyDown);
+  // $('#outgoingMessage').on('keyup', outgoingMessageKeyUp);
+  // $('#name').on('focusout', nameFocusOut);
+  $('#send').on('click', sendNewLine);
+
   /*
   "sendMessage" will do a simple ajax POST call to our server with
   whatever message we have in our textarea
   */
-  function sendMessage() {
-    var outgoingMessage = $('#outgoingMessage').val();
-    var name = $('#name').val();
+  function sendNewLine() {
+    var data = {};
+    data.legend = $('#legend').val();
+    data.images = {};
+    $('#lineForm .column.image').each(function(i){
+      data["image-"+$(this).attr('foldername')] = $(this).find('option[selected="selected"]').val();
+    });
+    console.log("data", data);
     $.ajax({
-      url:  '/message',
+      url:  '/newline',
       type: 'POST',
       dataType: 'json',
-      data: {message: outgoingMessage, name: name}
+      data: data
     });
   }
 
@@ -95,39 +106,70 @@ function init() {
   If user presses Enter key on textarea, call sendMessage if there
   is something to share
   */
-  function outgoingMessageKeyDown(event) {
-    if (event.which == 13) {
-      event.preventDefault();
-      if ($('#outgoingMessage').val().trim().length <= 0) {
-        return;
-      }
-      sendMessage();
-      $('#outgoingMessage').val('');
-    }
-  }
+  // function outgoingMessageKeyDown(event) {
+  //   if (event.which == 13) {
+  //     event.preventDefault();
+  //     if ($('#outgoingMessage').val().trim().length <= 0) {
+  //       return;
+  //     }
+  //     sendMessage();
+  //     $('#outgoingMessage').val('');
+  //   }
+  // }
 
   /*
   Helper function to disable/enable Send button
   */
-  function outgoingMessageKeyUp() {
-    var outgoingMessageValue = $('#outgoingMessage').val();
-    $('#send').attr('disabled', (outgoingMessageValue.trim()).length > 0 ? false : true);
-  }
+  // function outgoingMessageKeyUp() {
+  //   var outgoingMessageValue = $('#outgoingMessage').val();
+  //   $('#send').attr('disabled', (outgoingMessageValue.trim()).length > 0 ? false : true);
+  // }
 
   /*
   When a user updates his/her name, let the server know by
   emitting the "nameChange" event
   */
-  function nameFocusOut() {
-    var name = $('#name').val();
-    socket.emit('nameChange', {id: sessionId, name: name});
-  }
+  // function nameFocusOut() {
+  //   var name = $('#name').val();
+  //   socket.emit('nameChange', {id: sessionId, name: name});
+  // }
 
-  /* Elements setup */
-  $('#outgoingMessage').on('keydown', outgoingMessageKeyDown);
-  $('#outgoingMessage').on('keyup', outgoingMessageKeyUp);
-  $('#name').on('focusout', nameFocusOut);
-  $('#send').on('click', sendMessage);
+  /*
+  * interface
+  */
+
+  $('.column .images').on('mousewheel', function(event){
+    // console.log('mousewheel deltaY', event.deltaY);
+    if(event.deltaY > 0){
+      $(this).find('img:first-child').appendTo(this);
+      // $(this).parent('.column')
+      //   .find('option[index="'+index+'"]','select')
+      //   .attr('selected', 'selected');
+    }else if(event.deltaY < 0){
+      $(this).find('img:last-child').prependTo(this);
+    }
+
+    $(this).parent('.column')
+      .find('option').removeAttr('selected');
+
+    var index = $(this).find('img:last-child').attr('index');
+    console.log('index = ', index);
+    $(this).parent('.column')
+      .find('select option[index="'+index+'"]','select')
+      .attr('selected', true);
+  });
+
+  function addNewLine(data){
+    var $newline = $('<div>').addClass('record')
+        .append($('<p>').addClass('legend').addClass('column').html(data.legend));
+
+    for(folder in data.images){
+      var src = '/images/'+folder+'/'+data.images[folder];
+      $newline.append($('<div>').addClass('column').append($('<img>').addClass('vignette').attr('src', src)));
+    }
+
+    $newline.appendTo('#recordedlines');
+  };
 
 }
 

@@ -4,5 +4,6 @@
     "jade": "*",
     "socket.io": "*",
     "underscore": "*"
+    // "readdir": "*"
   }
 }

@@ -16,7 +16,9 @@ var express = require("express")
   , app = express()
   , http = require("http").createServer(app)
   , io = require("socket.io").listen(http)
-  , _ = require("underscore");
+  , _ = require("underscore")
+  , fs = require('fs')
+  // , readDir = require('readdir');
 
 
 /*
@@ -54,34 +56,39 @@ app.use(express.bodyParser());
 //Handle route "GET /", as in "http://localhost:8080/"
 app.get("/", function(request, response) {
 
-  //Show a simple response message
-  // response.send("Server is up and running");
-
- //Render the view called "index"
-  response.render("index");
+  //Render the view called "index"
+  response.render("index", {pageData: {title : "museo", images:getImages()}});
 
 });
 
-//POST method to create a chat message
-app.post("/message", function(request, response) {
+//POST method to create a newline
+app.post("/newline", function(request, response) {
+  // console.info('request.body', request.body);
 
-  //The request body expects a param named "message"
-  var message = request.body.message;
+  data = {images:{}};
+  for(key in request.body){
+    // console.log('key', key);
+    if(match = key.match(/image-(\d+)/)){
+      data.images[match[1]] = request.body[key];
+    }else{
+      data[key] = request.body[key];
+    }
+  }
+  console.log('data', data);
 
-  //If the message is empty or wasn't sent it's a bad request
-  if(_.isUndefined(message) || _.isEmpty(message.trim())) {
-    return response.json(400, {error: "Message is invalid"});
+  //The request body expects a param named "legend"
+  // var legend = request.body.legend;
+
+  //If the legend is empty or wasn't sent it's a bad request
+  if(_.isUndefined(data.legend) || _.isEmpty(data.legend.trim())) {
+    return response.json(400, {error: "Legend is invalid"});
   }
 
-  //We also expect the sender's name with the message
-  var name = request.body.name;
-
   //Let our chatroom know there was a new message
-  io.sockets.emit("incomingMessage", {message: message, name: name});
+  io.sockets.emit("incomingLine", data);
 
   //Looks good, let the client know
-  response.json(200, {message: "Message received"});
-
+  response.json(200, {message: "New line received"});
 });
 
 /* Socket.IO events */
@@ -116,10 +123,21 @@ io.on("connection", function(socket){
     participants = _.without(participants,_.findWhere(participants, {id: socket.id}));
     io.sockets.emit("userDisconnected", {id: socket.id, sender:"system"});
   });
-
 });
 
 //Start the http server at port and IP defined before
 http.listen(app.get("port"), app.get("ipaddr"), function() {
   console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
 });
+
+
+function getImages(){
+  var images = [], list;
+  var folders = fs.readdirSync('public/images/');
+  for(var i in folders){
+    list = fs.readdirSync('public/images/'+folders[i]);
+    images.push({folder:folders[i], files:list});
+  }
+  // console.log('images = ',images);
+  return images;
+}
