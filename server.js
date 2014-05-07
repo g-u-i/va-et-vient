@@ -1,64 +1,31 @@
 /*
   Module dependencies:
-
-  - Express
-  - Http (to run Express)
-  - Underscore (because it's cool)
-  - Socket.IO(Note: we need a web server to attach Socket.IO to)
-
-  It is a common practice to name the variables after the module name.
-  Ex: http is the "http" module, express is the "express" module, etc.
-  The only exception is Underscore, where we use, conveniently, an underscore. Oh, and "socket.io" is simply called io. Seriously, the
-  rest should be named after its module name.
 */
 
-var express = require("express")
-  , app = express()
-  , http = require("http").createServer(app)
-  , io = require("socket.io").listen(http)
-  , _ = require("underscore")
-  , fs = require('fs')
-  // , readDir = require('readdir');
+var express = require("express");
+var app = express();
+var http = require("http").createServer(app);
+var io = require("socket.io").listen(http);
+var _ = require("underscore");
+var fs = require('fs');
+// var readDir = require('readdir');
 
+var config = require('./config');
 
 /*
-  The list of participants in our chatroom.
-  The format of each participant will be:
-  {
-    id: "sessionId",
-    name: "participantName"
-  }
+* Server config
 */
-var participants = []
+config(app, express);
 
-/* Server config */
-
-//Server's IP address
-app.set("ipaddr", "127.0.0.1");
-
-//Server's port number
-app.set("port", 8080);
-
-//Specify the views folder
-app.set("views", __dirname + "/views");
-
-//View engine is Jade
-app.set("view engine", "jade");
-
-//Specify where the static content is
-app.use(express.static("public", __dirname + "/public"));
-
-//Tells server to support JSON, urlencoded, and multipart requests
-app.use(express.bodyParser());
-
-/* Server routing */
+/**
+* Server routing
+*/
 
 //Handle route "GET /", as in "http://localhost:8080/"
 app.get("/", function(request, response) {
 
   //Render the view called "index"
   response.render("index", {pageData: {title : "museo", images:getImages()}});
-
 });
 
 //POST method to create a newline
@@ -91,7 +58,10 @@ app.post("/newline", function(request, response) {
   response.json(200, {message: "New line received"});
 });
 
-/* Socket.IO events */
+/**
+* Socket.IO events
+*/
+
 io.on("connection", function(socket){
 
   /*
@@ -100,8 +70,8 @@ io.on("connection", function(socket){
     participants to all connected clients
   */
   socket.on("newUser", function(data) {
-    participants.push({id: data.id, name: data.name});
-    io.sockets.emit("newConnection", {participants: participants});
+    // participants.push({id: data.id, name: data.name});
+    // io.sockets.emit("newConnection", {participants: participants});
   });
 
   /*
@@ -110,8 +80,8 @@ io.on("connection", function(socket){
     the id and new name of the user who emitted the original message
   */
   socket.on("nameChange", function(data) {
-    _.findWhere(participants, {id: socket.id}).name = data.name;
-    io.sockets.emit("nameChanged", {id: data.id, name: data.name});
+    // _.findWhere(participants, {id: socket.id}).name = data.name;
+    // io.sockets.emit("nameChanged", {id: data.id, name: data.name});
   });
 
   /*
@@ -120,16 +90,14 @@ io.on("connection", function(socket){
     all participants with the id of the client that disconnected
   */
   socket.on("disconnect", function() {
-    participants = _.without(participants,_.findWhere(participants, {id: socket.id}));
-    io.sockets.emit("userDisconnected", {id: socket.id, sender:"system"});
+    // participants = _.without(participants,_.findWhere(participants, {id: socket.id}));
+    // io.sockets.emit("userDisconnected", {id: socket.id, sender:"system"});
   });
 });
 
-//Start the http server at port and IP defined before
-http.listen(app.get("port"), app.get("ipaddr"), function() {
-  console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
-});
-
+/**
+* helpers
+*/
 
 function getImages(){
   var images = [], list;
@@ -140,4 +108,13 @@ function getImages(){
   }
   // console.log('images = ',images);
   return images;
-}
+};
+
+
+/**
+* Start the http server at port and IP defined before
+*/
+
+http.listen(app.get("port"), app.get("ipaddr"), function() {
+  console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
+});
