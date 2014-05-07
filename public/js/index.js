@@ -160,7 +160,7 @@ function init() {
   });
 
   function addNewLine(data){
-    var $newline = $('<div>').addClass('record')
+    var $newline = $('<div>').addClass('record').addClass('row')
         .append($('<p>').addClass('legend').addClass('column').html(data.legend));
 
     for(folder in data.images){

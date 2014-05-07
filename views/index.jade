@@ -10,18 +10,19 @@ html
     script(src='/js/index.min.js')
     title #{pageData.title}
   body
-    h1 #{pageData.title}
-    div#recordedlines
-    div#formeline
-      form#lineForm
-        div.column.legend
-          textarea(rows="6", cols="50", placeholder="Share something!", maxlength=200)#legend
-        each obj in pageData.images
-          div.column.image(foldername="#{obj.folder}")
-            select
-              each file, key in obj.files
-                option(value="#{file}" index="#{key}") #{file}
-            div.images
-              each file, key in obj.files
-                img(src="/images/" + obj.folder + "/" + file, alt="", index="#{key}").vignette
-        input(type="button", value="Record")#send
+    div.container
+      h1 #{pageData.title}
+      div#recordedlines
+      div#formeline.row.bg-info
+        form#lineForm
+          div.column.legend
+            textarea(rows="6", cols="50", placeholder="Share something!", maxlength=200)#legend
+          each obj in pageData.images
+            div.column.image(foldername="#{obj.folder}")
+              select
+                each file, key in obj.files
+                  option(value="#{file}" index="#{key}") #{file}
+              div.images
+                each file, key in obj.files
+                  img(src="/images/" + obj.folder + "/" + file, alt="", index="#{key}").vignette
+          input(type="button", value="Record")#send.btn-primary.btn-lg
