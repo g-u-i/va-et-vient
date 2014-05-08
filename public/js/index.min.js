@@ -1,91 +1,66 @@
 function init() {
 
   var serverBaseUrl = document.domain;
-
-  /*
-   On client init, try to connect to the socket.IO server.
-   Note we don't specify a port since we set up our server
-   to run on port 8080
-  */
   var socket = io.connect(serverBaseUrl);
-
-  //We'll save our session ID in a variable for later
   var sessionId = '';
 
-  //Helper function to update the participants' list
-  function updateParticipants(participants) {
-   $('#participants').html('');
-   for (var i = 0; i < participants.length; i++) {
-      $('#participants').append('<span id="' + participants[i].id + '">' +
-        participants[i].name + ' ' + (participants[i].id === sessionId ? '(You)' : '') + '<br /></span>');
-    }
-  }
-
-  /*
-  When the client successfuly connects to the server, an
-  event "connect" is emitted. Let's get the session ID and
-  log it. Also, let the socket.IO server there's a new user
-  with a session ID and a name. We'll emit the "newUser" event
-  for that.
+  /**
+  * Events
   */
-  socket.on('connect', function () {
+  /* sockets */
+  socket.on('connect', onSocketConnect);
+  socket.on('incomingLine', onIncomingLine);
+  socket.on('error', onSocketError);
+  socket.on('newImage', onNewImage);
+
+  /* dom */
+  $('#send').on('click', sendNewLine);
+  $('.column .images').on('mousewheel', onMouseWheelColumn);
+  $('.column .range input[type="range"]').on('change', onImageRangeChange);
+
+  /**
+  * handlers
+  */
+  /* sockets */
+  function onSocketConnect() {
     sessionId = socket.socket.sessionid;
     console.log('Connected ' + sessionId);
-    socket.emit('newUser', {id: sessionId, name: $('#name').val()});
-  });
+    // socket.emit('newUser', {id: sessionId, name: $('#name').val()});
+  };
 
-  /*
-  When the server emits the "newConnection" event, we'll reset
-  the participants section and display the connected clients.
-  Note we are assigning the sessionId as the span ID.
-  */
-  socket.on('newConnection', function (data) {
-    updateParticipants(data.participants);
-  });
-
-  /*
-  When the server emits the "userDisconnected" event, we'll
-  remove the span element from the participants element
-  */
-  socket.on('userDisconnected', function(data) {
-    $('#' + data.id).remove();
-  });
-
-  /*
-  When the server fires the "nameChanged" event, it means we
-  must update the span with the given ID accordingly
-  */
-  // socket.on('nameChanged', function (data) {
-  //   $('#' + data.id).html(data.name + ' ' + (data.id === sessionId ? '(You)' : '') + '<br />');
-  // });
-
-  /*
-  When receiving a new chat message with the "incomingMessage" event,
-  we'll prepend it to the messages section
-  */
-  socket.on('incomingLine', function (data) {
+  function onIncomingLine(data) {
     console.log('incomingLine', data);
     addNewLine(data);
-  });
+  };
 
-  /*
-  Log an error if unable to connect to server
-  */
-  socket.on('error', function (reason) {
+  function onNewImage(data) {
+    console.log('new image :: data', data);
+    var $imgsbox = $('.column.image[foldername="'+data.folder+'"] .images');
+    var $select = $('.column.image[foldername="'+data.folder+'"] select');
+    var index = Math.floor($imgsbox.find('img:last').attr('index'))+1;
+
+    $imgsbox.addClass('new-image').append(
+      $('<img>')
+        .addClass('vignette')
+        .attr('index', index)
+        .attr('alt', "")
+        .attr('src', data.src)
+        .hide()
+    );
+
+    $select.append(
+      $('<option>')
+        .attr('index', index)
+        .attr('value', data.img)
+        .html(data.img)
+    );
+  };
+
+  function onSocketError(reason) {
     console.log('Unable to connect to server', reason);
-  });
+  };
 
-
-  /* Events */
-  // $('#outgoingMessage').on('keydown', outgoingMessageKeyDown);
-  // $('#outgoingMessage').on('keyup', outgoingMessageKeyUp);
-  // $('#name').on('focusout', nameFocusOut);
-  $('#send').on('click', sendNewLine);
-
-  /*
-  "sendMessage" will do a simple ajax POST call to our server with
-  whatever message we have in our textarea
-  */
+  /* dom */
   function sendNewLine() {
     var data = {};
     data.legend = $('#legend').val();
@@ -100,65 +75,50 @@ function init() {
       dataType: 'json',
       data: data
     });
-  }
+  };
 
-  /*
-  If user presses Enter key on textarea, call sendMessage if there
-  is something to share
-  */
-  // function outgoingMessageKeyDown(event) {
-  //   if (event.which == 13) {
-  //     event.preventDefault();
-  //     if ($('#outgoingMessage').val().trim().length <= 0) {
-  //       return;
-  //     }
-  //     sendMessage();
-  //     $('#outgoingMessage').val('');
-  //   }
-  // }
-
-  /*
-  Helper function to disable/enable Send button
-  */
-  // function outgoingMessageKeyUp() {
-  //   var outgoingMessageValue = $('#outgoingMessage').val();
-  //   $('#send').attr('disabled', (outgoingMessageValue.trim()).length > 0 ? false : true);
-  // }
-
-  /*
-  When a user updates his/her name, let the server know by
-  emitting the "nameChange" event
-  */
-  // function nameFocusOut() {
-  //   var name = $('#name').val();
-  //   socket.emit('nameChange', {id: sessionId, name: name});
-  // }
-
-  /*
-  * interface
-  */
-
-  $('.column .images').on('mousewheel', function(event){
+  function onMouseWheelColumn(event){
     // console.log('mousewheel deltaY', event.deltaY);
+    var $newVisible;
+
     if(event.deltaY > 0){
-      $(this).find('img:first-child').appendTo(this);
-      // $(this).parent('.column')
-      //   .find('option[index="'+index+'"]','select')
-      //   .attr('selected', 'selected');
+      if($(this).find('img:visible').next().size()){
+        $newVisible = $(this).find('img:visible').next();
+      }else{
+        $newVisible = $(this).find('img:first-child');
+      }
     }else if(event.deltaY < 0){
-      $(this).find('img:last-child').prependTo(this);
+      if($(this).find('img:visible').prev().size()){
+        $newVisible = $(this).find('img:visible').prev();
+      }else{
+        $newVisible = $(this).find('img:last-child');
+      }
     }
 
-    $(this).parent('.column')
-      .find('option').removeAttr('selected');
+    changeVisibleImage($(this).parents('.column'), parseInt($newVisible.attr('index')));
+  };
 
-    var index = $(this).find('img:last-child').attr('index');
-    console.log('index = ', index);
-    $(this).parent('.column')
-      .find('select option[index="'+index+'"]','select')
-      .attr('selected', true);
-  });
+  function onImageRangeChange(event){
+    console.log("onImageRangeChange");
+    changeVisibleImage($(this).parents('.column'), $(this).val()-1);
+  };
 
+  function changeVisibleImage($col, index){
+    console.log('changeVisibleImage', index);
+
+    $col.find('img').hide();
+    $('img[index="'+index+'"]', $col).show();
+
+    $('option', $col).removeAttr('selected');
+    $('select option[index="'+index+'"]',$col).attr('selected', true);
+
+    $('input[type="range"]', $col).val(index+1);
+
+  };
+
+  /**
+  * helpers
+  */
   function addNewLine(data){
     var $newline = $('<div>').addClass('record').addClass('row')
         .append($('<p>').addClass('legend').addClass('column').html(data.legend));
@@ -172,6 +132,6 @@ function init() {
   };
 
 
-}
+};
 
 $(document).on('ready', init);

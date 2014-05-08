@@ -6,6 +6,7 @@ body {
 }
 
 #formeline{
+  position:relative;
   padding:10px;
 }
 
@@ -14,14 +15,18 @@ textarea {
 }
 
 .column{
-  position:relative;
-  display:inline-block;
-  vertical-align: top;
-  width:200px;
-  height:100px;
+  // position:relative;
+  // display:inline-block;
+  // vertical-align: top;
+  // padding:10px;
+  // width:200px;
+  // height:100px;
 
   &.legend{
-    width:400px;
+    // width:400px;
+    textarea{
+      max-width:100%;
+    }
   }
 
   select{
@@ -30,15 +35,25 @@ textarea {
 
   .images{
     position:relative;
-    height:100px;
+    // width:150px; display:inline-block;
+    border:3px solid #fff;
+    &.new-image{
+      border-color:red;
+    }
+
   }
 
   .vignette{
-    max-height:100%;
-    position:absolute;
+    width:100%;
+    // position:absolute;
+    display:none;
+    &:first-child{display:block;}
   }
 
 }
 
-
+input#send{
+  // display:inline-block;
+  // vertical-align:center;
+}
 

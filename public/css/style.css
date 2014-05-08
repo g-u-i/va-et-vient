@@ -4,29 +4,29 @@ body {
   font-size: 1em;
 }
 #formeline {
+  position: relative;
   padding: 10px;
 }
 textarea {
   resize: none;
 }
-.column {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
-  width: 200px;
-  height: 100px;
-}
-.column.legend {
-  width: 400px;
+.column.legend textarea {
+  max-width: 100%;
 }
 .column select {
   display: none;
 }
 .column .images {
   position: relative;
-  height: 100px;
+  border: 3px solid #fff;
+}
+.column .images.new-image {
+  border-color: red;
 }
 .column .vignette {
-  max-height: 100%;
-  position: absolute;
+  width: 100%;
+  display: none;
+}
+.column .vignette:first-child {
+  display: block;
 }
