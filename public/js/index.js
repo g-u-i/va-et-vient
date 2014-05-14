@@ -120,12 +120,12 @@ function init() {
   * helpers
   */
   function addNewLine(data){
-    var $newline = $('<div>').addClass('record').addClass('row')
-        .append($('<p>').addClass('legend').addClass('column').html(data.legend));
+    var $newline = $('<div>').addClass('record row')
+        .append($('<p>').addClass('legend column col-xs-3').html(data.legend));
 
     for(folder in data.images){
       var src = '/images/'+folder+'/'+data.images[folder];
-      $newline.append($('<div>').addClass('column').append($('<img>').addClass('vignette').attr('src', src)));
+      $newline.append($('<div>').addClass('column col-xs-3').append($('<img>').addClass('vignette').attr('src', src)));
     }
 
     $newline.appendTo('#recordedlines');
