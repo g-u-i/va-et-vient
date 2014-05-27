@@ -17,7 +17,7 @@ body {
   }
 
   &.legend {
-    textarea { width: 100%; }
+    textarea { width: 100%; margin-bottom:@padding-base-vertical; }
   }
 
   &.images {
@@ -27,11 +27,24 @@ body {
 }
 
 #recordedlines {
-
   .record { margin-bottom:@grid-gutter-width; }
   .column.highlight { box-shadow: 0 0 0 5px red; }
 }
 
 #formeline {
   margin-top:@grid-gutter-width;
+}
+
+#video {
+  video { width: 100%; height: auto; background-color: @gray-lighter; }
+}
+
+#capture {
+  #folder { margin-bottom:@padding-base-vertical; }
+  form    { margin-bottom:@grid-gutter-width; }
+  .result {
+    opacity: 0; .transition(opacity .25s);
+    img { width: 100%; height: auto; }
+    &.show { opacity: 1; }
+  }
 }
