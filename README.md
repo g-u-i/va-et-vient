@@ -6,7 +6,12 @@ visual caption/image timeline editor
 ### todo
 
 
-**UI**
+**server**
+- scan dir with glob paterns ( https://github.com/isaacs/node-glob )
+- redimensionner les images/retraitement ( http://aheckmann.github.io/gm ) 
+- sanitize filename ( https://www.npmjs.org/package/sanitize-filename ) 
+
+**editor UI**
 - sélectionner une seule colonne
 - enregistrer les légendes/images + lignes ( csv ? https://github.com/wdavidw/node-csv )
 - materialiser les sauts de pages dans la timeline du projet
@@ -14,16 +19,14 @@ visual caption/image timeline editor
 - selectionner une typographie ( correspondant au role du client )
 - décompte du nombre de caractères restant pour la légende
 
-**server**
-- scan dir with glob paterns ( https://github.com/isaacs/node-glob )
-- redimensionner les images/retraitement ( http://aheckmann.github.io/gm ) 
-- sanitize filename ( https://www.npmjs.org/package/sanitize-filename ) 
+**feedback UI**
+- changer la densité de l'affichage ( 1 image, 1 légende, 1 ligne ou toute la timeline )
+- intrompre la diffusion ( écran noire )
 
-
-**édition**
+**édition UI**
 - forcer les images à 300 dpi en css
 - lancer l’impression ( https://www.npmjs.org/package/lp-client )
-
+- mise en page spécifique, converture ? pagination ? sommaire ?
 
 ### exemple de ligne CSV
 
