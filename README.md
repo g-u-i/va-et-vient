@@ -17,6 +17,7 @@ todo
 - raccourcis clavier ( TAB pour changer de col, espace pour la sélectionner, flèches D/G pour passer d’une image à l’autre, entrer pour envoyer )
 - selectionner une typographie et une variante ( correspondant au role du client / statut légende )
 - décompte du nombre de caractères restant pour la légende
+- afficher le timecode
 
 #### feedback UI
 - changer la densité de l'affichage ( 1 image, 1 légende, 1 ligne ou toute la timeline )
