@@ -3,6 +3,18 @@ banc-bi-js
 
 visual caption/image timeline editor
 
+installation
+-
+- créer dans `public` 
+  - `images/01/`
+  - `images/02/`
+  - `images/0n/`
+      - a remplir avec des `nn-images.jpg`
+- lancer `npm install`
+- lancer `node server.js`
+- aller sur `localhost:8080`
+
+
 todo
 -
 #### server
@@ -20,12 +32,14 @@ todo
 - afficher le timecode
 
 #### feedback UI
-- changer la densité de l'affichage ( 1 image, 1 légende, 1 ligne ou toute la timeline )
+- changer la densité de l'affichage ( toute la timeline ou scroll to )
 - intrompre la diffusion ( écran noire )
 
 #### editor ui
 - iframe hash tag twitter
 - capatation/feedback sonore
+
+#### scu
 
 #### print
 - forcer les images à 300 dpi en css
