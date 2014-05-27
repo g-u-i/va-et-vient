@@ -11,7 +11,8 @@ visual caption/image timeline editor
 - enregistrer les légendes/images + lignes ( csv ? https://github.com/wdavidw/node-csv )
 - materialiser les sauts de pages dans la timeline du projet
 - raccourcis clavier ( TAB pour changer de col, espace pour la sélectionner, flèches D/G pour passer d’une image à l’autre, entrer pour envoyer )
-- Selectionner une typographie ( correspondant au role du client )
+- selectionner une typographie ( correspondant au role du client )
+- décompte du nombre de caractères restant pour la légende
 
 **server**
 - scan dir with glob paterns ( https://github.com/isaacs/node-glob )
