@@ -15,7 +15,7 @@ todo
 - enregistrer les légendes/images + lignes ( csv ? https://github.com/wdavidw/node-csv )
 - materialiser les sauts de pages dans la timeline du projet
 - raccourcis clavier ( TAB pour changer de col, espace pour la sélectionner, flèches D/G pour passer d’une image à l’autre, entrer pour envoyer )
-- selectionner une typographie ( correspondant au role du client )
+- selectionner une typographie et une variante ( correspondant au role du client / statut légende )
 - décompte du nombre de caractères restant pour la légende
 
 #### feedback UI
