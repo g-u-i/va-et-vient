@@ -3,7 +3,8 @@ banc-bi-js
 
 visual caption/image timeline editor
 
-### todo
+todo
+-
 #### server
 - scan dir with glob paterns ( https://github.com/isaacs/node-glob )
 - redimensionner les images/retraitement ( http://aheckmann.github.io/gm ) 
@@ -30,7 +31,9 @@ visual caption/image timeline editor
 - lancer l’impression ( https://www.npmjs.org/package/lp-client )
 - mise en page spécifique, converture ? pagination ? sommaire ?
 
-### exemple de ligne CSV
+exemple de ligne CSV
+-
+
 | timecode  | client_name | caption | caption_style | dirname1   | dirname2   | dirnamen   |
 | --------- | ----------- | ------- | ------------- | ---------- | ---------- | ---------- |
 | 1401188437| editeur     | bla bla | bold,italic    | img32.jpg | none       | nnnn.jpg   |
