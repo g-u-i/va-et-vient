@@ -46,7 +46,7 @@ function init() {
 		// display results in page
 	}
 	$( "#Snapshot" ).click(function() {
-			take_snapshot();
+		take_snapshot();
 	});
 };
 $(document).on('ready', init);

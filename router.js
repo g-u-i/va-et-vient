@@ -36,7 +36,7 @@ module.exports = function(app,io,m){
       var ts = Math.round((new Date()).getTime() / 1000);
       var path = "public/images/"+path+"/"+ts+".jpg";
 
-      fs.writeFile("public/images/"+path+"/"+ts+".jpg", req.body.imgBase64, 'base64', function(err) {
+      fs.writeFile(path, req.body.imgBase64, 'base64', function(err) {
           console.info("write new file to " + path);
       });
     response.json(200, {message: "New picture received"});
