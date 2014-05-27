@@ -15,8 +15,9 @@ function init() {
 
   /* dom */
   $('#send').on('click', sendNewLine);
-  $('.column .images').on('mousewheel', onMouseWheelColumn);
-  $('.column .range input[type="range"]').on('change', onImageRangeChange);
+  $('.column .thumbs').on('mousewheel', onMouseWheelColumn);
+  $('.column input[type="range"]').on('change', onImageRangeChange);
+  $(document).on('keypress', keyListenner);
 
   /**
   * handlers
@@ -35,13 +36,13 @@ function init() {
 
   function onNewImage(data) {
     console.log('new image :: data', data);
-    var $imgsbox = $('.column.image[foldername="'+data.folder+'"] .images');
-    var $select = $('.column.image[foldername="'+data.folder+'"] select');
+    var $imgsbox = $('.column.images[foldername="'+data.folder+'"] .thumbs');
+    var $select = $('.column.images[foldername="'+data.folder+'"] select');
     var index = Math.floor($imgsbox.find('img:last').attr('index'))+1;
 
     $imgsbox.addClass('new-image').append(
       $('<img>')
-        .addClass('vignette')
+        .addClass('thumb')
         .attr('index', index)
         .attr('alt', "")
         .attr('src', data.src)
@@ -65,7 +66,7 @@ function init() {
     var data = {};
     data.legend = $('#legend').val();
     data.images = {};
-    $('#lineForm .column.image').each(function(i){
+    $('#lineForm .column.images').each(function(i){
       data["image-"+$(this).attr('foldername')] = $(this).find('option[selected="selected"]').val();
     });
     console.log("data", data);
@@ -116,16 +117,85 @@ function init() {
 
   };
 
+  function keyListenner(event) {
+
+    switch ( event.key ) {
+      case "Up":
+      case "Right":
+      case "Down":
+      case "Left":
+        selectGridCell(event);
+        break;
+    }
+
+  }
+
+  function selectGridCell(event) {
+
+    event.preventDefault();
+    var $highlight = $('#recordedlines .column.highlight').length > 0 ? $('#recordedlines .column.highlight:first') : null;
+
+    if( $highlight===null ){
+
+      var x = 0;
+      var y = 0;
+
+    } else {
+
+      var x = $highlight.index();
+      var y = $highlight.parents('.record').index();
+      switch ( event.key ) {
+        case "Up":
+          y--;
+          break;
+        case "Right":
+          x++;
+          break;
+        case "Down":
+          y++;
+          break;
+        case "Left":
+          x--;
+          break;
+      }
+
+    }
+
+    // x++;
+    // y++;
+
+    // console.log('x: ',x + '(' + ($('#recordedlines .record:nth-child(' + y + ') .column').length - 1) + ')');
+    // console.log('y: ',y + '(' + ($('#recordedlines .record').length -1) + ')');
+
+    // if( y < 0 ) y = 0;
+    // if( y > $('#recordedlines .record').length - 1 ) y = 0;
+
+    // if( x < 0 ) x = 0;
+    // if( x > $('#recordedlines .record:nth-child(' + y + ') .column').length - 1 ) x = 0;
+
+
+    highlightGridCell(x,y);
+
+  }
+
+  function highlightGridCell(x,y) {
+    console.log('x: ',x);
+    console.log('y: ',y);
+    $('.highlight').removeClass('highlight');
+    $('#recordedlines .record:nth-child(' + y + ') .column:nth-child(' + x + ')').addClass('highlight');
+  }
+
+
   /**
   * helpers
   */
   function addNewLine(data){
-    var $newline = $('<div>').addClass('record row')
+    var $newline = $('<article>').addClass('record row')
         .append($('<p>').addClass('legend column col-xs-3').html(data.legend));
 
     for(folder in data.images){
       var src = '/images/'+folder+'/'+data.images[folder];
-      $newline.append($('<div>').addClass('column col-xs-3').append($('<img>').addClass('vignette').attr('src', src)));
+      $newline.append($('<div>').addClass('column col-xs-3').append($('<img>').addClass('thumb').attr('src', src)));
     }
 
     $newline.appendTo('#recordedlines');

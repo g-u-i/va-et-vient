@@ -2,7 +2,6 @@ doctype html
 html
   head
     link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Open+Sans')
-    link(rel='stylesheet', href='bootstrap/css/bootstrap.css')
     link(rel='stylesheet', href='/css/style.css')
     script(src='/js/socket.io.min.js')
     script(src='/js/jquery-1.11.1.js')
@@ -10,32 +9,34 @@ html
     script(src='/js/index.min.js')
     title #{pageData.title}
   body
-    div.container-fluid
+    header.page-header
       h1 #{pageData.title}
-      div#recordedlines
-      div#formeline.row.bg-info
-        form#lineForm
-          div.row
-            div.col-xs-3.column.legend
-              textarea(rows="6", cols="50", placeholder="Share something!", maxlength=200)#legend
-            each obj in pageData.images
-              div.col-xs-3.column.image(foldername="#{obj.folder}")
-                select
-                  each file, key in obj.files
-                    if (key)
-                      option(value="#{file}" index="#{key}") #{file}
-                    if(!key)
-                      option(value="#{file}" index="#{key}" selected="selected") #{file}
-                div.images
-                  each file, key in obj.files
-                    img(src="/images/" + obj.folder + "/" + file, alt="", index="#{key}").vignette
-                div.range
-                  input(type="range", min="1", max="#{obj.length}", step="1", value="1")
-          div.row
-            div.col-xs-1
-              button(type="button").btn-primary.btn B
-              button(type="button").btn-primary.btn /
-            div.col-xs-2
-              input(type="button", value="Record")#send.btn-primary.btn
-            div.col-xs-2
-              input(type="textfield", placeholder="name")
+    section#recordedlines
+    hr
+    section#formeline
+      form#lineForm
+        div.row
+          div.col-xs-3.column.legend
+            textarea(rows="6", placeholder="Share something!", maxlength=200)#legend
+            div.btn-group.btn-group-justified
+              div.btn-group
+                button(type="button").btn-default.btn B
+              div.btn-group
+                button(type="button").btn-default.btn /
+              div.btn-group
+                input(type="button", value="Record")#send.btn-success.btn
+          each obj in pageData.images
+            div.col-xs-3.column.images(foldername="#{obj.folder}")
+              select
+                each file, key in obj.files
+                  if (key)
+                    option(value="#{file}" index="#{key}") #{file}
+                  if(!key)
+                    option(value="#{file}" index="#{key}" selected="selected") #{file}
+              div.thumbs
+                each file, key in obj.files
+                  img(src="/images/" + obj.folder + "/" + file, alt="", index="#{key}").thumb
+              input(type="range", min="1", max="#{obj.length}", step="1", value="1")
+        div.row
+          div.col-xs-2
+            input(type="textfield", placeholder="name")
