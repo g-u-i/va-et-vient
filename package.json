@@ -3,6 +3,7 @@
     "express": "3.1.0",
     "jade": "*",
     "socket.io": "*",
-    "underscore": "*"
+    "underscore": "*",
+    "glob" :"*"
   }
 }
