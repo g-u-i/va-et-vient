@@ -39,7 +39,9 @@ todo
 - iframe hash tag twitter
 - capatation/feedback sonore
 
-#### scu
+#### capture ui
+- prendre des photos avec la webcam
+- ajouter/supprimer selectionner les images à publier
 
 #### print
 - forcer les images à 300 dpi en css
