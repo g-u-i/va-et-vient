@@ -8,7 +8,9 @@ module.exports = function(app,io,m){
   */
   //Handle route "GET /", as in "http://localhost:8080/"
   app.get("/", getIndex);
+  app.get("/editor", getEditor);
   app.get("/capture", getCapture);
+  app.get("/redaction", getRedaction);
   app.get("/visualisation", getVisualisation);
 
   //POST method to create a newline
@@ -20,17 +22,27 @@ module.exports = function(app,io,m){
   */
   function getIndex(request, response) {
     //Render the view called "index"
-    response.render("index", {pageData: {title : "museo", images:m.getImages()}});
+    response.render("index", {pageData: {title : "museo"}});
+  };
+
+  function getEditor(request, response) {
+    //Render the view called "capture"
+    response.render("editor", {pageData: {title : "Editor"}});
   };
 
   function getCapture(request, response) {
     //Render the view called "capture"
-    response.render("capture", {pageData: {title : "snapshot"}});
+    response.render("capture", {pageData: {title : "Snapshot"}});
+  };
+
+  function getRedaction(request, response) {
+    //Render the view called "capture"
+    response.render("redaction", {pageData: {title : "Redaction", images:m.getImages()}});
   };
 
   function getVisualisation(request, response) {
     //Render the view called "visualisation"
-    response.render("visualisation", {pageData: {title : "visualisation"}});
+    response.render("visualisation", {pageData: {title : "Feedback"}});
   };
 
   function postNewImage(req, response){
@@ -46,8 +58,9 @@ module.exports = function(app,io,m){
       fs.writeFile(path, req.body.imgBase64, 'base64', function(err) {
           console.info("write new file to " + path);
       });
-    response.json(200, {message: "New picture received"});
-  }
+
+      response.json(200, {message: "New picture received"});
+  };
 
   function postNewLine(request, response) {
     // console.info('request.body', request.body);
@@ -91,5 +104,5 @@ module.exports = function(app,io,m){
     response.data = new Buffer(matches[2], 'base64');
 
     return response;
-  }
+  };
 };

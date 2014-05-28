@@ -3,7 +3,6 @@ var fs = require('fs');
 module.exports = function(app, io){
   console.log("main module initialized");
 
-
   var img_p = 'public/images/';
   var images;
   var checkImagesInterval;
@@ -14,8 +13,6 @@ module.exports = function(app, io){
       checkImages();
     }, 500);
   };
-
-
 
   this.getImages = function(){
     if(!images.lenght){
