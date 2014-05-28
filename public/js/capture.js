@@ -5,7 +5,8 @@ function init() {
   $(document).on('keypress', keyListenner);
 
   function keyListenner(event) {
-    switch ( event.key ) {
+    console.log( String.fromCharCode(event.which) );
+    switch ( String.fromCharCode(event.which) ) {
       case " ":
         event.preventDefault();
         take_snapshot();
