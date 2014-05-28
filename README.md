@@ -14,7 +14,6 @@ installation
 - lancer `node server.js`
 - aller sur `localhost:8080`
 
-
 todo
 -
 #### server
@@ -25,23 +24,26 @@ todo
 #### redactor UI
 - sélectionner une seule colonne
 - enregistrer les légendes/images + lignes ( csv ? https://github.com/wdavidw/node-csv )
-- materialiser les sauts de pages dans la timeline du projet
-- raccourcis clavier ( TAB pour changer de col, espace pour la sélectionner, flèches D/G pour passer d’une image à l’autre, entrer pour envoyer )
+- récuperer la note qui à été transmise au modeleur
 - selectionner une typographie et une variante ( correspondant au role du client / statut légende )
 - décompte du nombre de caractères restant pour la légende
 - afficher le timecode
+- raccourcis clavier ( TAB pour changer de col, espace pour la sélectionner, flèches D/G pour passer d’une image à l’autre, entrer pour envoyer )
+
+#### editor ui
+- iframe live tweet
+- champ de pris de note
+- diriger une note vers poste ( #1 #2 #3 )
 
 #### feedback UI
 - changer la densité de l'affichage ( toute la timeline ou scroll to )
 - intrompre la diffusion ( écran noire )
 
-#### editor ui
-- iframe hash tag twitter
-- capatation/feedback sonore
-
 #### capture ui
 - prendre des photos avec la webcam
 - ajouter/supprimer selectionner les images à publier
+- afficher les nouvelles légendes envoyés par l'éditeur
+- valider la légende pour passer à la suivante 
 
 #### print
 - forcer les images à 300 dpi en css
