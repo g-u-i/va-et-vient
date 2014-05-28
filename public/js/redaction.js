@@ -116,7 +116,6 @@ function init() {
     $('select option[index="'+index+'"]',$col).attr('selected', true);
 
     $('input[type="range"]', $col).val(index+1);
-
   };
 
   function keyListenner(event) {
@@ -129,8 +128,7 @@ function init() {
         selectGridCell(event);
         break;
     }
-
-  }
+  };
 
   function selectGridCell(event) {
 
@@ -177,16 +175,14 @@ function init() {
 
 
     highlightGridCell(x,y);
-
-  }
+  };
 
   function highlightGridCell(x,y) {
     console.log('x: ',x);
     console.log('y: ',y);
     $('.highlight').removeClass('highlight');
     $('#recordedlines .record:nth-child(' + y + ') .column:nth-child(' + x + ')').addClass('highlight');
-  }
-
+  };
 
   /**
   * helpers
@@ -202,7 +198,6 @@ function init() {
 
     $newline.appendTo('#recordedlines');
   };
-
 
 };
 

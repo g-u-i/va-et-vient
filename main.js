@@ -96,7 +96,9 @@ module.exports = function(app, io){
       // participants = _.without(participants,_.findWhere(participants, {id: socket.id}));
       // io.sockets.emit("userDisconnected", {id: socket.id, sender:"system"});
     });
+
   });
+
 
   init();
 };

@@ -12,37 +12,38 @@ module.exports = function(app,io,m){
   app.get("/capture", getCapture);
   app.get("/redaction", getRedaction);
   app.get("/visualisation", getVisualisation);
+  app.get("/admin", getAdmin);
 
   //POST method to create a newline
   app.post("/newline", postNewLine);
   app.post("/newImage", postNewImage);
+  app.post("/newSession", postNewSession);
 
   /**
   * routing functions
   */
   function getIndex(request, response) {
-    //Render the view called "index"
     response.render("index", {pageData: {title : "museo"}});
   };
 
   function getEditor(request, response) {
-    //Render the view called "capture"
     response.render("editor", {pageData: {title : "Editor"}});
   };
 
   function getCapture(request, response) {
-    //Render the view called "capture"
     response.render("capture", {pageData: {title : "Snapshot"}});
   };
 
   function getRedaction(request, response) {
-    //Render the view called "capture"
     response.render("redaction", {pageData: {title : "Redaction", images:m.getImages()}});
   };
 
   function getVisualisation(request, response) {
-    //Render the view called "visualisation"
     response.render("visualisation", {pageData: {title : "Feedback"}});
+  };
+
+  function getAdmin(request, response) {
+    response.render("admin", {pageData: {title : "Admin"}});
   };
 
   function postNewImage(req, response){
@@ -89,6 +90,18 @@ module.exports = function(app,io,m){
 
     //Looks good, let the client know
     response.json(200, {message: "New line received"});
+  };
+
+  function postNewSession(req, res){
+    console.log('setNewSession');
+    var newsesspath = 'sessions/'+req.body.name;
+    // var fstat = fs.statSync(newsesspath);
+    // if(!fstat.isDirectory()){
+      fs.mkdir(newsesspath);
+      res.json(200, {message: "New Session created"});
+    // }else{
+    //   response.json(200, {message: "Session already exists"});
+    // }
   };
 
   // helpers
