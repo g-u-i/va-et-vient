@@ -4,6 +4,7 @@
     "jade": "*",
     "socket.io": "*",
     "underscore": "*",
-    "glob" :"*"
+    "glob" :"*",
+    "json2csv" :"*"
   }
 }

@@ -7,11 +7,12 @@ html
     script(src='/js/jquery-1.11.1.js')
     script(src='/js/jquery-mousewheel.min.js')
     script(src='/js/redaction.min.js')
-    title #{pageData.title}
+    title #{session} | #{title}
+    script var app = {}; app.session = "#{session}";
   body
     div#top
       header.page-header
-        h1 #{pageData.title}
+        h1 #{session} | #{title}
       section#recordedlines
     div#bottom
       section#formeline
@@ -27,7 +28,7 @@ html
                   button(type="button").btn-default.btn /
                 div.btn-group
                   input(type="button", value="Record")#send.btn.btn-success
-            each obj in pageData.images
+            each obj in images
               div.col-xs-3.column.images(foldername="#{obj.folder}")
                 select
                   each file, key in obj.files

@@ -16,10 +16,7 @@ module.exports = function(app, io){
   };
 
   this.getImages = function(session){
-    if(!images.lenght){
-      images = readImages(session);
-    }
-    return images;
+    return readImages(session);
   };
 
   function readImages(session){
@@ -38,33 +35,33 @@ module.exports = function(app, io){
     return imgs;
   };
 
-  function checkImages(session){
-    var imgs = readImages(session);
-    var inarray;
+  // function checkImages(session){
+  //   var imgs = readImages(session);
+  //   var inarray;
 
-    for(var f in imgs){
-      for(var i in imgs[f].files){
-        inarray = false;
-        for(ii in images[f].files){
-          if(images[f].files[ii] == imgs[f].files[i]){
-            inarray = true;
-            break;
-          }
-        }
-        if(!inarray){
-          // console.log('new images :: ',imgs[f].files[i]);
-          io.sockets.emit("newImage", {
-            folder:imgs[f].folder,
-            img:imgs[f].files[i],
-            src:'/images/'+imgs[f].folder+'/'+imgs[f].files[i],
-            // index:i
-          });
-        }
-      }
-    }
+  //   for(var f in imgs){
+  //     for(var i in imgs[f].files){
+  //       inarray = false;
+  //       for(ii in images[f].files){
+  //         if(images[f].files[ii] == imgs[f].files[i]){
+  //           inarray = true;
+  //           break;
+  //         }
+  //       }
+  //       if(!inarray){
+  //         // console.log('new images :: ',imgs[f].files[i]);
+  //         io.sockets.emit("newImage", {
+  //           folder:imgs[f].folder,
+  //           img:imgs[f].files[i],
+  //           src:'/images/'+imgs[f].folder+'/'+imgs[f].files[i],
+  //           // index:i
+  //         });
+  //       }
+  //     }
+  //   }
 
-    images = imgs;
-  };
+  //   images = imgs;
+  // };
 
   this.getSessionsList = function(){
     return getSessionsList();

@@ -1,6 +1,7 @@
 var _ = require("underscore");
 var url = require('url')
 var fs = require('fs');
+var json2csv = require('json2csv');
 
 module.exports = function(app,io,m){
 
@@ -38,10 +39,11 @@ module.exports = function(app,io,m){
 
   function getRedaction(req, res) {
     // console.log('session = '+req.param('session'));
-    res.render("redaction", {pageData:{
-      title : req.param('session') + " | Redaction",
+    res.render("redaction", {
+      title : "Redaction",
+      session : req.param('session'),
       images:m.getImages(req.param('session'))
-    }});
+    });
   };
 
   function getVisualisation(request, response) {
@@ -70,41 +72,54 @@ module.exports = function(app,io,m){
       response.json(200, {message: "New picture received"});
   };
 
-  function postNewLine(request, response) {
-    // console.info('request.body', request.body);
+  function postNewLine(req, res) {
+    // console.info('req.body', req.body);
 
     data = {images:{}};
-    for(key in request.body){
+    for(key in req.body){
       // console.log('key', key);
       if(match = key.match(/image-(\d+)/)){
-        data.images[match[1]] = request.body[key];
+        data.images[match[1]] = req.body[key];
       }else{
-        data[key] = request.body[key];
+        data[key] = req.body[key];
       }
     }
-    console.log('data', data);
 
-    //The request body expects a param named "legend"
-    // var legend = request.body.legend;
+    //The req body expects a param named "legend"
+    // var legend = req.body.legend;
 
-    //If the legend is empty or wasn't sent it's a bad request
+    //If the legend is empty or wasn't sent it's a bad req
     if(_.isUndefined(data.legend) || _.isEmpty(data.legend.trim())) {
-      return response.json(400, {error: "Legend is invalid"});
+      return res.json(400, {error: "Legend is invalid"});
     }
+
+    // record line in csv
+    json2csv({data:data ,fields:["legend","images"]}, function(err,csv){
+      var records = fs.openSync('sessions/'+data.session+'/data.txt', 'a+');
+      fs.writeSync(records, csv);
+      fs.close(records);
+    });
+
+    data.session = req.body.session;
+    // console.log('data', data);
 
     //Let our chatroom know there was a new message
     io.sockets.emit("incomingLine", data);
 
     //Looks good, let the client know
-    response.json(200, {message: "New line received"});
+    res.json(200, {message: "New line received"});
   };
 
   function postNewSession(req, res){
-    console.log('setNewSession');
+    console.log('postNewSession');
+
     var newsesspath = 'sessions/'+req.body.name;
     // var fstat = fs.statSync(newsesspath);
     // if(!fstat.isDirectory()){
       fs.mkdir(newsesspath, function(){
+        // create csv file for record
+        // fs.
+        // create sub folders for images
         for (var i = 3; i > 0; i--) {
           fs.mkdir(newsesspath+'/0'+i);
         };

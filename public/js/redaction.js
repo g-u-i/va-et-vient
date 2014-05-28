@@ -66,6 +66,7 @@ jQuery(document).ready(function($) {
   /* dom */
   function sendNewLine() {
     var data = {};
+    data.session = app.session;
     data.legend = $('#legend').val();
     data.images = {};
     $('#lineForm .column.images').each(function(i){
@@ -192,7 +193,7 @@ jQuery(document).ready(function($) {
         .append($('<p>').addClass('legend column col-xs-3').html(data.legend));
 
     for(folder in data.images){
-      var src = '/images/'+folder+'/'+data.images[folder];
+      var src = '/'+data.session+'/'+folder+'/'+data.images[folder];
       $newline.append($('<div>').addClass('column col-xs-3').append($('<img>').addClass('thumb').attr('src', src)));
     }
 
