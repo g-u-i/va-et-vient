@@ -21,7 +21,12 @@ todo
 - redimensionner les images/retraitement ( http://aheckmann.github.io/gm ) 
 - sanitize filename ( https://www.npmjs.org/package/sanitize-filename ) 
 
-#### redactor UI
+#### édition ui
+- iframe live tweet
+- champ de pris de note
+- diriger une note vers poste ( #1 #2 #3 )
+
+#### rédaction UI
 - sélectionner une seule colonne
 - enregistrer les légendes/images + lignes ( csv ? https://github.com/wdavidw/node-csv )
 - récuperer la note qui à été transmise au modeleur
@@ -29,11 +34,6 @@ todo
 - décompte du nombre de caractères restant pour la légende
 - afficher le timecode
 - raccourcis clavier ( TAB pour changer de col, espace pour la sélectionner, flèches D/G pour passer d’une image à l’autre, entrer pour envoyer )
-
-#### editor ui
-- iframe live tweet
-- champ de pris de note
-- diriger une note vers poste ( #1 #2 #3 )
 
 #### feedback UI
 - changer la densité de l'affichage ( toute la timeline ou scroll to )
@@ -45,7 +45,7 @@ todo
 - afficher les nouvelles légendes envoyés par l'éditeur
 - valider la légende pour passer à la suivante 
 
-#### print
+#### impression 
 - forcer les images à 300 dpi en css
 - lancer l’impression ( https://www.npmjs.org/package/lp-client )
 - mise en page spécifique, converture ? pagination ? sommaire ?
