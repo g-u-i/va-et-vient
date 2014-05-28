@@ -9,6 +9,7 @@ module.exports = function(app,io,m){
   //Handle route "GET /", as in "http://localhost:8080/"
   app.get("/", getIndex);
   app.get("/capture", getCapture);
+  app.get("/visualisation", getVisualisation);
 
   //POST method to create a newline
   app.post("/newline", postNewLine);
@@ -23,13 +24,19 @@ module.exports = function(app,io,m){
   };
 
   function getCapture(request, response) {
-    //Render the view called "index"
+    //Render the view called "capture"
     response.render("capture", {pageData: {title : "snapshot"}});
   };
+
+  function getVisualisation(request, response) {
+    //Render the view called "visualisation"
+    response.render("visualisation", {pageData: {title : "visualisation"}});
+  };
+
   function postNewImage(req, response){
 
       var path = req.body.path;
-    
+
       req.body.imgBase64 = req.body.imgBase64.replace(/^data:image\/jpeg+;base64,/, "");
       req.body.imgBase64 = req.body.imgBase64.replace(/ /g, '+');
 
@@ -41,6 +48,7 @@ module.exports = function(app,io,m){
       });
     response.json(200, {message: "New picture received"});
   }
+
   function postNewLine(request, response) {
     // console.info('request.body', request.body);
 
@@ -70,7 +78,7 @@ module.exports = function(app,io,m){
     response.json(200, {message: "New line received"});
   };
 
-  // helpers 
+  // helpers
   function decodeBase64Image(dataString) {
     var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
       response = {};
