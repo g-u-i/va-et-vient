@@ -1,4 +1,4 @@
-function init() {
+jQuery(document).ready(function($) {
 
   var serverBaseUrl = document.domain;
   var socket = io.connect(serverBaseUrl);
@@ -57,6 +57,5 @@ function init() {
   /**
   * helpers
   */
-};
 
-$(document).on('ready', init);
+});

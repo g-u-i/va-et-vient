@@ -3,39 +3,43 @@ var fs = require('fs');
 module.exports = function(app, io){
   console.log("main module initialized");
 
-  var img_p = 'public/images/';
-  var images;
+  var sessions_p = "sessions/"
+  // var img_p = 'public/images/';
+  var images = [];
   var checkImagesInterval;
 
   function init(){
-    images = readImages();
-    checkImagesInterval = setInterval(function(){
-      checkImages();
-    }, 500);
+    // images = readImages();
+    // checkImagesInterval = setInterval(function(){
+    //   checkImages();
+    // }, 500);
   };
 
-  this.getImages = function(){
+  this.getImages = function(session){
     if(!images.lenght){
-      readImages();
+      images = readImages(session);
     }
     return images;
   };
 
-  function readImages(){
+  function readImages(session){
     var imgs = [], list;
+    var img_p = sessions_p+session+'/';
     var folders = fs.readdirSync(img_p);
     folders = folders.filter(function(f){ return !fs.statSync(img_p+f).isFile(); });
+    // console.log('folders = ', folders);
 
     for(var i in folders){
       list = fs.readdirSync(img_p+folders[i]);
-      imgs.push({folder:folders[i], files:list, length:list.length});
+      // console.log('list', list);
+      imgs.push({session_folder: session, folder:folders[i], files:list, length:list.length});
     }
-    // console.log('images = ',images);
+    // console.log('images = ',imgs);
     return imgs;
   };
 
-  function checkImages(){
-    var imgs = readImages();
+  function checkImages(session){
+    var imgs = readImages(session);
     var inarray;
 
     for(var f in imgs){
@@ -60,6 +64,16 @@ module.exports = function(app, io){
     }
 
     images = imgs;
+  };
+
+  this.getSessionsList = function(){
+    return getSessionsList();
+  };
+
+  function getSessionsList(){
+    var folders = fs.readdirSync(sessions_p);
+    folders = folders.filter(function(f){ return fs.statSync(sessions_p+f).isDirectory(); });
+    return folders;
   };
 
   /**

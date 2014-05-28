@@ -5,17 +5,24 @@ html
     link(rel='stylesheet', href='/css/style.css')
     script(src='/js/socket.io.min.js')
     script(src='/js/jquery-1.11.1.js')
-    script(src='/js/capture.js')
-    title #{pageData.title}
+    script(src='/js/index.js')
+    title #{title}
   body
     header.page-header
-      h1 #{pageData.title}
+      h1 #{title}
     div.row
+      h2 choose a session
+      select.session-select
+        each name in sessions
+          option(value="#{name}") #{name}
+
+    div.row
+      h2 then choose a role
       //- button.btn-small
-      a(href="/editor") Editor
+      a(href="/editor").page-link Editor
       //- button.btn-small
-      a(href="/capture") Capture
+      a(href="/capture").page-link Capture
       //- button.btn-small
-      a(href="/redaction") Redaction
+      a(href="/redaction").page-link Redaction
       //- button.btn-small
-      a(href="/visualisation") Visualisation
+      a(href="/visualisation").page-link Visualisation

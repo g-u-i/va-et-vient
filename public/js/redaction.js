@@ -1,4 +1,4 @@
-function init() {
+jQuery(document).ready(function($) {
 
   var serverBaseUrl = document.domain;
   var socket = io.connect(serverBaseUrl);
@@ -199,6 +199,4 @@ function init() {
     $newline.appendTo('#recordedlines');
   };
 
-};
-
-$(document).on('ready', init);
+});

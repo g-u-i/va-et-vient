@@ -1,4 +1,5 @@
 var _ = require("underscore");
+var url = require('url')
 var fs = require('fs');
 
 module.exports = function(app,io,m){
@@ -10,7 +11,7 @@ module.exports = function(app,io,m){
   app.get("/", getIndex);
   app.get("/editor", getEditor);
   app.get("/capture", getCapture);
-  app.get("/redaction", getRedaction);
+  app.get("/redaction/:session", getRedaction);
   app.get("/visualisation", getVisualisation);
   app.get("/admin", getAdmin);
 
@@ -22,8 +23,9 @@ module.exports = function(app,io,m){
   /**
   * routing functions
   */
+  /* GET */
   function getIndex(request, response) {
-    response.render("index", {pageData: {title : "museo"}});
+    response.render("index", {title : "museo", sessions:m.getSessionsList()});
   };
 
   function getEditor(request, response) {
@@ -34,8 +36,12 @@ module.exports = function(app,io,m){
     response.render("capture", {pageData: {title : "Snapshot"}});
   };
 
-  function getRedaction(request, response) {
-    response.render("redaction", {pageData: {title : "Redaction", images:m.getImages()}});
+  function getRedaction(req, res) {
+    // console.log('session = '+req.param('session'));
+    res.render("redaction", {pageData:{
+      title : req.param('session') + " | Redaction",
+      images:m.getImages(req.param('session'))
+    }});
   };
 
   function getVisualisation(request, response) {
@@ -46,6 +52,7 @@ module.exports = function(app,io,m){
     response.render("admin", {pageData: {title : "Admin"}});
   };
 
+  /* POST */
   function postNewImage(req, response){
 
       var path = req.body.path;
@@ -97,7 +104,12 @@ module.exports = function(app,io,m){
     var newsesspath = 'sessions/'+req.body.name;
     // var fstat = fs.statSync(newsesspath);
     // if(!fstat.isDirectory()){
-      fs.mkdir(newsesspath);
+      fs.mkdir(newsesspath, function(){
+        for (var i = 3; i > 0; i--) {
+          fs.mkdir(newsesspath+'/0'+i);
+        };
+      });
+
       res.json(200, {message: "New Session created"});
     // }else{
     //   response.json(200, {message: "Session already exists"});

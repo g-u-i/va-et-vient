@@ -37,7 +37,7 @@ html
                       option(value="#{file}" index="#{key}" selected="selected") #{file}
                 div.thumbs
                   each file, key in obj.files
-                    img(src="/images/" + obj.folder + "/" + file, alt="", index="#{key}").thumb
+                    img(src="/"+obj.session_folder +"/"+ obj.folder + "/" + file, alt="", index="#{key}").thumb
                 input(type="range", min="1", max="#{obj.length}", step="1", value="1")
           div.row
             div.col-xs-2
