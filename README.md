@@ -17,7 +17,7 @@ installation
 todo
 -
 #### server
-- scan dir with glob paterns ( https://github.com/isaacs/node-glob )
+- glob paterns pour éviter les .sync et .DS_Store ( https://github.com/isaacs/node-glob )
 - redimensionner les images/retraitement ( http://aheckmann.github.io/gm | css ?) 
 - enregistrer en session, csv parser https://github.com/wdavidw/node-csv
 
@@ -29,31 +29,37 @@ exemple de CSV
 
 #### édition ui
 - iframe live tweet
-- champ de pris de note
-- diriger une note vers poste ( #1 #2 #3 )
+- champ de pris de notes
+- diriger une *note* vers poste ( #1 #2 #3 )
 
 #### rédaction UI
 - sélectionner une seule colonne
-- enregistrer les légendes/images + lignes ( csv ? https://github.com/wdavidw/node-csv )
-- récuperer la note qui à été transmise au modeleur
-- selectionner une typographie et une variante ( correspondant au role du client / statut légende )
+- récuperer la *note* qui à été transmise au modeleur
+- éditer la *note* pour la transformer en *légende*
+- selectionner une variante typographique ( statut légende )
+- afficher le timecode de la note
 - décompte du nombre de caractères restant pour la légende
-- afficher le timecode
-- raccourcis clavier ( TAB pour changer de col, espace pour la sélectionner, flèches D/G pour passer d’une image à l’autre, entrer pour envoyer )
+- shortcuts
+  - `TAB` pour changer de col
+  - `espace` pour la sélectionner
+  - `fléche D/G` pour passer d’une image à l’autre
+  - `entrer` pour envoyer ...
 
 #### feedback UI
-- changer la densité de l'affichage ( toute la timeline ou scroll to )
+- varier la densité de l'affichage
+  - toute la timeline 
+  - full screen avec déplacement de cases en cases au clavier
 - intrompre la diffusion ( écran noire )
 
 #### capture ui
-- prendre des photos avec la webcam
-- ajouter/supprimer selectionner les images à publier
-- afficher les nouvelles légendes envoyés par l'éditeur
-- valider la légende pour passer à la suivante 
+- capturer depuis la webcam
+- afficher les nouvelles *notes* envoyés par l'éditeur
+- marquer la *note* comme traitée
+- shortcuts
+  - `space` pour capturer
+  - `l` marquer comme traité
 
 #### impression 
 - forcer les images à 300 dpi en css
-- lancer l’impression ( https://www.npmjs.org/package/lp-client )
+- lancer l’impression ( +p | https://www.npmjs.org/package/lp-client )
 - mise en page spécifique, converture ? pagination ? sommaire ?
-
-
