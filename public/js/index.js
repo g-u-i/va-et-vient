@@ -39,6 +39,7 @@ function init() {
     var $imgsbox = $('.column.images[foldername="'+data.folder+'"] .thumbs');
     var $select = $('.column.images[foldername="'+data.folder+'"] select');
     var index = Math.floor($imgsbox.find('img:last').attr('index'))+1;
+    var timeoutID;
 
     $imgsbox.addClass('new-image').append(
       $('<img>')
@@ -49,7 +50,10 @@ function init() {
         .hide()
     );
 
-    $imgsbox.removeClass('new-image');
+    var timeoutID = window.setTimeout(function(){
+      $imgsbox.removeClass('new-image');
+      window.clearTimeout(timeoutID);
+    }, 3000);
 
     $select.append(
       $('<option>')
@@ -121,70 +125,6 @@ function init() {
 
   function keyListenner(event) {
 
-    switch ( event.key ) {
-      case "Up":
-      case "Right":
-      case "Down":
-      case "Left":
-        selectGridCell(event);
-        break;
-    }
-
-  }
-
-  function selectGridCell(event) {
-
-    event.preventDefault();
-    var $highlight = $('#recordedlines .column.highlight').length > 0 ? $('#recordedlines .column.highlight:first') : null;
-
-    if( $highlight===null ){
-
-      var x = 0;
-      var y = 0;
-
-    } else {
-
-      var x = $highlight.index();
-      var y = $highlight.parents('.record').index();
-      switch ( event.key ) {
-        case "Up":
-          y--;
-          break;
-        case "Right":
-          x++;
-          break;
-        case "Down":
-          y++;
-          break;
-        case "Left":
-          x--;
-          break;
-      }
-
-    }
-
-    // x++;
-    // y++;
-
-    // console.log('x: ',x + '(' + ($('#recordedlines .record:nth-child(' + y + ') .column').length - 1) + ')');
-    // console.log('y: ',y + '(' + ($('#recordedlines .record').length -1) + ')');
-
-    // if( y < 0 ) y = 0;
-    // if( y > $('#recordedlines .record').length - 1 ) y = 0;
-
-    // if( x < 0 ) x = 0;
-    // if( x > $('#recordedlines .record:nth-child(' + y + ') .column').length - 1 ) x = 0;
-
-
-    highlightGridCell(x,y);
-
-  }
-
-  function highlightGridCell(x,y) {
-    console.log('x: ',x);
-    console.log('y: ',y);
-    $('.highlight').removeClass('highlight');
-    $('#recordedlines .record:nth-child(' + y + ') .column:nth-child(' + x + ')').addClass('highlight');
   }
 
 
@@ -192,8 +132,8 @@ function init() {
   * helpers
   */
   function addNewLine(data){
-    var $newline = $('<article>').addClass('record row lead')
-        .append($('<p>').addClass('legend column col-xs-3').html(data.legend));
+    var $newline = $('<article>').addClass('record row')
+        .append($('<div>').addClass('column col-xs-3').append($('<p>').addClass('legend').html(data.legend)));
 
     for(folder in data.images){
       var src = '/images/'+folder+'/'+data.images[folder];

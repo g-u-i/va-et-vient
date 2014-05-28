@@ -14,7 +14,7 @@ body {
 
   .thumbs{
     position:relative;
-    &.new-image { box-shadow: 0 0 0 5px red; .transition(box-shadow .25s); }
+    &.new-image { .box-shadow(0 0 0 5px red inset); }
   }
 
   .thumb{
@@ -35,7 +35,12 @@ body {
 
 #recordedlines {
   .record { margin-bottom:@grid-gutter-width; }
-  .column.highlight { box-shadow: 0 0 0 5px red; }
+  .column.highlight > * { .box-shadow(0 0 0 5px red); }
+  body.manify & .column.highlight {
+    position: fixed; top:0; right:0; bottom:0; left:0; padding:@bm;
+    width: auto; z-index: 1; overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.95);
+  }
 }
 
 #formeline {

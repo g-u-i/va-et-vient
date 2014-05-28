@@ -9,7 +9,7 @@ module.exports = function(app,io,m){
   //Handle route "GET /", as in "http://localhost:8080/"
   app.get("/", getIndex);
   app.get("/capture", getCapture);
-  app.get("/visualisation", getVisualisation);
+  app.get("/feedback", getFeedback);
 
   //POST method to create a newline
   app.post("/newline", postNewLine);
@@ -28,9 +28,9 @@ module.exports = function(app,io,m){
     response.render("capture", {pageData: {title : "snapshot"}});
   };
 
-  function getVisualisation(request, response) {
+  function getFeedback(request, response) {
     //Render the view called "visualisation"
-    response.render("visualisation", {pageData: {title : "visualisation"}});
+    response.render("feedback", {pageData: {title : "feedback"}});
   };
 
   function postNewImage(req, response){
