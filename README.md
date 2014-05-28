@@ -19,7 +19,7 @@ todo
 #### server
 - scan dir with glob paterns ( https://github.com/isaacs/node-glob )
 - redimensionner les images/retraitement ( http://aheckmann.github.io/gm | css ?) 
-- enregister en csv/session parser https://github.com/wdavidw/node-csv
+- enregistrer en session, csv parser https://github.com/wdavidw/node-csv
 
 exemple de CSV
 
