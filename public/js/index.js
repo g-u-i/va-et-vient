@@ -17,7 +17,7 @@ function init() {
   $('#send').on('click', sendNewLine);
   $('.column .thumbs').on('mousewheel', onMouseWheelColumn);
   $('.column input[type="range"]').on('change', onImageRangeChange);
-  $(document).on('keypress', keyListenner);
+  // $(document).on('keypress', keyListenner);
 
   /**
   * handlers
@@ -48,6 +48,8 @@ function init() {
         .attr('src', data.src)
         .hide()
     );
+
+    $imgsbox.removeClass('new-image');
 
     $select.append(
       $('<option>')
@@ -190,7 +192,7 @@ function init() {
   * helpers
   */
   function addNewLine(data){
-    var $newline = $('<article>').addClass('record row')
+    var $newline = $('<article>').addClass('record row lead')
         .append($('<p>').addClass('legend column col-xs-3').html(data.legend));
 
     for(folder in data.images){
