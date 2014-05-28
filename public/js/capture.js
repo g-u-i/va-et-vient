@@ -2,6 +2,18 @@ function init() {
   var vid_h=1080,vid_w=1920;
   init_camera();
 
+  $(document).on('keypress', keyListenner);
+
+  function keyListenner(event) {
+    switch ( event.key ) {
+      case " ":
+        event.preventDefault();
+        take_snapshot();
+        break;
+    }
+
+  }
+
   function init_camera(){
 
     // navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
