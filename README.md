@@ -6,10 +6,11 @@ visual caption/image timeline editor
 installation
 
 - créer un `sessions` 
-- créer une nouvelle session à partir de `/admin/`
 - lancer `npm install`
 - lancer `node server.js`
+- créer une nouvelle session à partir de `localhost:8080/admin/`
 - aller sur `localhost:8080`
+
 
 todo
 -
