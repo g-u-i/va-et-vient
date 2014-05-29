@@ -1,7 +1,6 @@
 var _ = require("underscore");
 var url = require('url')
 var fs = require('fs');
-var json2csv = require('json2csv');
 
 module.exports = function(app,io,m){
 
@@ -39,9 +38,13 @@ module.exports = function(app,io,m){
 
   function getRedaction(req, res) {
     // console.log('session = '+req.param('session'));
+    var session = req.param('session');
+    var lines = getRecordedSessionLines(session);
+
     res.render("redaction", {
       title : "Redaction",
-      session : req.param('session'),
+      session : session,
+      lines: lines,
       images:m.getImages(req.param('session'))
     });
   };
@@ -74,14 +77,14 @@ module.exports = function(app,io,m){
 
   function postNewLine(req, res) {
     // console.info('req.body', req.body);
-
-    data = {images:{}};
+    var session = req.body.session;
+    var newline = {images:{}};
     for(key in req.body){
       // console.log('key', key);
       if(match = key.match(/image-(\d+)/)){
-        data.images[match[1]] = req.body[key];
+        newline.images[match[1]] = req.body[key];
       }else{
-        data[key] = req.body[key];
+        newline[key] = req.body[key];
       }
     }
 
@@ -89,22 +92,19 @@ module.exports = function(app,io,m){
     // var legend = req.body.legend;
 
     //If the legend is empty or wasn't sent it's a bad req
-    if(_.isUndefined(data.legend) || _.isEmpty(data.legend.trim())) {
+    if(_.isUndefined(newline.legend) || _.isEmpty(newline.legend.trim())) {
       return res.json(400, {error: "Legend is invalid"});
     }
 
-    // record line in csv
-    json2csv({data:data ,fields:["legend","images"]}, function(err,csv){
-      var records = fs.openSync('sessions/'+data.session+'/data.txt', 'a+');
-      fs.writeSync(records, csv);
-      fs.close(records);
-    });
+    // console.log('newline', newline);
 
-    data.session = req.body.session;
-    // console.log('data', data);
+    // stroe data as json on a file data.json
+    var stored = getRecordedSessionLines(session);
+    stored.push(newline);
+    recordeSessionLines(session, stored);
 
-    //Let our chatroom know there was a new message
-    io.sockets.emit("incomingLine", data);
+    // Let know there was a new line
+    io.sockets.emit("incomingLine", newline);
 
     //Looks good, let the client know
     res.json(200, {message: "New line received"});
@@ -118,7 +118,10 @@ module.exports = function(app,io,m){
     // if(!fstat.isDirectory()){
       fs.mkdir(newsesspath, function(){
         // create csv file for record
-        // fs.
+        var data_fd = fs.openSync(newsesspath+'/data.json', 'w+');
+        fs.writeSync(data_fd, JSON.stringify([]));
+        fs.close(data_fd);
+
         // create sub folders for images
         for (var i = 3; i > 0; i--) {
           fs.mkdir(newsesspath+'/0'+i);
@@ -145,4 +148,16 @@ module.exports = function(app,io,m){
 
     return response;
   };
+
+  function getRecordedSessionLines(session){
+    var data_file_path = 'sessions/'+session+'/data.json';
+    var stored_json = fs.readFileSync(data_file_path, 'utf8');
+    return stored = JSON.parse(stored_json);
+  };
+
+  function recordeSessionLines(session, obj){
+    var data_file_path = 'sessions/'+session+'/data.json';
+    fs.writeFileSync(data_file_path, JSON.stringify(obj), encoding='utf8');
+  };
+
 };

@@ -5,6 +5,5 @@
     "socket.io": "*",
     "underscore": "*",
     "glob" :"*",
-    "json2csv" :"*"
   }
 }
