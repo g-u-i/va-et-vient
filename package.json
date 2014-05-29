@@ -4,6 +4,6 @@
     "jade": "*",
     "socket.io": "*",
     "underscore": "*",
-    "glob" :"*"
+    "glob" :"*",
   }
 }
