@@ -9,10 +9,10 @@ module.exports = function(app,io,m){
   */
   //Handle route "GET /", as in "http://localhost:8080/"
   app.get("/", getIndex);
-  app.get("/editor", getEditor);
-  app.get("/capture", getCapture);
+  app.get("/editor/:session", getEditor);
+  app.get("/capture/:session", getCapture);
   app.get("/redaction/:session", getRedaction);
-  app.get("/visualisation", getVisualisation);
+  app.get("/visualisation/:session", getVisualisation);
   app.get("/admin", getAdmin);
 
   //POST method to create a newline
@@ -49,8 +49,15 @@ module.exports = function(app,io,m){
     });
   };
 
-  function getVisualisation(request, response) {
-    response.render("visualisation", {pageData: {title : "Feedback"}});
+  function getVisualisation(req, res) {
+    var session = req.param('session');
+    var lines = getRecordedSessionLines(session);
+
+    res.render("visualisation", {
+      title : "Feedback",
+      session : session,
+      lines: lines
+    });
   };
 
   function getAdmin(request, response) {
@@ -152,7 +159,7 @@ module.exports = function(app,io,m){
   function getRecordedSessionLines(session){
     var data_file_path = 'sessions/'+session+'/data.json';
     var stored_json = fs.readFileSync(data_file_path, 'utf8');
-    return stored = JSON.parse(stored_json);
+    return JSON.parse(stored_json);
   };
 
   function recordeSessionLines(session, obj){

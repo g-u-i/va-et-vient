@@ -6,7 +6,14 @@ html
     script(src='/js/socket.io.min.js')
     script(src='/js/jquery-1.11.1.js')
     script(src='/js/visualisation.min.js')
-    title #{pageData.title}
+    title #{title}
   body
     header.page-header
-      h1 #{pageData.title}
+      h1 #{title}
+    section#recordedlines
+      each line in lines
+        article.record.row.lead
+          p.legend.column.col-xs-3 #{line.legend}
+          for file, folder in line.images
+            div.column.col-xs-3
+              img(src="/#{session}/#{folder}/#{file}").thumb
