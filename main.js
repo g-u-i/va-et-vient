@@ -9,6 +9,11 @@ module.exports = function(app, io){
   var images = [];
   var checkImagesInterval;
 
+  io.on("connection", function(socket){
+    socket.on("newImage", onNewImage);
+  });
+
+
   function init(){
     // images = readImages();
     // checkImagesInterval = setInterval(function(){
@@ -40,5 +45,20 @@ module.exports = function(app, io){
     return folders;
   };
   
+  function onNewImage (req){
+
+    console.log(req.path);
+
+    req.imgBase64 = req.imgBase64.replace(/^data:image\/jpeg+;base64,/, "");
+    req.imgBase64 = req.imgBase64.replace(/ /g, '+');
+
+    var ts = Math.round((new Date()).getTime() / 1000);
+
+    var path = "sessions/"+req.path+"/"+ts+".jpg";
+
+    fs.writeFile(path, req.imgBase64, 'base64', function(err) {
+        console.info("write new file to " + path, err);
+    });
+  };
   init();
 };

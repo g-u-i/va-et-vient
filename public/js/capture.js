@@ -1,4 +1,9 @@
 function init() {
+
+  var serverBaseUrl = document.domain;
+  var socket = io.connect(serverBaseUrl);
+  var sessionId = '';
+
   var vid_h=1080,vid_w=1920;
   init_camera();
 
@@ -58,21 +63,19 @@ function init() {
     var canvas = document.createElement('canvas');
     canvas.width = vid_w;
     canvas.height = vid_h;
+
+
     var context = canvas.getContext('2d');
-
     context.drawImage(video, 0, 0, vid_w, vid_h);
-    var data_uri = canvas.toDataURL('image/jpeg', 1.0 );
 
-    $.ajax({
-      type: "POST",
-      url: "/newImage",
-      data: {imgBase64: canvas.toDataURL('image/jpeg', 1.0 ), path:$( "#folder" ).val()}
-    }).done(function(image) {
-      $('#capture .result').html( '<img src="'+data_uri+'">' );
-      $('#capture .result').addClass('show');
-    });
-    return canvas.toDataURL('image/jpeg', 1.0 );
-    // display results in page
+    var data_uri = canvas.toDataURL('image/jpeg', 1.0 );
+    var data = {imgBase64: data_uri, path:app.session+"/"+$( "#folder" ).val()}
+
+    socket.emit('newImage', data);
+
+    $('#capture .result').html( '<img src="'+data_uri+'">' );
+    $('#capture .result').addClass('show');
+
   }
   $( "#Snapshot" ).click(function(event) {
     take_snapshot(event);

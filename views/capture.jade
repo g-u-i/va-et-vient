@@ -6,10 +6,12 @@ html
     script(src='/js/socket.io.min.js')
     script(src='/js/jquery-1.11.1.js')
     script(src='/js/capture.js')
-    title #{pageData.title}
+    script var app = {}; app.session = "#{session}";
+    title #{title}
+
   body
     header.page-header
-      h1 #{pageData.title}
+      h1 #{title}
     div.row
       section#video.col-xs-9
         video#my_camera.isight(autoplay='autoplay')

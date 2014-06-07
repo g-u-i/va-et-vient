@@ -34,7 +34,14 @@ module.exports = function(app,io,m){
   };
 
   function getCapture(req, res) {
-    res.render("capture", {pageData: {title : "Snapshot"}});
+
+    var session = req.param('session');
+
+    res.render("capture", {
+      title : "Snapshot",
+      session : session
+    });
+
   };
 
   function getRedaction(req, res) {
