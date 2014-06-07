@@ -5,9 +5,9 @@ var fs = require('fs');
 module.exports = function(app,io,m){
 
   /**
-  * routing
+  * routing event
   */
-  //Handle route "GET /", as in "http://localhost:8080/"
+
   app.get("/", getIndex);
   app.get("/editor/:session", getEditor);
   app.get("/capture/:session", getCapture);
@@ -15,7 +15,7 @@ module.exports = function(app,io,m){
   app.get("/visualisation/:session", getVisualisation);
   app.get("/admin", getAdmin);
 
-  //POST method to create a newline
+  //POST
   app.post("/newline", postNewLine);
   app.post("/newImage", postNewImage);
   app.post("/newSession", postNewSession);
@@ -23,9 +23,10 @@ module.exports = function(app,io,m){
   /**
   * routing functions
   */
-  /* GET */
-  function getIndex(request, response) {
-    response.render("index", {title : "museo", sessions:m.getSessionsList()});
+
+  // GET 
+  function getIndex(req, res) {
+    res.render("index", {title : "museo", sessions:m.getSessionsList()});
   };
 
   function getEditor(request, response) {
@@ -68,26 +69,25 @@ module.exports = function(app,io,m){
     });
   };
 
-  function getAdmin(request, response) {
-    response.render("admin", {pageData: {title : "Admin"}});
+  function getAdmin(req, res) {
+    res.render("admin", {pageData: {title : "Admin"}});
   };
 
   /* POST */
-  function postNewImage(req, response){
+  function postNewImage(req, res){
+    var path = req.body.path;
 
-      var path = req.body.path;
+    req.body.imgBase64 = req.body.imgBase64.replace(/^data:image\/jpeg+;base64,/, "");
+    req.body.imgBase64 = req.body.imgBase64.replace(/ /g, '+');
 
-      req.body.imgBase64 = req.body.imgBase64.replace(/^data:image\/jpeg+;base64,/, "");
-      req.body.imgBase64 = req.body.imgBase64.replace(/ /g, '+');
+    var ts = Math.round((new Date()).getTime() / 1000);
+    var path = "public/images/"+path+"/"+ts+".jpg";
 
-      var ts = Math.round((new Date()).getTime() / 1000);
-      var path = "public/images/"+path+"/"+ts+".jpg";
+    fs.writeFile(path, req.body.imgBase64, 'base64', function(err) {
+        console.info("write new file to " + path);
+    });
 
-      fs.writeFile(path, req.body.imgBase64, 'base64', function(err) {
-          console.info("write new file to " + path);
-      });
-
-      response.json(200, {message: "New picture received"});
+    res.json(200, {message: "New picture received"});
   };
 
   function postNewLine(req, res) {
@@ -145,23 +145,25 @@ module.exports = function(app,io,m){
 
       res.json(200, {message: "New Session created"});
     // }else{
-    //   response.json(200, {message: "Session already exists"});
+    //   res.json(200, {message: "Session already exists"});
     // }
   };
 
-  // helpers
+  /**
+  * helpers
+  */
   function decodeBase64Image(dataString) {
     var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-      response = {};
+      res = {};
 
     if (matches.length !== 3) {
       return new Error('Invalid input string');
     }
 
-    response.type = matches[1];
-    response.data = new Buffer(matches[2], 'base64');
+    res.type = matches[1];
+    res.data = new Buffer(matches[2], 'base64');
 
-    return response;
+    return res;
   };
 
   function getRecordedSessionLines(session){
