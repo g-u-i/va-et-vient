@@ -30,9 +30,12 @@ module.exports = function(app,io,m){
   };
 
   function getEditor(req, res) {
-    res.render("editor", {pageData: {title : "Editor"}});
+    var session = request.param('session');
+    response.render("editor", {
+      title : "Editor",
+      session : session,
+    });
   };
-
   function getCapture(req, res) {
 
     var session = req.param('session');
@@ -41,9 +44,6 @@ module.exports = function(app,io,m){
       title : "Snapshot",
       session : session
     });
-
-  };
-
   function getRedaction(req, res) {
     // console.log('session = '+req.param('session'));
     var session = req.param('session');

@@ -1,42 +1,35 @@
 doctype html
 html
   head
-    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Open+Sans')
     link(rel='stylesheet', href='/css/style.css')
-    script(src='/js/socket.io.min.js')
-    script(src='/js/jquery-1.11.1.js')
-    script(src='/js/jquery-mousewheel.min.js')
-    script(src='/js/redaction.min.js')
     title #{session} | #{title}
-    script var app = {}; app.session = "#{session}";
   body
     div#top
       header.page-header
         h1 #{session} | #{title}
-      section#recordedlines
+      section#content
         each line in lines
           article.record.row.lead
-            p.legend.column.col-xs-3 #{line.legend}
+            p.legend.col-xs-3 #{line.legend}
             for file, folder in line.images
-              div.column.col-xs-3
+              div.image.col-xs-3
                 img(src="/#{session}/#{folder}/#{file}").thumb
     div#bottom
-      section#formeline
-        hr
-        form#lineForm
-          div.row
-            div.col-xs-3.column.legend
-              textarea(rows="6", placeholder="Share something!", maxlength=200)#legend
+      section.editor
+        form
+          fieldset.row
+            div.col-xs-3
+              textarea(placeholder="Share something!", maxlength=200)#legend
               div.btn-group.btn-group-justified
                 div.btn-group
-                  button(type="button").btn-default.btn B
+                  button(type="button" data-toggle="button").btn.btn-default#bold b
                 div.btn-group
-                  button(type="button").btn-default.btn /
+                  button(type="button" data-toggle="button").btn.btn-default#italic i
                 div.btn-group
                   input(type="button", value="Record")#send.btn.btn-success
             each obj in images
-              div.col-xs-3.column.images(foldername="#{obj.folder}")
-                select
+              div.col-xs-3.images(foldername="#{obj.folder}")
+                select.hide
                   each file, key in obj.files
                     if (key)
                       option(value="#{file}" index="#{key}") #{file}
@@ -46,6 +39,15 @@ html
                   each file, key in obj.files
                     img(src="/"+obj.session_folder +"/"+ obj.folder + "/" + file, alt="", index="#{key}").thumb
                 input(type="range", min="1", max="#{obj.length}", step="1", value="1")
-          div.row
-            div.col-xs-2
-              input(type="textfield", placeholder="name")
+                div.btn-group.btn-group-justified
+                  div.btn-group
+                    button(type="button").btn.btn-default Get legend
+                  div.btn-group
+                    button(type="button" data-toggle="button").btn.btn-default Use Picture
+    //- scripts
+    script(src='/js/minified/socket.io.min.js')
+    script var app = {}; app.session = "#{session}";
+    script(src='/js/jquery-1.11.1.js')
+    script(src='/js/minified/jquery-mousewheel.min.js')
+    script(src='/bootstrap/dist/js/bootstrap.min.js')
+    script(src='/js/minified/redaction.min.js')
