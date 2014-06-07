@@ -44,6 +44,7 @@ module.exports = function(app,io,m){
       title : "Snapshot",
       session : session
     });
+  };
   function getRedaction(req, res) {
     // console.log('session = '+req.param('session'));
     var session = req.param('session');
