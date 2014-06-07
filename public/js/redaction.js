@@ -17,6 +17,7 @@ jQuery(document).ready(function($) {
   $('#send').on('click', sendNewLine);
   $('.editor .thumbs').on('mousewheel', onMouseWheelColumn);
   $('.editor input[type="range"]').on('change', onImageRangeChange);
+  $('.editor .btn#bold, .editor .btn#italic').on('click', onToggleStyle );
   $('.editor .images .btn[data-toggle]').on('click', onToggleImage );
 
   // $(document).on('keypress', keyListenner);
@@ -68,18 +69,18 @@ jQuery(document).ready(function($) {
 
   /* dom */
   function sendNewLine() {
-    var $legend = $('<p>').html( $('#legend').val() );
+
+    var legend = $('#legend').val();
     var data = {};
     data.session = app.session;
     data.images = {};
 
     if( $('#bold').hasClass('active') )
-      $legend = $legend.wrapInner('<strong>');
+      legend = '**'+legend+'**';
+    else if( $('#italic').hasClass('active') )
+      legend = '*'+legend+'*';
 
-    if( $('#italic').hasClass('active') )
-      $legend = $legend.wrapInner('<em>');
-
-    data.legend = $legend.html();
+    data.legend = legend;
 
     $('.editor .images').each(function(i){
       if ( $(this).hasClass('selected') ) {
@@ -137,6 +138,13 @@ jQuery(document).ready(function($) {
   function onToggleImage(){
     console.log('onToggleImage');
     $(this).parents('.images').toggleClass('selected');
+  }
+
+  function onToggleStyle(){
+    if( $(this).is("#bold") )
+      $('#italic').removeClass('active');
+    else
+      $('#bold').removeClass('active');
   }
 
   function keyListenner(event) {
