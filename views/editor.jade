@@ -65,13 +65,19 @@ html
         form
           fieldset.row
             div.col-xs-3
-              textarea(placeholder="Write your notes here.", maxlength=200)
+              textarea(placeholder="Write your notes here.", maxlength=200)#note
               div.btn-group.btn-group-justified
                 div.btn-group
-                  button(type="submit").btn.btn-success Sent
+                  select#column.form-control
+                    option(value='01') colone 1
+                    option(value='02') colone 2
+                    option(value='03') colone 3
+                  input(type="button", value="nouvelle note")#sendNote.btn.btn-success
+
 
     //- scripts
     script(src='/js/minified/socket.io.min.js')
     script(src='/js/jquery-1.11.1.js')
     script(src='/bootstrap/dist/js/bootstrap.min.js')
-    script(src='/js/minified/editor.min.js')
+    script(src='/js/editor.js')
+    script var app = {}; app.session = "#{session}";

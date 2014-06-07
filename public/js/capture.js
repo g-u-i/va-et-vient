@@ -5,19 +5,22 @@ function init() {
   var sessionId = '';
 
   var vid_h=1080,vid_w=1920;
-  init_camera();
 
   $(document).on('keypress', keyListenner);
+  
+  socket.on('newNote', onNewNote);
+  $('#Snapshot').on('click', onSendCapture);
+  $('#nextNote').on('click', onNextNote);
+
 
   function keyListenner(event) {
     console.log( String.fromCharCode(event.which) );
     switch ( String.fromCharCode(event.which) ) {
       case " ":
         event.preventDefault();
-        take_snapshot();
+        sendCapture();
         break;
     }
-
   }
 
   function init_camera(){
@@ -53,32 +56,46 @@ function init() {
       alert("getUserMedia not supported on your machine!");
     }
   }
-  function take_snapshot(event){
+  function onNewNote(req){
+    console.log(req);
+
+    if(req.column == app.column){
+      $("#notes").append("<li>"+req.text+"</li>");
+      $("#notes li:last-child").attr(req);
+    }
+  };
+  function onSendCapture(event){
 
     $('#capture .result').removeClass('show');
 
-    // take snapshot and get image data
     var video = document.getElementById('my_camera');
-
     var canvas = document.createElement('canvas');
+
     canvas.width = vid_w;
     canvas.height = vid_h;
-
 
     var context = canvas.getContext('2d');
     context.drawImage(video, 0, 0, vid_w, vid_h);
 
     var data_uri = canvas.toDataURL('image/jpeg', 1.0 );
-    var data = {imgBase64: data_uri, path:app.session+"/"+$( "#folder" ).val()}
-
-    socket.emit('newImage', data);
+    var data = {
+      imgBase64: data_uri, 
+      session:app.session, 
+      column:app.column,
+      note: {
+        time: $("#notes li:first-child").attr("time"),
+        text: $("#notes li:first-child").attr("text"),
+        path: $("#notes li:first-child").attr("path")
+      }
+    }
+    socket.emit('capture', data);
 
     $('#capture .result').html( '<img src="'+data_uri+'">' );
     $('#capture .result').addClass('show');
-
   }
-  $( "#Snapshot" ).click(function(event) {
-    take_snapshot(event);
-  });
+  function onNextNote(e){
+    $("#notes li:first-child").remove();
+  }
+  init_camera();
 };
 $(document).on('ready', init);
