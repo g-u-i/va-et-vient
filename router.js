@@ -29,11 +29,19 @@ module.exports = function(app,io,m){
   };
 
   function getEditor(request, response) {
-    response.render("editor", {pageData: {title : "Editor"}});
+    var session = request.param('session');
+    response.render("editor", {
+      title : "Editor",
+      session : session,
+    });
   };
 
   function getCapture(request, response) {
-    response.render("capture", {pageData: {title : "Snapshot"}});
+    var session = request.param('session');
+    response.render("capture", {
+      title : "Snapshot",
+      session : session,
+    });
   };
 
   function getRedaction(req, res) {

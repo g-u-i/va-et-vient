@@ -15,8 +15,10 @@ jQuery(document).ready(function($) {
 
   /* dom */
   $('#send').on('click', sendNewLine);
-  $('.column .thumbs').on('mousewheel', onMouseWheelColumn);
-  $('.column input[type="range"]').on('change', onImageRangeChange);
+  $('.editor .thumbs').on('mousewheel', onMouseWheelColumn);
+  $('.editor input[type="range"]').on('change', onImageRangeChange);
+  $('.btn[data-toggle]').on('click', onToggleImage );
+
   // $(document).on('keypress', keyListenner);
 
   /**
@@ -36,8 +38,9 @@ jQuery(document).ready(function($) {
 
   function onNewImage(data) {
     console.log('new image :: data', data);
-    var $imgsbox = $('.column.images[foldername="'+data.folder+'"] .thumbs');
-    var $select = $('.column.images[foldername="'+data.folder+'"] select');
+
+    var $imgsbox = $('.editor .images[foldername="'+data.folder+'"] .thumbs');
+    var $select  = $('.editor .images[foldername="'+data.folder+'"] select');
     var index = Math.floor($imgsbox.find('img:last').attr('index'))+1;
 
     $imgsbox.addClass('new-image').append(
@@ -69,10 +72,13 @@ jQuery(document).ready(function($) {
     data.session = app.session;
     data.legend = $('#legend').val();
     data.images = {};
-    $('#lineForm .column.images').each(function(i){
-      data["image-"+$(this).attr('foldername')] = $(this).find('option[selected="selected"]').val();
+    $('.editor .images').each(function(i){
+      if ( $(this).hasClass('selected') ) {
+        data["image-"+$(this).attr('foldername')] = $(this).find('option[selected="selected"]').val();
+      }else{
+        data["image-"+$(this).attr('foldername')] = false;
+      }
     });
-    console.log("data", data);
     $.ajax({
       url:  '/newline',
       type: 'POST',
@@ -99,12 +105,12 @@ jQuery(document).ready(function($) {
       }
     }
 
-    changeVisibleImage($(this).parents('.column'), parseInt($newVisible.attr('index')));
+    changeVisibleImage($(this).parents('.images'), parseInt($newVisible.attr('index')));
   };
 
   function onImageRangeChange(event){
     console.log("onImageRangeChange");
-    changeVisibleImage($(this).parents('.column'), $(this).val()-1);
+    changeVisibleImage($(this).parents('.images'), $(this).val()-1);
   };
 
   function changeVisibleImage($col, index){
@@ -118,6 +124,11 @@ jQuery(document).ready(function($) {
 
     $('input[type="range"]', $col).val(index+1);
   };
+
+  function onToggleImage(){
+    console.log('onToggleImage');
+    $(this).parents('.images').toggleClass('selected');
+  }
 
   function keyListenner(event) {
 
@@ -134,7 +145,7 @@ jQuery(document).ready(function($) {
   function selectGridCell(event) {
 
     event.preventDefault();
-    var $highlight = $('#recordedlines .column.highlight').length > 0 ? $('#recordedlines .column.highlight:first') : null;
+    var $highlight = $('#recordedlines .images.highlight').length > 0 ? $('#recordedlines .images.highlight:first') : null;
 
     if( $highlight===null ){
 
@@ -182,7 +193,7 @@ jQuery(document).ready(function($) {
     console.log('x: ',x);
     console.log('y: ',y);
     $('.highlight').removeClass('highlight');
-    $('#recordedlines .record:nth-child(' + y + ') .column:nth-child(' + x + ')').addClass('highlight');
+    $('#recordedlines .record:nth-child(' + y + ') .images:nth-child(' + x + ')').addClass('highlight');
   };
 
   /**
@@ -190,14 +201,19 @@ jQuery(document).ready(function($) {
   */
   function addNewLine(data){
     var $newline = $('<article>').addClass('record row lead')
-        .append($('<p>').addClass('legend column col-xs-3').html(data.legend));
+        .append($('<p>').addClass('legend col-xs-3').html(data.legend));
 
     for(folder in data.images){
-      var src = '/'+data.session+'/'+folder+'/'+data.images[folder];
-      $newline.append($('<div>').addClass('column col-xs-3').append($('<img>').addClass('thumb').attr('src', src)));
+      var $col = $('<div>').addClass('col-xs-3');
+      console.log(data.images[folder]);
+      if(data.images[folder]!="false"){
+        var src = '/'+data.session+'/'+folder+'/'+data.images[folder];
+        $col.append($('<img>').addClass('thumb').attr('src', src));
+      }
+      $newline.append($col);
     }
 
-    $newline.appendTo('#recordedlines');
+    $newline.appendTo('#content');
   };
 
 });
