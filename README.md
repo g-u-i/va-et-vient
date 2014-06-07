@@ -4,15 +4,13 @@ banc-bi-js
 visual caption/image timeline editor
 
 installation
--
-- créer dans `public` 
-  - `images/01/`
-  - `images/02/`
-  - `images/0n/`
-      - a remplir avec des `nn-images.jpg`
+
+- créer un `sessions` 
 - lancer `npm install`
 - lancer `node server.js`
+- créer une nouvelle session à partir de `localhost:8080/admin/`
 - aller sur `localhost:8080`
+
 
 todo
 -
