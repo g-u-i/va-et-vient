@@ -29,22 +29,22 @@ module.exports = function(app,io,m){
     res.render("index", {title : "museo", sessions:m.getSessionsList()});
   };
 
-  function getEditor(request, response) {
+  function getEditor(req, res) {
     var session = request.param('session');
     response.render("editor", {
       title : "Editor",
       session : session,
     });
   };
+  function getCapture(req, res) {
 
-  function getCapture(request, response) {
-    var session = request.param('session');
-    response.render("capture", {
+    var session = req.param('session');
+
+    res.render("capture", {
       title : "Snapshot",
-      session : session,
+      session : session
     });
   };
-
   function getRedaction(req, res) {
     // console.log('session = '+req.param('session'));
     var session = req.param('session');
