@@ -22,9 +22,9 @@ html
               textarea(placeholder="Share something!", maxlength=200)#legend
               div.btn-group.btn-group-justified
                 div.btn-group
-                  button(type="button").btn-default.btn B
+                  button(type="button" data-toggle="button").btn.btn-default#bold B
                 div.btn-group
-                  button(type="button").btn-default.btn /
+                  button(type="button" data-toggle="button").btn.btn-default#italic /
                 div.btn-group
                   input(type="button", value="Record")#send.btn.btn-success
             each obj in images

@@ -17,7 +17,7 @@ jQuery(document).ready(function($) {
   $('#send').on('click', sendNewLine);
   $('.editor .thumbs').on('mousewheel', onMouseWheelColumn);
   $('.editor input[type="range"]').on('change', onImageRangeChange);
-  $('.btn[data-toggle]').on('click', onToggleImage );
+  $('.editor .images .btn[data-toggle]').on('click', onToggleImage );
 
   // $(document).on('keypress', keyListenner);
 
@@ -68,10 +68,19 @@ jQuery(document).ready(function($) {
 
   /* dom */
   function sendNewLine() {
+    var $legend = $('<p>').html( $('#legend').val() );
     var data = {};
     data.session = app.session;
-    data.legend = $('#legend').val();
     data.images = {};
+
+    if( $('#bold').hasClass('active') )
+      $legend = $legend.wrapInner('<strong>');
+
+    if( $('#italic').hasClass('active') )
+      $legend = $legend.wrapInner('<em>');
+
+    data.legend = $legend.html();
+
     $('.editor .images').each(function(i){
       if ( $(this).hasClass('selected') ) {
         data["image-"+$(this).attr('foldername')] = $(this).find('option[selected="selected"]').val();
