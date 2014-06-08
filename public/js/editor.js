@@ -4,10 +4,8 @@ function init() {
   var socket = io.connect(serverBaseUrl);
   var sessionId = '';
 
-  $('#sendNote').on('click', sendNewNote);
-
+  $('.sendNote').on('click', sendNewNote);
   socket.on('newImage', onNewImage);
-
 
   function onNewImage(data) {
     console.log('new image :: data', data);
@@ -25,11 +23,11 @@ function init() {
   };
 
   function sendNewNote(e){
-    console.log(e);
+    // console.log(e);
     var data =  {
       session : app.session,
       text : $("#note").val(),
-      column : $("#column").val(),
+      column : $(this).val(),
       time : new Date().getTime()
     }
     socket.emit("newNote",data);
@@ -37,7 +35,7 @@ function init() {
   };
   function addNewNote(data){
     var $newline = $('<article>')
-        .addClass('record row lead')
+        .addClass('record row')
         .attr('id', 't'+data.time)
         .append($('<p>')
         .addClass('legend col-xs-3')

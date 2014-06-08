@@ -2,7 +2,7 @@
 @grid-gutter-width-large: @grid-gutter-width * 3;
 @editors-height-base:  300px;
 @editors-height-large: 400px;
-@editors-height-small: 200px;
+@editors-height-small: 190px;
 
 body {
 
@@ -15,11 +15,11 @@ body {
                   background-color: darken(@body-bg, 2%);
                 }
 
-  &.small{
+  &.compact {
     #top    { bottom: @editors-height-small; }
     #bottom { height: @editors-height-small; }
   }
-  &.large{
+  &.large {
     #top      { bottom: @editors-height-large; }
     #bottom   { height: @editors-height-large; }
   }
@@ -35,23 +35,25 @@ body {
 }
 
 #content {
-  .record { margin-bottom: @grid-gutter-width;
-
-  }
+  .record { margin-bottom: @grid-gutter-width; }
 }
 
 #editor {
   textarea { width: 100%; height: 196px; margin-bottom:5px; }
+  .compact & textarea { height: 121px; }
   #bold    { font-weight: bold; }
   #italic  { font-style: italic; }
 }
 
-<<<<<<< HEAD
+#twitter {
+  .twitter-timeline { width: 100%!important; height: 196px!important; }
+  .compact & .twitter-timeline { height: 121px!important; }
+}
+
 .legend {
   text-align: right;
-=======
+}
 .caption {
->>>>>>> 5c6ec226f5d1bfacdd62b8cc7b2860685e3b6868
   textarea { width: 100%; margin-bottom:@padding-base-vertical; }
 }
 

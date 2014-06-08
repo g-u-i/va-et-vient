@@ -3,29 +3,41 @@ html
   head
     link(rel='stylesheet', href='/css/style.css')
     title #{session} | #{title}
-  body
+  body.compact
     div#top
       header.page-header
         h1 #{session} | #{title}
       section#content
         each note in notes
-          article(id=note.time).record.row.lead
+          article(id=note.time).record.row
             p.legend.col-xs-3 #{note.text}
             div.col-xs-9
 
-    div#bottom
-      section#editor
+    div#bottom.row
+      section#editor.col-xs-6
         form
           fieldset.row
-            div.col-xs-3
+            div.col-xs-6
               textarea(placeholder="Write your notes here.", maxlength=200)#note
-              div.btn-group.btn-group-justified
-                div.btn-group
-                  select#column.form-control
-                    option(value='01') colone 1
-                    option(value='02') colone 2
-                    option(value='03') colone 3
-                  input(type="button", value="nouvelle note")#sendNote.btn.btn-success
+            div.col-xs-6
+              p
+                button(type="button" value='01').btn.btn-success.sendNote
+                  span.glyphicon.glyphicon-send
+                    |  Modeleur 1
+              p
+                button(type="button" value='02').btn.btn-success.sendNote
+                  span.glyphicon.glyphicon-send
+                    |  Modeleur 2
+              p
+                button(type="button" value='03').btn.btn-success.sendNote
+                  span.glyphicon.glyphicon-send
+                    |  Modeleur 3
+      section#twitter.col-md-6
+        a(href="https://twitter.com/search?q=from%3A%40thfo"  data-widget-id="475752125822009344" data-chrome="noheader nofooter noborders").twitter-timeline Tweets concernant "from:@thfo"
+        script !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+
+
     //- scripts
     script(src='/js/socket.io.min.js')
     script(src='/js/jquery-1.11.1.js')
