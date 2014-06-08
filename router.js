@@ -44,7 +44,7 @@ module.exports = function(app,io,m){
 
 
     res.render("capture", {
-      title : "Snapshot",
+      title : "Prise de vue",
       session : session,
       column : column,
       notes: m.getNotesList(session)
@@ -56,7 +56,7 @@ module.exports = function(app,io,m){
     var session = req.param('session');
     var lines = getRecordedSessionLines(session);
 
-    res.render("redaction", {
+    res.render("Secrétariat de réaction", {
       title : "Redaction",
       session : session,
       lines: lines,
