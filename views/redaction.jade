@@ -13,7 +13,8 @@ html
             p.caption.col-xs-3 #{line.caption}
             for file, folder in line.images
               div.image.col-xs-3
-                img(src="/#{session}/#{folder}/#{file}").thumb
+                if (file)
+                  img(src="/#{session}/#{folder}/#{file}").thumb
     div#bottom
       section.editor
         form
@@ -33,11 +34,12 @@ html
                   each file, key in obj.files
                     if (key)
                       option(value="#{file.name}" index="#{key}") #{file.name}
-                    if(!key)
+                    if (!key)
                       option(value="#{file.name}" index="#{key}" selected="selected") #{file.name}
                 div.thumbs
                   each file, key in obj.files
                     img(src="/"+obj.sessionName +"/"+ obj.columnName + "/" + file.name, alt=file.alt, index="#{key}").thumb
+                
                 input(type="range", min="1", max="#{obj.length}", step="1", value="1")
                 div.btn-group.btn-group-justified
                   div.btn-group

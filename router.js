@@ -51,7 +51,7 @@ module.exports = function(app,io,m){
     var session = req.param('session');
 
     res.render("redaction", {
-      title : "Secrétariat de réaction",
+      title : "Secrétariat de rédaction",
       session : session,
       lines: m.getRecordedSessionLines(session),
       images:m.getImages(session)

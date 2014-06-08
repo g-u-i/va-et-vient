@@ -234,15 +234,16 @@ jQuery(document).ready(function($) {
     var $newline = $('<article>')
         .addClass('record row lead')
         .append($('<p>')
-        .addClass('caption col-xs-3').html(data.caption));
+        .addClass('caption col-xs-3')
+        .html(data.caption));
 
     for(folder in data.images){
+      
       var $col = $('<div>').addClass('col-xs-3');
-      console.log(data.images[folder]);
-      if(data.images[folder]){
-        var src = '/'+data.session+'/'+folder+'/'+data.images[folder];
-        $col.append($('<img>').addClass('thumb').attr('src', src));
-      }
+      var src = '/'+data.session+'/'+folder+'/'+data.images[folder];
+
+      if(data.images[folder])$col.append($('<img>').addClass('thumb').attr('src', src));
+      
       $newline.append($col);
     }
 
