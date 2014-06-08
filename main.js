@@ -37,7 +37,8 @@ module.exports = function(app, io){
           var list = [];
           files.forEach(function(file){
             var basename = path.basename(file);
-            var text = fs.readFileSync(folder+basename.split("_")[0]+'.md', 'utf8');
+            var noteId = basename.split("_")[0]+'.md';
+            var text = fs.readFileSync(folder+noteId+'.md', 'utf8');
             var file = {
               name : basename,
               alt : text
