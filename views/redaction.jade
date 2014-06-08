@@ -32,9 +32,9 @@ html
                 select.hide
                   each file, key in obj.files
                     if (key)
-                      option(value="#{file}" index="#{key}") #{file}
+                      option(value="#{file.name}" index="#{key}") #{file.name}
                     if(!key)
-                      option(value="#{file}" index="#{key}" selected="selected") #{file}
+                      option(value="#{file.name}" index="#{key}" selected="selected") #{file.name}
                 div.thumbs
                   each file, key in obj.files
                     img(src="/"+obj.sessionName +"/"+ obj.columnName + "/" + file.name, alt=file.alt, index="#{key}").thumb

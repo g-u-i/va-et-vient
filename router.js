@@ -17,7 +17,6 @@ module.exports = function(app,io,m){
 
   //POST
   app.post("/newline", postNewLine);
-  app.post("/newImage", postNewImage);
   app.post("/newSession", postNewSession);
 
   /**
@@ -80,21 +79,6 @@ module.exports = function(app,io,m){
   };
 
   /* POST */
-  function postNewImage(req, res){
-    var path = req.body.path;
-
-    req.body.imgBase64 = req.body.imgBase64.replace(/^data:image\/jpeg+;base64,/, "");
-    req.body.imgBase64 = req.body.imgBase64.replace(/ /g, '+');
-
-    var ts = Math.round((new Date()).getTime() / 1000);
-    var path = "public/images/"+path+"/"+ts+".jpg";
-
-    fs.writeFile(path, req.body.imgBase64, 'base64', function(err) {
-        console.info("write new file to " + path);
-    });
-
-    res.json(200, {message: "New picture received"});
-  };
 
   function postNewLine(req, res) {
     // console.info('req.body', req.body);

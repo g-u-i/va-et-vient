@@ -15,8 +15,7 @@ module.exports = function(app, io){
   io.on("connection", function(socket){
     socket.on("capture", onCapture);
     socket.on("newNote", onNewNote);
-    socket.on("newLine", onUpdateNote);
-
+    socket.on("newLine", onNewLine);
     socket.on("updateNote", onUpdateNote);
   });
 
@@ -134,7 +133,7 @@ module.exports = function(app, io){
     });
   };
   function onNewLine(req){
-      console.log(res);
+      console.log(req);
   }
   function onUpdateNote(req){
     console.log(req);
