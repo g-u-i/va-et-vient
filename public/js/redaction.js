@@ -16,12 +16,13 @@ jQuery(document).ready(function($) {
   /* dom */
   $('#send').on('click', sendNewLine);
   $('.copyCaption').on('click', onCopyCaption);
-  
+
   $('.editor .thumbs').on('mousewheel', onMouseWheelColumn);
   $('.editor input[type="range"]').on('change', onImageRangeChange);
   $('.editor .btn#bold, .editor .btn#italic').on('click', onToggleStyle );
   $('.editor .images .btn[data-toggle]').on('click', onToggleImage );
 
+  init();
   // $(document).on('keypress', keyListenner);
 
   /**
@@ -71,8 +72,8 @@ jQuery(document).ready(function($) {
   };
 
   function onCopyCaption(e){
-    console.log("ok");
-    var columnName = $(e.target).attr('columnName');
+    console.log(e);
+    var columnName = $(e.currentTarget).attr('columnName');
 
     console.log("columnName", columnName);
 
@@ -226,6 +227,9 @@ jQuery(document).ready(function($) {
     $('#recordedlines .record:nth-child(' + y + ') .images:nth-child(' + x + ')').addClass('highlight');
   };
 
+  function init(){
+    $('.thumbs img:first-child').addClass('on');
+  }
   /**
   * helpers
   */
