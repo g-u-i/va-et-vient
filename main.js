@@ -25,25 +25,28 @@ module.exports = function(app, io){
 
   this.getImages = function(session){return readImages(session);};
   function readImages(session){
-    var imgs = [], list;
+    var imgs = [];
     var img_p = sessions_p+session+'/';
     var folders = fs.readdirSync(img_p);
-    folders = folders.filter(function(f){ return !fs.statSync(img_p+f).isFile(); });
-    // console.log('folders = ', folders);
+    
+    glob('sessions/'+session+'/*/', {nocase: true, sync: true}, function (er, folders) {
+      folders.forEach(function(folder) {
 
-    for(var i in folders){
-      list = fs.readdirSync(img_p+folders[i]);
-      // console.log('list', list);
-      imgs.push({sessionName: session, columnName:folders[i], files:list, length:list.length});
-    }
+        glob(folder+'*.jpg', {nocase: true, sync: true}, function (er, files) {
+          var list = [];
+          files.forEach(function(file){
+            list.push(path.basename(file));
+          });
 
-    // glob('sessions/'+session+'/*/', {nocase: true, sync: true}, function (er, folders) {
-    //   folders.forEach(function(folder) {
-    //     glob('sessions/'+session+'/*/*.jpg', {nocase: true, sync: true}, function (er, files) {
-    //       imgs.push({sessionName: session, columnName:folder, files:files, length:files.length});
-    //     });
-    //   });
-    // });
+          imgs.push({
+            sessionName: session, 
+            columnName: path.basename(folder), 
+            files:list,
+            length:list.length
+          });
+        });
+      });
+    });
 
     return imgs;
   };
