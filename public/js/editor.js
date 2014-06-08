@@ -29,7 +29,7 @@ function init() {
       session : app.session,
       text : $("#note").val(),
       column : $("#column").val(),
-      time : Math.round((new Date()).getTime())
+      time : new Date()).getTime()
     }
     socket.emit("newNote",data);
     addNewNote(data);

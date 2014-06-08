@@ -15,6 +15,8 @@ module.exports = function(app, io){
   io.on("connection", function(socket){
     socket.on("capture", onCapture);
     socket.on("newNote", onNewNote);
+    socket.on("newLine", onUpdateNote);
+
     socket.on("updateNote", onUpdateNote);
   });
 
@@ -131,6 +133,9 @@ module.exports = function(app, io){
       io.sockets.emit("newNote", data);
     });
   };
+  function onNewLine(req){
+      console.log(res);
+  }
   function onUpdateNote(req){
     console.log(req);
     var path = '/'+req.session+'/'+req.column+'/'+req.time+'.json';

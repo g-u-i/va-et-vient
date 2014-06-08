@@ -84,31 +84,26 @@ jQuery(document).ready(function($) {
   /* dom */
   function sendNewLine() {
 
-    var legend = $('#legend').val();
-    var data = {};
-    data.session = app.session;
-    data.images = {};
-
-    if( $('#bold').hasClass('active') )
-      legend = '**'+legend+'**';
-    else if( $('#italic').hasClass('active') )
-      legend = '*'+legend+'*';
-
-    data.legend = legend;
+    var images = {};
 
     $('.editor .images').each(function(i){
-      if ( $(this).hasClass('selected') ) {
-        data["image-"+$(this).attr('columnName')] = $(this).find('option[selected="selected"]').val();
-      }else{
-        data["image-"+$(this).attr('columnName')] = false;
-      }
+      var image;
+      if ( $(this).hasClass('selected') )image = $(this).find('option[selected="selected"]').val();
+      else image = false;
+
+      images[$(this).attr('columnName')] = image;
     });
-    $.ajax({
-      url:  '/newline',
-      type: 'POST',
-      dataType: 'json',
-      data: data
-    });
+
+    var line = {
+      session : app.session,
+      time    : new Date().getTime(),
+      legend  : formatCaption($('#legend').val()),
+      images  : images
+    }
+    console.log(line);
+
+    socket.emit('newLine', line);
+    
   };
 
   function onMouseWheelColumn(event){
@@ -250,5 +245,14 @@ jQuery(document).ready(function($) {
 
     $newline.appendTo('#content');
   };
+
+  function formatCaption(c){
+    if( $('#bold').hasClass('active') )
+      c = '**'+c+'**';
+    else if( $('#italic').hasClass('active') )
+      c = '*'+c+'*';
+
+    return c;
+  }
 
 });
