@@ -5,25 +5,15 @@ visual caption/image timeline editor
 
 installation
 
-- créer un `sessions` 
+- créer un dossier `sessions`
 - lancer `npm install`
 - lancer `node server.js`
 - créer une nouvelle session à partir de `localhost:8080/admin/`
 - aller sur `localhost:8080`
 
-
 todo
 -
 #### server
-- glob paterns pour éviter les .sync et .DS_Store ( https://github.com/isaacs/node-glob )
-- redimensionner les images/retraitement ( http://aheckmann.github.io/gm | css ?) 
-- enregistrer en session, csv parser https://github.com/wdavidw/node-csv
-
-exemple de CSV
-
-| timecode  | client_name | caption | caption_style | dirname1   | dirname2   | dirnamen   |
-| --------- | ----------- | ------- | ------------- | ---------- | ---------- | ---------- |
-| 1401188437| editeur     | bla bla | bold,italic   | img32.jpg  | none       | nnnn.jpg   |
 
 #### édition ui
 - iframe live tweet
