@@ -32,6 +32,15 @@ body {
     }
   }
 
+  table {
+    counter-reset: index;
+    tr:first-child { .lead }
+    tr td:first-child .counter:before {
+      content: counter(index) ".";
+      counter-increment: index;
+    }
+  }
+
 }
 
 #content {

@@ -8,27 +8,32 @@ html
     script(src='/js/capture.js')
     script var app = {}; app.session = "#{session}", app.column = "#{column}";
     title #{title}
-    
+
   body
     header.page-header
       h1 #{title} — #{column}
     div.row
-      section#video.col-xs-9
+      section#video.col-xs-6
         video#my_camera.isight(autoplay='autoplay')
       section#capture.col-xs-3
         form
-          .btn-group
-            .btn-group
-              button(type='button', value='Capturer')#Snapshot.btn.btn-danger.btn-lg
-                span.glyphicon.glyphicon-camera 
-                |  Capturer
-              button(type='button')#nextNote.btn.btn-success.btn-lg
-                span.glyphicon.glyphicon-floppy-saved
-                |  note suivante
-          .result
-      section
-        ol#notes
+          button(type='button', value='Capturer')#Snapshot.btn.btn-block.btn-success
+            span.glyphicon.glyphicon-camera
+            |  Capturer
+        hr
+        .result
+      section#notes.col-xs-3
+        form
+          button(type='button')#nextNote.btn.btn-block.btn-success
+            span.glyphicon.glyphicon-floppy-saved
+            |  Note suivante
+        hr
+        table.table.table-striped
           each note in notes
             if (!note.done)
               if (note.column == column)
-                li(session="#{note.session}" column="#{note.column}" time="#{note.time}" text="#{note.text}" done="#{note.done}") #{note.text}
+                tr
+                  td
+                    p.counter
+                  td
+                    p(session="#{note.session}" column="#{note.column}" time="#{note.time}" text="#{note.text}" done="#{note.done}") #{note.text}
