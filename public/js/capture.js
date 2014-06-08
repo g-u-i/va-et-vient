@@ -6,6 +6,8 @@ function init() {
 
   var vid_h=1080,vid_w=1920;
 
+  var firstNoteSelector = "#notes table tr:first-child td:last-child p";
+
   $(document).on('keypress', keyListenner);
 
   socket.on('newNote', onNewNote);
@@ -57,11 +59,10 @@ function init() {
     }
   }
   function onNewNote(req){
-    //console.log(req);
-
+    // console.log(req);
     if(req.column == app.column){
-      $("#notes").append("<li>"+req.text+"</li>");
-      $("#notes li:last-child").attr(req);
+      $("#notes table").append('<tr><td><p class="counter"></p></td><td><p>'+req.text+'</p></td></tr>');
+      $("#notes table tr:last-child p").attr(req);
     }
 
   };
@@ -84,12 +85,12 @@ function init() {
       session:app.session,
       column:app.column,
       note: {
-        time: $("#notes li:first-child").attr("time"),
-        text: $("#notes li:first-child").attr("text"),
-        path: $("#notes li:first-child").attr("path")
+        time: $(firstNoteSelector).attr("time"),
+        text: $(firstNoteSelector).attr("text"),
+        path: $(firstNoteSelector).attr("path")
       }
     }
-    if($("#notes li:first-child").length > 0) socket.emit('capture', data);
+    if($(firstNoteSelector).length > 0) socket.emit('capture', data);
 
 
     $('#capture .result').html( '<img src="'+data_uri+'">' );
@@ -99,11 +100,13 @@ function init() {
 
     var data = {
         session : app.session,
-        column : $("#notes li:first-child").attr('column'),
-        time : $("#notes li:first-child").attr('time'),
-        text : $("#notes li:first-child").attr('text'),
+        column : $(firstNoteSelector).attr('column'),
+        time : $(firstNoteSelector).attr('time'),
+        text : $(firstNoteSelector).attr('text'),
         done : true
     };
+
+    console.log(data);
 
     socket.emit('updateNote', data);
 
