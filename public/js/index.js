@@ -40,6 +40,8 @@ jQuery(document).ready(function($) {
     // console.log('onModeleurSelectChange', event);
     var selected_modeleur = $('option:selected', this).val();
 
+    $('input[value="GO"]').removeAttr('disabled').removeClass('btn-default').addClass('btn-primary').focus();
+
     action.param3 = selected_modeleur;
     udpateAction();
 
