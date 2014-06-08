@@ -44,12 +44,12 @@ jQuery(document).ready(function($) {
     var $select  = $('.editor .images[columnName="'+data.column+'"] select');
     
     var index = Math.floor($imgsbox.find('img:last').attr('index'))+1;
-    
+
     $imgsbox.addClass('new-image').append(
       $('<img>')
         .addClass('thumb')
         .attr('index', index)
-        .attr('alt', "")
+        .attr('alt', data.note.text)
         .attr('src', data.src)
         .hide()
     );

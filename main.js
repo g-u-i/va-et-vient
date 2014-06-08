@@ -50,15 +50,14 @@ module.exports = function(app, io){
     });
     return imgs;
   };
-
-
+  
   this.getSessionsList = function(){ return getSessionsList();};
   function getSessionsList(){
     var folders = fs.readdirSync(sessions_p);
     folders = folders.filter(function(f){ return fs.statSync(sessions_p+f).isDirectory(); });
     return folders;
   };
-  
+
   function onCapture (req){
 
     req.imgBase64 = req.imgBase64.replace(/^data:image\/jpeg+;base64,/, "");
@@ -68,12 +67,17 @@ module.exports = function(app, io){
 
     var path = '/'+req.session+'/'+req.column+'/'+req.note.time+'_'+ts;
 
-    fs.writeFile('sessions'+path+'.raw.jpg', req.imgBase64, 'base64', function(err) {
+    fs.writeFile('sessions'+path+'.raw.jpeg', req.imgBase64, 'base64', function(err) {
       console.info("new capture " + path, err);
-      gm('sessions'+path+'.raw.jpg')
+
+
+      var cp_height = 1620, cp_width = 1080, cp_x = (1920-cp_height)/2, cp_y = 0;
+
+
+      gm('sessions'+path+'.raw.jpeg')
         .autoOrient()
         .monochrome()
-        .resize(300)
+        .crop(cp_height, cp_width, cp_x, cp_y)
         .write('sessions'+path+'.jpg', function (err) {
         if (!err){
           io.sockets.emit("newImage", {
@@ -101,6 +105,6 @@ module.exports = function(app, io){
       }); 
       console.log(err);
     }); 
-  }
+  };
   init();
 };
