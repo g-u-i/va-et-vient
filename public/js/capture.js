@@ -7,7 +7,7 @@ function init() {
   var vid_h=1080,vid_w=1920;
 
   $(document).on('keypress', keyListenner);
-  
+
   socket.on('newNote', onNewNote);
   $('#Snapshot').on('click', onSendCapture);
   $('#nextNote').on('click', onNextNote);
@@ -80,8 +80,8 @@ function init() {
 
     var data_uri = canvas.toDataURL('image/jpeg', 1.0 );
     var data = {
-      imgBase64: data_uri, 
-      session:app.session, 
+      imgBase64: data_uri,
+      session:app.session,
       column:app.column,
       note: {
         time: $("#notes li:first-child").attr("time"),
@@ -107,7 +107,9 @@ function init() {
 
     socket.emit('updateNote', data);
 
-    $("#notes li:first-child").remove();
+    $("#notes table tr:first-child").animate({
+      opacity: 0}, 500, function() { $(this).remove();
+    });
   }
   init_camera();
 };
