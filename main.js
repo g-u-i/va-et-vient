@@ -1,6 +1,7 @@
 var fs = require('fs');
 var glob = require("glob");
 var path = require("path");
+var gm = require('gm');
 
 module.exports = function(app, io){
   console.log("main module initialized");
@@ -65,18 +66,25 @@ module.exports = function(app, io){
 
     var ts = Math.round((new Date()).getTime() / 1000);
 
-    var path = '/'+req.session+'/'+req.column+'/'+req.note.time+'_'+ts+'.jpg';
+    var path = '/'+req.session+'/'+req.column+'/'+req.note.time+'_'+ts;
 
-    fs.writeFile('sessions'+path, req.imgBase64, 'base64', function(err) {
-
+    fs.writeFile('sessions'+path+'.raw.jpg', req.imgBase64, 'base64', function(err) {
       console.info("new capture " + path, err);
-      io.sockets.emit("newImage", {
-        session:req.session,
-        column:req.column,
-        ts:ts,
-        src:'/'+req.session+'/'+req.column+'/'+req.note.time+'_'+ts+'.jpg',
-        note: req.note
-      }); 
+      gm('sessions'+path+'.raw.jpg')
+        .autoOrient()
+        .monochrome()
+        .resize(300)
+        .write('sessions'+path+'.jpg', function (err) {
+        if (!err){
+          io.sockets.emit("newImage", {
+            session:req.session,
+            column:req.column,
+            ts:ts,
+            src:'/'+req.session+'/'+req.column+'/'+req.note.time+'_'+ts+'.jpg',
+            note: req.note
+          });
+        };
+      });
     });
   };
   function onNewNote (req){

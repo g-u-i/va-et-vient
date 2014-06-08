@@ -5,5 +5,6 @@
     "socket.io": "*",
     "underscore": "*",
     "glob" :"*",
+    "gm" :"*"
   }
 }
