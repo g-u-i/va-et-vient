@@ -1,8 +1,8 @@
 @import 'bootstrap.less';
-@grid-gutter-width-large: @grid-gutter-width * 2;
-@editors-height-base:  275px;
-@editors-height-large: 350px;
-@editors-height-small: 150px;
+@grid-gutter-width-large: @grid-gutter-width * 3;
+@editors-height-base:  300px;
+@editors-height-large: 400px;
+@editors-height-small: 200px;
 
 body {
 
@@ -34,13 +34,20 @@ body {
 
 }
 
-.editor {
+#content {
+  .record { margin-bottom: @grid-gutter-width;
+
+  }
+}
+
+#editor {
   textarea { width: 100%; height: 196px; margin-bottom:5px; }
   #bold    { font-weight: bold; }
   #italic  { font-style: italic; }
 }
 
 .legend {
+  text-align: right;
   textarea { width: 100%; margin-bottom:@padding-base-vertical; }
 }
 

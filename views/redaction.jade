@@ -5,17 +5,19 @@ html
     title #{session} | #{title}
   body
     div#top
-      header.page-header
-        h1 #{session} | #{title}
+      header
+        h1 10.06.2014 ENSAD
+        h2 Experimenter le musée
       section#content
         each line in lines
-          article.record.row.lead
+          article.record.row
             p.legend.col-xs-3 #{line.legend}
             for file, folder in line.images
               div.image.col-xs-3
-                img(src="/#{session}/#{folder}/#{file}").thumb
+                if (file!='false')
+                  img(src="/#{session}/#{folder}/#{file}").thumb
     div#bottom
-      section.editor
+      section#editor
         form
           fieldset.row
             div.col-xs-3

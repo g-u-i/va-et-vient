@@ -12,7 +12,7 @@ module.exports = function(app,io,m){
   app.get("/editor/:session", getEditor);
   app.get("/capture/:session", getCapture);
   app.get("/redaction/:session", getRedaction);
-  app.get("/visualisation/:session", getVisualisation);
+  app.get("/feedback/:session", getFeedback);
   app.get("/admin", getAdmin);
 
   //POST
@@ -24,7 +24,7 @@ module.exports = function(app,io,m){
   * routing functions
   */
 
-  // GET 
+  // GET
   function getIndex(req, res) {
     res.render("index", {title : "museo", sessions:m.getSessionsList()});
   };
@@ -58,11 +58,11 @@ module.exports = function(app,io,m){
     });
   };
 
-  function getVisualisation(req, res) {
+  function getFeedback(req, res) {
     var session = req.param('session');
     var lines = getRecordedSessionLines(session);
 
-    res.render("visualisation", {
+    res.render("feedback", {
       title : "Feedback",
       session : session,
       lines: lines
