@@ -96,6 +96,7 @@ function init() {
     $('#capture .result').html( '<img src="'+data_uri+'">' );
     $('#capture .result').addClass('show');
   }
+
   function onNextNote(e){
 
     var data = {
@@ -105,8 +106,6 @@ function init() {
         text : $(firstNoteSelector).attr('text'),
         done : true
     };
-
-    console.log(data);
 
     socket.emit('updateNote', data);
 
