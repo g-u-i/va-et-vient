@@ -145,11 +145,21 @@ module.exports = function(app, io){
     var notes = [];
 
     glob('sessions/'+session+'/*/*.json', {nocase: true, sync: true}, function(er, notesFiles){
-      notesFiles.forEach(function(notePath){
+      notesFiles.forEach(function(notePath){            
+        var noteId = path.basename(notePath, ".json");
+        var columnName = path.basename(path.dirname(notePath));
+
         var note = JSON.parse(fs.readFileSync(notePath, 'utf8'));
+            note.images = [];
+
+        glob('sessions/'+session+'/'+columnName+'/'+noteId+'_*.jpg', {nocase: true, sync: true}, function(er, images){
+          console.log("im",images);
+          note.images.push(images);
+        });
         notes.push(note);
       });
     });
+    console.log("note",notes);
     return notes;
   };
 

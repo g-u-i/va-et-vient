@@ -25,23 +25,23 @@ function init() {
   };
 
   function sendNewNote(e){
+    console.log(e);
     var data =  {
       session : app.session,
       text : $("#note").val(),
       column : $("#column").val(),
-      time : new Date()).getTime()
+      time : new Date().getTime()
     }
     socket.emit("newNote",data);
     addNewNote(data);
   };
   function addNewNote(data){
-
     var $newline = $('<article>')
         .addClass('record row lead')
         .attr('id', 't'+data.time)
         .append($('<p>')
-          .addClass('legend col-xs-3')
-          .html(data.text));
+        .addClass('legend col-xs-3')
+        .html(data.text));
     $newline.appendTo('#content');
   };
 };

@@ -57,7 +57,7 @@ function init() {
     }
   }
   function onNewNote(req){
-    console.log(req);
+    //console.log(req);
 
     if(req.column == app.column){
       $("#notes").append("<li>"+req.text+"</li>");
