@@ -15,8 +15,8 @@ jQuery(document).ready(function($) {
 
   /* dom */
   $('#send').on('click', sendNewLine);
-  $('#copyCaption').on('click', onCopyCaption);
-
+  $('.copyCaption').on('click', onCopyCaption);
+  
   $('.editor .thumbs').on('mousewheel', onMouseWheelColumn);
   $('.editor input[type="range"]').on('change', onImageRangeChange);
   $('.editor .btn#bold, .editor .btn#italic').on('click', onToggleStyle );
@@ -71,7 +71,10 @@ jQuery(document).ready(function($) {
   };
 
   function onCopyCaption(e){
+    console.log("ok");
     var columnName = $(e.target).attr('columnName');
+
+    console.log("columnName", columnName);
 
     $("textarea#legend").html(
       $('.images[columnName="'+columnName+'"] .thumbs img.on').attr("alt")
