@@ -8,70 +8,27 @@ html
       header.page-header
         h1 #{session} | #{title}
       section#content
-        article.record.row.lead
-          p.legend.col-xs-3 My first line of instruction
-          div.col-xs-9
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-        article.record.row.lead
-          p.legend.col-xs-3 My second line of instruction
-          div.col-xs-9
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-        article.record.row.lead
-          p.legend.col-xs-3 …
-          div.col-xs-9
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-        //- each line in lines
-          article.record.row.lead
-            p.legend.column.col-xs-3 #{line.legend}
+        each note in notes
+          article(id=note.time).record.row.lead
+            p.legend.col-xs-3 #{note.text}
             div.col-xs-9
-              for file, folder in line.images
-                div.col-xs-2
-                  img(src="/#{session}/#{folder}/#{file}").thumb
+
     div#bottom
       section#editor
         form
           fieldset.row
             div.col-xs-3
-              textarea(placeholder="Write your notes here.", maxlength=200)
+              textarea(placeholder="Write your notes here.", maxlength=200)#note
               div.btn-group.btn-group-justified
                 div.btn-group
-                  button(type="submit").btn.btn-success Sent
-
+                  select#column.form-control
+                    option(value='01') colone 1
+                    option(value='02') colone 2
+                    option(value='03') colone 3
+                  input(type="button", value="nouvelle note")#sendNote.btn.btn-success
     //- scripts
     script(src='/js/socket.io.min.js')
     script(src='/js/jquery-1.11.1.js')
     script(src='/bootstrap/dist/js/bootstrap.min.js')
-    script(src='/js/minified/editor.min.js')
+    script(src='/js/editor.js')
+    script var app = {}; app.session = "#{session}";
