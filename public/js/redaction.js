@@ -39,8 +39,9 @@ jQuery(document).ready(function($) {
   function onNewImage(data) {
     console.log('new image :: data', data);
 
-    var $imgsbox = $('.editor .images[foldername="'+data.folder+'"] .thumbs');
-    var $select  = $('.editor .images[foldername="'+data.folder+'"] select');
+    var $imgsbox = $('.editor .images[columnName="'+data.column+'"] .thumbs');
+    var $select  = $('.editor .images[columnName="'+data.column+'"] select');
+
     var index = Math.floor($imgsbox.find('img:last').attr('index'))+1;
 
     $imgsbox.addClass('new-image').append(
@@ -83,9 +84,9 @@ jQuery(document).ready(function($) {
 
     $('.editor .images').each(function(i){
       if ( $(this).hasClass('selected') ) {
-        data["image-"+$(this).attr('foldername')] = $(this).find('option[selected="selected"]').val();
+        data["image-"+$(this).attr('columnName')] = $(this).find('option[selected="selected"]').val();
       }else{
-        data["image-"+$(this).attr('foldername')] = false;
+        data["image-"+$(this).attr('columnName')] = false;
       }
     });
     $.ajax({

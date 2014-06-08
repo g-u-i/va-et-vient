@@ -1,4 +1,6 @@
 var fs = require('fs');
+var glob = require("glob");
+var path = require("path");
 
 module.exports = function(app, io){
   console.log("main module initialized");
@@ -10,9 +12,9 @@ module.exports = function(app, io){
   var checkImagesInterval;
 
   io.on("connection", function(socket){
-    socket.on("newImage", onNewImage);
+    socket.on("capture", onCapture);
+    socket.on("newNote", onNewNote);
   });
-
 
   function init(){
     // images = readImages();
@@ -32,11 +34,20 @@ module.exports = function(app, io){
     for(var i in folders){
       list = fs.readdirSync(img_p+folders[i]);
       // console.log('list', list);
-      imgs.push({session_folder: session, folder:folders[i], files:list, length:list.length});
+      imgs.push({sessionName: session, columnName:folders[i], files:list, length:list.length});
     }
-    // console.log('images = ',imgs);
+
+    // glob('sessions/'+session+'/*/', {nocase: true, sync: true}, function (er, folders) {
+    //   folders.forEach(function(folder) {
+    //     glob('sessions/'+session+'/*/*.jpg', {nocase: true, sync: true}, function (er, files) {
+    //       imgs.push({sessionName: session, columnName:folder, files:files, length:files.length});
+    //     });
+    //   });
+    // });
+
     return imgs;
   };
+
 
   this.getSessionsList = function(){ return getSessionsList();};
   function getSessionsList(){
@@ -45,20 +56,41 @@ module.exports = function(app, io){
     return folders;
   };
   
-  function onNewImage (req){
-
-    console.log(req.path);
+  function onCapture (req){
 
     req.imgBase64 = req.imgBase64.replace(/^data:image\/jpeg+;base64,/, "");
     req.imgBase64 = req.imgBase64.replace(/ /g, '+');
 
     var ts = Math.round((new Date()).getTime() / 1000);
 
-    var path = "sessions/"+req.path+"/"+ts+".jpg";
+    var path = '/'+req.session+'/'+req.column+'/'+req.note.time+'_'+ts+'.jpg';
 
-    fs.writeFile(path, req.imgBase64, 'base64', function(err) {
-        console.info("write new file to " + path, err);
+    fs.writeFile('sessions'+path, req.imgBase64, 'base64', function(err) {
+
+      console.info("new capture " + path, err);
+      io.sockets.emit("newImage", {
+        session:req.session,
+        column:req.column,
+        ts:ts,
+        src:'/'+req.session+'/'+req.column+'/'+req.note.time+'_'+ts+'.jpg',
+        note: req.note
+      }); 
     });
   };
+  function onNewNote (req){
+    console.log("new note", req);
+
+    var path = '/'+req.session+'/'+req.column+'/'+req.time+'.md';
+
+    fs.writeFile('sessions'+path, req.text, function(err) {
+      io.sockets.emit("newNote", {
+        text : req.text,
+        column : req.column,
+        time : req.time,
+        path : path
+      }); 
+      console.log(err);
+    }); 
+  }
   init();
 };

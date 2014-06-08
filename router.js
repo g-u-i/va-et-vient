@@ -10,7 +10,7 @@ module.exports = function(app,io,m){
 
   app.get("/", getIndex);
   app.get("/editor/:session", getEditor);
-  app.get("/capture/:session", getCapture);
+  app.get("/capture/:session/:column", getCapture);
   app.get("/redaction/:session", getRedaction);
   app.get("/visualisation/:session", getVisualisation);
   app.get("/admin", getAdmin);
@@ -30,8 +30,8 @@ module.exports = function(app,io,m){
   };
 
   function getEditor(req, res) {
-    var session = request.param('session');
-    response.render("editor", {
+    var session = req.param('session');
+    res.render("editor", {
       title : "Editor",
       session : session,
     });
@@ -39,14 +39,19 @@ module.exports = function(app,io,m){
   function getCapture(req, res) {
 
     var session = req.param('session');
+    var column = req.param('column');
+
 
     res.render("capture", {
       title : "Snapshot",
-      session : session
+      session : session,
+      column : column
+
     });
   };
   function getRedaction(req, res) {
-    // console.log('session = '+req.param('session'));
+    console.log('session = '+req.param('session'));
+    
     var session = req.param('session');
     var lines = getRecordedSessionLines(session);
 
