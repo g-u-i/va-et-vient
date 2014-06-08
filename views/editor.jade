@@ -8,14 +8,11 @@ html
       header.page-header
         h1 #{session} | #{title}
       section#content
-    //- article.record.row.lead
-          p.legend.col-xs-3 My first line of instruction
-          div.col-xs-9
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-            div.col-xs-2
-              img(src="/#{session}/#{folder}/#{file}").thumb
-
+        each note in notes
+          article(id=note.time).record.row.lead
+            p.legend.col-xs-3 #{note.text}
+            div.col-xs-9
+              
     div#bottom
       section.editor
         form
@@ -35,3 +32,4 @@ html
     script(src='/bootstrap/dist/js/bootstrap.min.js')
     script(src='/js/editor.js')
     script var app = {}; app.session = "#{session}";
+    //script console.log(#{notes});

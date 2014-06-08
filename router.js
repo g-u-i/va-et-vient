@@ -34,6 +34,7 @@ module.exports = function(app,io,m){
     res.render("editor", {
       title : "Editor",
       session : session,
+      notes: m.getNotesList(session)
     });
   };
   function getCapture(req, res) {
@@ -45,8 +46,8 @@ module.exports = function(app,io,m){
     res.render("capture", {
       title : "Snapshot",
       session : session,
-      column : column
-
+      column : column,
+      notes: m.getNotesList(session)
     });
   };
   function getRedaction(req, res) {
@@ -59,7 +60,7 @@ module.exports = function(app,io,m){
       title : "Redaction",
       session : session,
       lines: lines,
-      images:m.getImages(req.param('session'))
+      images:m.getImages(session)
     });
   };
 

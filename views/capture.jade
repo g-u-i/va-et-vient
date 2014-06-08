@@ -23,8 +23,12 @@ html
                 span.glyphicon.glyphicon-camera 
                 |  Capturer
               button(type='button')#nextNote.btn.btn-success.btn-lg
-                span.glyphicon.glyphicon-chevron-down 
+                span.glyphicon.glyphicon-floppy-saved
                 |  note suivante
           .result
       section
         ol#notes
+          each note in notes
+            if (!note.done)
+              if (note.column == column)
+                li(session="#{note.session}" column="#{note.column}" time="#{note.time}" text="#{note.text}" done="#{note.done}") #{note.text}

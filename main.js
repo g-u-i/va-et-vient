@@ -29,7 +29,6 @@ module.exports = function(app, io){
   function readImages(session){
     var imgs = [];
     var img_p = sessions_p+session+'/';
-    var folders = fs.readdirSync(img_p);
 
     glob('sessions/'+session+'/*/', {nocase: true, sync: true}, function (er, folders) {
       folders.forEach(function(folder) {
@@ -55,8 +54,6 @@ module.exports = function(app, io){
               files:list,
               length:list.length
           });
-
-          // console.log(imgs);
         });
       });
     });
@@ -70,6 +67,21 @@ module.exports = function(app, io){
     return folders;
   };
 
+  this.getNotesList = function(session){ return getNotesList(session);};
+  function getNotesList(session){
+    console.log('sessions/'+session+'/*/*.json');
+
+    var notes = [];
+
+    glob('sessions/'+session+'/*/*.json', {nocase: true, sync: true}, function(er, notesFiles){
+      notesFiles.forEach(function(notePath){
+        var note = JSON.parse(fs.readFileSync(notePath, 'utf8'));
+        notes.push(note);
+      });
+    });
+    return notes;
+
+  };
   function onCapture (req){
 
     req.imgBase64 = req.imgBase64.replace(/^data:image\/jpeg+;base64,/, "");
@@ -85,13 +97,13 @@ module.exports = function(app, io){
 
       var cp_height = 1620, cp_width = 1080, cp_x = (1920-cp_height)/2, cp_y = 0;
 
-
       gm('sessions'+path+'.raw.jpeg')
         .autoOrient()
         //.monochrome()
         .crop(cp_height, cp_width, cp_x, cp_y)
         .write('sessions'+path+'.jpg', function (err) {
         if (!err){
+
           io.sockets.emit("newImage", {
             session:req.session,
             column:req.column,
@@ -123,9 +135,7 @@ module.exports = function(app, io){
     console.log(req);
     var path = '/'+req.session+'/'+req.column+'/'+req.time+'.json';
 
-    fs.writeFile('sessions'+path, JSON.stringify(req), function(err) {
-      console.log(req,"done");
-    });
+    fs.writeFile('sessions'+path, JSON.stringify(req));
   };
 
   init();

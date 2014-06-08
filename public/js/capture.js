@@ -89,7 +89,8 @@ function init() {
         path: $("#notes li:first-child").attr("path")
       }
     }
-    socket.emit('capture', data);
+    if($("#notes li:first-child").length > 0) socket.emit('capture', data);
+
 
     $('#capture .result').html( '<img src="'+data_uri+'">' );
     $('#capture .result').addClass('show');
