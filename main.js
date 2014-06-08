@@ -36,15 +36,23 @@ module.exports = function(app, io){
         glob(folder+'*.jpg', {nocase: true, sync: true}, function (er, files) {
           var list = [];
           files.forEach(function(file){
-            list.push(path.basename(file));
+            var basename = path.basename(file);
+            var text = fs.readFileSync(folder+basename.split("_")[0]+'.md', 'utf8');
+            var file = {
+              name : basename,
+              alt : text
+            };
+
+            list.push(file);  
+          });
+          imgs.push({
+              sessionName: session, 
+              columnName: path.basename(folder), 
+              files:list,
+              length:list.length
           });
 
-          imgs.push({
-            sessionName: session, 
-            columnName: path.basename(folder), 
-            files:list,
-            length:list.length
-          });
+          // console.log(imgs);
         });
       });
     });
@@ -76,7 +84,7 @@ module.exports = function(app, io){
 
       gm('sessions'+path+'.raw.jpeg')
         .autoOrient()
-        .monochrome()
+        //.monochrome()
         .crop(cp_height, cp_width, cp_x, cp_y)
         .write('sessions'+path+'.jpg', function (err) {
         if (!err){

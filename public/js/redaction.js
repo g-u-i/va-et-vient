@@ -15,6 +15,8 @@ jQuery(document).ready(function($) {
 
   /* dom */
   $('#send').on('click', sendNewLine);
+  $('#copyCaption').on('click', onCopyCaption);
+
   $('.editor .thumbs').on('mousewheel', onMouseWheelColumn);
   $('.editor input[type="range"]').on('change', onImageRangeChange);
   $('.editor .btn#bold, .editor .btn#italic').on('click', onToggleStyle );
@@ -68,6 +70,13 @@ jQuery(document).ready(function($) {
     console.log('Unable to connect to server', reason);
   };
 
+  function onCopyCaption(e){
+    var columnName = $(e.target).attr('columnName');
+
+    $("textarea#legend").html(
+      $('.images[columnName="'+columnName+'"] .thumbs img.on').attr("alt")
+    );
+  }
   /* dom */
   function sendNewLine() {
 
@@ -125,11 +134,11 @@ jQuery(document).ready(function($) {
   };
 
   function changeVisibleImage($col, index){
-    console.log('changeVisibleImage', index);
+    //console.log('changeVisibleImage', index);
 
-    $col.find('img').hide();
-    $('img[index="'+index+'"]', $col).show();
-
+    $col.find('img').hide().removeClass('on');
+    $('img[index="'+index+'"]', $col).show().addClass('on');
+  
     $('option', $col).removeAttr('selected');
     $('select option[index="'+index+'"]',$col).attr('selected', true);
 
@@ -218,6 +227,7 @@ jQuery(document).ready(function($) {
   * helpers
   */
   function addNewLine(data){
+    console.log(data);
     var $newline = $('<article>').addClass('record row lead')
         .append($('<p>').addClass('legend col-xs-3').html(data.legend));
 
