@@ -26,6 +26,76 @@ module.exports = function(app, io){
     // }, 500);
   };
 
+  // events
+  function onCapture (req){
+
+    req.imgBase64 = req.imgBase64.replace(/^data:image\/jpeg+;base64,/, "");
+    req.imgBase64 = req.imgBase64.replace(/ /g, '+');
+
+    var ts = Math.round((new Date()).getTime() / 1000);
+
+    var path = '/'+req.session+'/'+req.column+'/'+req.note.time+'_'+ts;
+
+    fs.writeFile('sessions'+path+'.raw.jpeg', req.imgBase64, 'base64', function(err) {
+      console.info("new capture " + path, err);
+
+
+      var cp_height = 1620, cp_width = 1080, cp_x = (1920-cp_height)/2, cp_y = 0;
+
+      gm('sessions'+path+'.raw.jpeg')
+        .autoOrient()
+        //.monochrome()
+        .crop(cp_height, cp_width, cp_x, cp_y)
+        .write('sessions'+path+'.jpg', function (err) {
+        if (!err){
+
+          io.sockets.emit("newImage", {
+            session:req.session,
+            column:req.column,
+            ts:ts,
+            src:'/'+req.session+'/'+req.column+'/'+req.note.time+'_'+ts+'.jpg',
+            note: req.note
+          });
+        };
+      });
+    });
+  };
+  function onNewNote (req){
+    console.log("new note", req);
+
+    var path = '/'+req.session+'/'+req.column+'/'+req.time+'.json';
+    var data = {
+        session : req.session,
+        column : req.column,
+        time : req.time,
+        text : req.text,
+        done : false
+    };
+
+    fs.writeFile('sessions'+path, JSON.stringify(data), function(err) {
+      io.sockets.emit("newNote", data);
+    });
+  };
+  function onNewLine(req){
+    console.log(req);
+
+    var path = '/'+req.session+'/data.json';
+    var lines = getRecordedSessionLines(req.session);
+
+    lines.push(req);
+
+    recordSessionLines(req.session, lines);
+    io.sockets.emit("incomingLine", req);
+  };
+  function onUpdateNote(req){
+    console.log(req);
+    var path = '/'+req.session+'/'+req.column+'/'+req.time+'.json';
+
+    fs.writeFile('sessions'+path, JSON.stringify(req));
+  };
+
+  // reload from files
+
   this.getImages = function(session){return readImages(session);};
   function readImages(session){
     var imgs = [];
@@ -81,65 +151,20 @@ module.exports = function(app, io){
       });
     });
     return notes;
-
   };
-  function onCapture (req){
 
-    req.imgBase64 = req.imgBase64.replace(/^data:image\/jpeg+;base64,/, "");
-    req.imgBase64 = req.imgBase64.replace(/ /g, '+');
-
-    var ts = Math.round((new Date()).getTime() / 1000);
-
-    var path = '/'+req.session+'/'+req.column+'/'+req.note.time+'_'+ts;
-
-    fs.writeFile('sessions'+path+'.raw.jpeg', req.imgBase64, 'base64', function(err) {
-      console.info("new capture " + path, err);
-
-
-      var cp_height = 1620, cp_width = 1080, cp_x = (1920-cp_height)/2, cp_y = 0;
-
-      gm('sessions'+path+'.raw.jpeg')
-        .autoOrient()
-        //.monochrome()
-        .crop(cp_height, cp_width, cp_x, cp_y)
-        .write('sessions'+path+'.jpg', function (err) {
-        if (!err){
-
-          io.sockets.emit("newImage", {
-            session:req.session,
-            column:req.column,
-            ts:ts,
-            src:'/'+req.session+'/'+req.column+'/'+req.note.time+'_'+ts+'.jpg',
-            note: req.note
-          });
-        };
-      });
-    });
+  this.getRecordedSessionLines = function(session){ return getRecordedSessionLines(session);};
+  function getRecordedSessionLines(session){
+    var data_file_path = 'sessions/'+session+'/data.json';
+    var stored_json = fs.readFileSync(data_file_path, 'utf8');
+    return JSON.parse(stored_json);
   };
-  function onNewNote (req){
-    console.log("new note", req);
 
-    var path = '/'+req.session+'/'+req.column+'/'+req.time+'.json';
-    var data = {
-        session : req.session,
-        column : req.column,
-        time : req.time,
-        text : req.text,
-        done : false
-    };
+  // helpers
 
-    fs.writeFile('sessions'+path, JSON.stringify(data), function(err) {
-      io.sockets.emit("newNote", data);
-    });
-  };
-  function onNewLine(req){
-      console.log(req);
-  }
-  function onUpdateNote(req){
-    console.log(req);
-    var path = '/'+req.session+'/'+req.column+'/'+req.time+'.json';
-
-    fs.writeFile('sessions'+path, JSON.stringify(req));
+  function recordSessionLines(session, obj){
+    var data_file_path = 'sessions/'+session+'/data.json';
+    fs.writeFileSync(data_file_path, JSON.stringify(obj), encoding='utf8');
   };
 
   init();
