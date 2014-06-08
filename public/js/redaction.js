@@ -42,9 +42,9 @@ jQuery(document).ready(function($) {
 
     var $imgsbox = $('.editor .images[columnName="'+data.column+'"] .thumbs');
     var $select  = $('.editor .images[columnName="'+data.column+'"] select');
-
+    
     var index = Math.floor($imgsbox.find('img:last').attr('index'))+1;
-
+    
     $imgsbox.addClass('new-image').append(
       $('<img>')
         .addClass('thumb')

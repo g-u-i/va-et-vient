@@ -28,7 +28,7 @@ html
                 div.btn-group
                   input(type="button", value="Record")#send.btn.btn-success
             each obj in images
-              div.col-xs-3.images(columnName="#{obj.folder}")
+              div.col-xs-3.images(columnName="#{obj.columnName}")
                 select.hide
                   each file, key in obj.files
                     if (key)

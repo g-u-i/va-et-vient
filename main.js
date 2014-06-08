@@ -28,7 +28,7 @@ module.exports = function(app, io){
     var imgs = [];
     var img_p = sessions_p+session+'/';
     var folders = fs.readdirSync(img_p);
-    
+
     glob('sessions/'+session+'/*/', {nocase: true, sync: true}, function (er, folders) {
       folders.forEach(function(folder) {
 
@@ -47,7 +47,6 @@ module.exports = function(app, io){
         });
       });
     });
-
     return imgs;
   };
 
