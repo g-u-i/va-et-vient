@@ -77,7 +77,7 @@ jQuery(document).ready(function($) {
 
     console.log("columnName", columnName);
 
-    $("textarea#legend").html(
+    $("textarea#caption").html(
       $('.images[columnName="'+columnName+'"] .thumbs img.on').attr("alt")
     );
   }
@@ -97,13 +97,13 @@ jQuery(document).ready(function($) {
     var line = {
       session : app.session,
       time    : new Date().getTime(),
-      legend  : formatCaption($('#legend').val()),
+      caption  : formatCaption($('#caption').val()),
       images  : images
     }
     console.log(line);
 
     socket.emit('newLine', line);
-    
+
   };
 
   function onMouseWheelColumn(event){
@@ -230,13 +230,16 @@ jQuery(document).ready(function($) {
   */
   function addNewLine(data){
     console.log(data);
-    var $newline = $('<article>').addClass('record row lead')
-        .append($('<p>').addClass('legend col-xs-3').html(data.legend));
+
+    var $newline = $('<article>')
+        .addClass('record row lead')
+        .append($('<p>')
+        .addClass('caption col-xs-3').html(data.caption));
 
     for(folder in data.images){
       var $col = $('<div>').addClass('col-xs-3');
       console.log(data.images[folder]);
-      if(data.images[folder]!="false"){
+      if(data.images[folder]){
         var src = '/'+data.session+'/'+folder+'/'+data.images[folder];
         $col.append($('<img>').addClass('thumb').attr('src', src));
       }

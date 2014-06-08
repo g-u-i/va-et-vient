@@ -16,7 +16,6 @@ module.exports = function(app,io,m){
   app.get("/admin", getAdmin);
 
   //POST
-  app.post("/newline", postNewLine);
   app.post("/newSession", postNewSession);
 
   /**
@@ -49,15 +48,12 @@ module.exports = function(app,io,m){
     });
   };
   function getRedaction(req, res) {
-    console.log('session = '+req.param('session'));
-    
     var session = req.param('session');
-    var lines = getRecordedSessionLines(session);
 
     res.render("redaction", {
       title : "Secrétariat de réaction",
       session : session,
-      lines: lines,
+      lines: m.getRecordedSessionLines(session),
       images:m.getImages(session)
     });
   };
