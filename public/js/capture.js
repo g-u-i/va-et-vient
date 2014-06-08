@@ -63,6 +63,7 @@ function init() {
       $("#notes").append("<li>"+req.text+"</li>");
       $("#notes li:last-child").attr(req);
     }
+
   };
   function onSendCapture(event){
 
@@ -94,6 +95,17 @@ function init() {
     $('#capture .result').addClass('show');
   }
   function onNextNote(e){
+
+    var data = {
+        session : app.session,
+        column : $("#notes li:first-child").attr('column'),
+        time : $("#notes li:first-child").attr('time'),
+        text : $("#notes li:first-child").attr('text'),
+        done : true
+    };
+
+    socket.emit('updateNote', data);
+
     $("#notes li:first-child").remove();
   }
   init_camera();
