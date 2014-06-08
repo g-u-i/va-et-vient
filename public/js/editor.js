@@ -32,6 +32,7 @@ function init() {
     }
     socket.emit("newNote",data);
     addNewNote(data);
+    $("#note").val('');
   };
   function addNewNote(data){
     var $newline = $('<article>')
