@@ -9,23 +9,30 @@ html
       h1 #{title}
 
     section#content.row
-      form(action="").form-inline
+      form(action="" name="pageSelector").form-inline
         fieldset
           ol.clearfix
             li.form-group
-              label(for="session-select").control-label Choose a session
+              label(for="session-select").control-label Choisir une session
               select(required autofocus)#session-select.form-control
                 option(value="") &nbsp;
                 each name in sessions
                   option(value="#{name}") #{name}
             li.form-group
-              label(for="page-select").control-label Choose a role
+              label(for="page-select").control-label Choisir un rôle
               select(required disabled)#page-select.form-control
                 option(value="") &nbsp;
-                option(value="/editor") Editor
-                option(value="/capture") Capture
-                option(value="/redaction") Redaction
-                option(value="/visualisation") Visualisation
+                option(value="/editor") Editeur
+                option(value="/capture") Modeleur
+                option(value="/redaction") Redacteur
+                option(value="/feedback") Liseur
+            li.form-group.hide
+              label(for="modeleur-select").control-label Choisir un modeleur
+              select#modeleur-select.form-control
+                option(value="") &nbsp;
+                option(value="/01") Modeleur 1
+                option(value="/02") Modeleur 2
+                option(value="/03") Modeleur 3
             li.form-group
               input(value="GO" type="submit" disabled).btn.btn-default
 
@@ -34,4 +41,4 @@ html
     script(src='/js/socket.io.min.js')
     script(src='/js/jquery-1.11.1.js')
     script(src='/bootstrap/dist/js/bootstrap.min.js')
-    script(src='/js/minified/index.min.js')
+    script(src='/js/index.js')

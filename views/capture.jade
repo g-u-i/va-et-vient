@@ -6,22 +6,34 @@ html
     script(src='/js/socket.io.min.js')
     script(src='/js/jquery-1.11.1.js')
     script(src='/js/capture.js')
-    script var app = {}; app.session = "#{session}";
+    script var app = {}; app.session = "#{session}", app.column = "#{column}";
     title #{title}
 
   body
     header.page-header
-      h1 #{title}
+      h1 #{title} — #{column}
     div.row
-      section#video.col-xs-9
+      section#video.col-xs-6
         video#my_camera.isight(autoplay='autoplay')
       section#capture.col-xs-3
         form
-          select#folder.form-control
-            option(value='01') colone1
-            option(value='02') colone2
-            option(value='03') colone3
-          .btn-group.btn-group-justified
-            .btn-group
-              input(type='button', value='Take HD Snapshot')#Snapshot.btn.btn-success
+          button(type='button', value='Capturer')#Snapshot.btn.btn-block.btn-success
+            span.glyphicon.glyphicon-camera
+            |  Capturer
+        hr
         .result
+      section#notes.col-xs-3
+        form
+          button(type='button')#nextNote.btn.btn-block.btn-success
+            span.glyphicon.glyphicon-floppy-saved
+            |  Note suivante
+        hr
+        table.table.table-striped
+          each note in notes
+            if (!note.done)
+              if (note.column == column)
+                tr
+                  td
+                    p.counter
+                  td
+                    p(session="#{note.session}" column="#{note.column}" time="#{note.time}" text="#{note.text}" done="#{note.done}") #{note.text}
