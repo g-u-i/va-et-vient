@@ -22,7 +22,7 @@ module.exports = function(app,io,m){
   * routing functions
   */
 
-  // GET 
+  // GET
   function getIndex(req, res) {
     res.render("index", {title : "museo", sessions:m.getSessionsList()});
   };
@@ -31,7 +31,8 @@ module.exports = function(app,io,m){
     res.render("editor", {
       title : "Editor",
       session : session,
-      notes: m.getNotesList(session)
+      notes: m.getNotesList(session),
+      images:m.getImages(session)
     });
   };
   function getCapture(req, res) {

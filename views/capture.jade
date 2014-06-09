@@ -11,13 +11,13 @@ html
 
   body
     header.page-header
-      h1 #{title} — #{column}
+      h1 #{session} — #{title} — #{column}
     div.row
       section#video.col-xs-6
         video#my_camera.isight(autoplay='autoplay')
       section#capture.col-xs-3
         form
-          button(type='button', value='Capturer')#Snapshot.btn.btn-block.btn-success
+          button(type='button', value='Capturer')#Snapshot.btn.btn-block.btn-primary
             span.glyphicon.glyphicon-camera
             |  Capturer
         hr

@@ -18,8 +18,8 @@ function init() {
       );
 
     console.log($newimage);
-    console.log("article#"+data.note.time);
-    $newimage.appendTo("article#t"+data.note.time);
+    console.log("article#t"+data.note.time+' .col-xs-9');
+    $newimage.appendTo("article#t"+data.note.time+" .col-xs-9");
   };
   function sendNewNote(e){
     // console.log(e);
@@ -38,8 +38,10 @@ function init() {
         .addClass('record row')
         .attr('id', 't'+data.time)
         .append($('<p>')
-        .addClass('legend col-xs-3')
-        .html(data.text));
+          .addClass('legend col-xs-3')
+          .html(data.text))
+        .append($('<div>')
+          .addClass('col-xs-9'));
     $newline.appendTo('#content');
   };
 };

@@ -9,8 +9,8 @@ html
         h1 #{session} | #{title}
       section#content
         each line in lines
-          article.record.row.lead
-            p.caption.col-xs-3 #{line.caption}
+          article.record.row
+            p.legend.col-xs-3 #{line.caption}
             for file, folder in line.images
               div.image.col-xs-3
                 if (file)
@@ -27,7 +27,7 @@ html
                 div.btn-group
                   button(type="button" data-toggle="button").btn.btn-default#italic i
                 div.btn-group
-                  input(type="button", value="Record")#send.btn.btn-success
+                  input(type="button", value="Record")#send.btn.btn-primary
             each obj in images
               div.col-xs-3.images(columnName="#{obj.columnName}")
                 select.hide
@@ -45,11 +45,11 @@ html
                   div.btn-group
                     button.copyCaption(type="button" columnName=obj.columnName).btn.btn-default
                       span.glyphicon.glyphicon-transfer
-                        |  légende
+                      |  légende
                   div.btn-group
                     button(type="button" data-toggle="button" ).btn.btn-default
-                      span.glyphicon.glyphicon-hand-up
-                        |  choisir
+                      span.glyphicon.glyphicon-eye-close
+                      |  choisir
     //- scripts
     script(src='/js/socket.io.min.js')
     script var app = {}; app.session = "#{session}";

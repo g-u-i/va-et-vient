@@ -17,10 +17,10 @@ jQuery(document).ready(function($) {
   $('#send').on('click', sendNewLine);
   $('.copyCaption').on('click', onCopyCaption);
 
-  $('.editor .thumbs').on('mousewheel', onMouseWheelColumn);
-  $('.editor input[type="range"]').on('change', onImageRangeChange);
-  $('.editor .btn#bold, .editor .btn#italic').on('click', onToggleStyle );
-  $('.editor .images .btn[data-toggle]').on('click', onToggleImage );
+  $('#editor .thumbs').on('mousewheel', onMouseWheelColumn);
+  $('#editor input[type="range"]').on('change', onImageRangeChange);
+  $('#editor .btn#bold, #editor .btn#italic').on('click', onToggleStyle );
+  $('#editor .images .btn[data-toggle]').on('click', onToggleImage );
 
   init();
   // $(document).on('keypress', keyListenner);
@@ -43,12 +43,16 @@ jQuery(document).ready(function($) {
   function onNewImage(data) {
     console.log('new image :: data', data);
 
-    var $imgsbox = $('.editor .images[columnName="'+data.column+'"] .thumbs');
-    var $select  = $('.editor .images[columnName="'+data.column+'"] select');
-    
+    var $imgscontainer = $('#editor .images[columnname="'+data.column+'"]');
+    var $imgsbox = $('#editor .images[columnname="'+data.column+'"] .thumbs');
+    var $select  = $('#editor .images[columnname="'+data.column+'"] select');
+    var $input  = $('#editor .images[columnname="'+data.column+'"] input[type="range"]');
+
     var index = Math.floor($imgsbox.find('img:last').attr('index'))+1;
 
-    $imgsbox.addClass('new-image').append(
+    $imgscontainer.addClass('new-image');
+
+    $imgsbox.append(
       $('<img>')
         .addClass('thumb')
         .attr('index', index)
@@ -57,14 +61,20 @@ jQuery(document).ready(function($) {
         .hide()
     );
 
-    $imgsbox.removeClass('new-image');
+    var delay = setTimeout(function() {
+      $imgscontainer.removeClass('new-image');
+      clearTimeout(delay);
+    }, 5000);
 
     $select.append(
       $('<option>')
         .attr('index', index)
-        .attr('value', data.img)
-        .html(data.img)
+        .attr('value', data.note.time + '_' + data.ts + '.jpg' )
+        .html(data.note.time + '_' + data.ts + '.jpg')
     );
+
+    $input.attr('max', index+1 );
+
   };
 
   function onSocketError(reason) {
@@ -86,7 +96,7 @@ jQuery(document).ready(function($) {
 
     var images = {};
 
-    $('.editor .images').each(function(i){
+    $('#editor .images').each(function(i){
       var image;
       if ( $(this).hasClass('selected') )image = $(this).find('option[selected="selected"]').val();
       else image = false;
@@ -101,6 +111,14 @@ jQuery(document).ready(function($) {
       images  : images
     }
     console.log(line);
+
+    // Reset
+    $('#caption').val("");
+    $('#editor .btn[data-toggle].active').trigger('click');
+    $('#editor input[type="range"]').each(function(index, el) {
+      var max = $(this).attr('max');
+      changeVisibleImage($(this).parents('.images'), max-1);
+    });
 
     socket.emit('newLine', line);
 
@@ -137,7 +155,7 @@ jQuery(document).ready(function($) {
 
     $col.find('img').hide().removeClass('on');
     $('img[index="'+index+'"]', $col).show().addClass('on');
-  
+
     $('option', $col).removeAttr('selected');
     $('select option[index="'+index+'"]',$col).attr('selected', true);
 
@@ -147,6 +165,7 @@ jQuery(document).ready(function($) {
   function onToggleImage(){
     console.log('onToggleImage');
     $(this).parents('.images').toggleClass('selected');
+    $('span',$(this)).toggleClass('glyphicon-eye-close').toggleClass('glyphicon-eye-open');
   }
 
   function onToggleStyle(){
@@ -232,18 +251,18 @@ jQuery(document).ready(function($) {
     console.log(data);
 
     var $newline = $('<article>')
-        .addClass('record row lead')
+        .addClass('record row')
         .append($('<p>')
-        .addClass('caption col-xs-3')
+        .addClass('legend col-xs-3')
         .html(data.caption));
 
     for(folder in data.images){
-      
+
       var $col = $('<div>').addClass('col-xs-3');
       var src = '/'+data.session+'/'+folder+'/'+data.images[folder];
 
       if(data.images[folder])$col.append($('<img>').addClass('thumb').attr('src', src));
-      
+
       $newline.append($col);
     }
 
