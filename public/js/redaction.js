@@ -110,12 +110,12 @@ jQuery(document).ready(function($) {
   };
 
   function onCopyCaption(e){
-    console.log(e);
+    //console.log(e);
     var columnName = $(e.currentTarget).attr('columnName');
 
     console.log("columnName", columnName);
 
-    $("textarea#caption").html(
+    $("textarea#caption").append(
       $('.images[columnName="'+columnName+'"] .thumbs img.on').attr("alt")
     );
   }
@@ -153,7 +153,6 @@ jQuery(document).ready(function($) {
     });
 
     socket.emit('newLine', line);
-
   };
 
   function onMouseWheelColumn(event){
