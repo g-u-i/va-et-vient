@@ -15,14 +15,11 @@ jQuery(document).ready(function($) {
 
   /* dom */
   $('#send').on('click', sendNewLine);
-  $('.copyCaption').on('click', onCopyCaption);
-
   $('.editor .thumbs').on('mousewheel', onMouseWheelColumn);
   $('.editor input[type="range"]').on('change', onImageRangeChange);
   $('.editor .btn#bold, .editor .btn#italic').on('click', onToggleStyle );
   $('.editor .images .btn[data-toggle]').on('click', onToggleImage );
 
-  init();
   // $(document).on('keypress', keyListenner);
 
   /**
@@ -43,16 +40,15 @@ jQuery(document).ready(function($) {
   function onNewImage(data) {
     console.log('new image :: data', data);
 
-    var $imgsbox = $('.editor .images[columnName="'+data.column+'"] .thumbs');
-    var $select  = $('.editor .images[columnName="'+data.column+'"] select');
-    
+    var $imgsbox = $('.editor .images[foldername="'+data.folder+'"] .thumbs');
+    var $select  = $('.editor .images[foldername="'+data.folder+'"] select');
     var index = Math.floor($imgsbox.find('img:last').attr('index'))+1;
 
     $imgsbox.addClass('new-image').append(
       $('<img>')
         .addClass('thumb')
         .attr('index', index)
-        .attr('alt', data.note.text)
+        .attr('alt', "")
         .attr('src', data.src)
         .hide()
     );
@@ -71,39 +67,34 @@ jQuery(document).ready(function($) {
     console.log('Unable to connect to server', reason);
   };
 
-  function onCopyCaption(e){
-    console.log(e);
-    var columnName = $(e.currentTarget).attr('columnName');
-
-    console.log("columnName", columnName);
-
-    $("textarea#caption").html(
-      $('.images[columnName="'+columnName+'"] .thumbs img.on').attr("alt")
-    );
-  }
   /* dom */
   function sendNewLine() {
 
-    var images = {};
+    var legend = $('#legend').val();
+    var data = {};
+    data.session = app.session;
+    data.images = {};
+
+    if( $('#bold').hasClass('active') )
+      legend = '**'+legend+'**';
+    else if( $('#italic').hasClass('active') )
+      legend = '*'+legend+'*';
+
+    data.legend = legend;
 
     $('.editor .images').each(function(i){
-      var image;
-      if ( $(this).hasClass('selected') )image = $(this).find('option[selected="selected"]').val();
-      else image = false;
-
-      images[$(this).attr('columnName')] = image;
+      if ( $(this).hasClass('selected') ) {
+        data["image-"+$(this).attr('foldername')] = $(this).find('option[selected="selected"]').val();
+      }else{
+        data["image-"+$(this).attr('foldername')] = false;
+      }
     });
-
-    var line = {
-      session : app.session,
-      time    : new Date().getTime(),
-      caption  : formatCaption($('#caption').val()),
-      images  : images
-    }
-    console.log(line);
-
-    socket.emit('newLine', line);
-
+    $.ajax({
+      url:  '/newline',
+      type: 'POST',
+      dataType: 'json',
+      data: data
+    });
   };
 
   function onMouseWheelColumn(event){
@@ -133,11 +124,11 @@ jQuery(document).ready(function($) {
   };
 
   function changeVisibleImage($col, index){
-    //console.log('changeVisibleImage', index);
+    console.log('changeVisibleImage', index);
 
-    $col.find('img').hide().removeClass('on');
-    $('img[index="'+index+'"]', $col).show().addClass('on');
-  
+    $col.find('img').hide();
+    $('img[index="'+index+'"]', $col).show();
+
     $('option', $col).removeAttr('selected');
     $('select option[index="'+index+'"]',$col).attr('selected', true);
 
@@ -222,41 +213,24 @@ jQuery(document).ready(function($) {
     $('#recordedlines .record:nth-child(' + y + ') .images:nth-child(' + x + ')').addClass('highlight');
   };
 
-  function init(){
-    $('.thumbs img:first-child').addClass('on');
-  }
   /**
   * helpers
   */
   function addNewLine(data){
-    console.log(data);
-
-    var $newline = $('<article>')
-        .addClass('record row lead')
-        .append($('<p>')
-        .addClass('caption col-xs-3')
-        .html(data.caption));
+    var $newline = $('<article>').addClass('record row lead')
+        .append($('<p>').addClass('legend col-xs-3').html(data.legend));
 
     for(folder in data.images){
-      
       var $col = $('<div>').addClass('col-xs-3');
-      var src = '/'+data.session+'/'+folder+'/'+data.images[folder];
-
-      if(data.images[folder])$col.append($('<img>').addClass('thumb').attr('src', src));
-      
+      console.log(data.images[folder]);
+      if(data.images[folder]!="false"){
+        var src = '/'+data.session+'/'+folder+'/'+data.images[folder];
+        $col.append($('<img>').addClass('thumb').attr('src', src));
+      }
       $newline.append($col);
     }
 
     $newline.appendTo('#content');
   };
-
-  function formatCaption(c){
-    if( $('#bold').hasClass('active') )
-      c = '**'+c+'**';
-    else if( $('#italic').hasClass('active') )
-      c = '*'+c+'*';
-
-    return c;
-  }
 
 });

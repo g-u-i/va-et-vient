@@ -1,8 +1,8 @@
 @import 'bootstrap.less';
-@grid-gutter-width-large: @grid-gutter-width * 3;
-@editors-height-base:  300px;
-@editors-height-large: 400px;
-@editors-height-small: 190px;
+@grid-gutter-width-large: @grid-gutter-width * 2;
+@editors-height-base:  275px;
+@editors-height-large: 350px;
+@editors-height-small: 150px;
 
 body {
 
@@ -15,11 +15,11 @@ body {
                   background-color: darken(@body-bg, 2%);
                 }
 
-  &.compact {
+  &.small{
     #top    { bottom: @editors-height-small; }
     #bottom { height: @editors-height-small; }
   }
-  &.large {
+  &.large{
     #top      { bottom: @editors-height-large; }
     #bottom   { height: @editors-height-large; }
   }
@@ -32,37 +32,15 @@ body {
     }
   }
 
-  table {
-    counter-reset: index;
-    tr:first-child { .lead }
-    tr td:first-child .counter:before {
-      content: counter(index) ".";
-      counter-increment: index;
-    }
-  }
-
 }
 
-#content {
-  .record { margin-bottom: @grid-gutter-width; }
-}
-
-#editor {
+.editor {
   textarea { width: 100%; height: 196px; margin-bottom:5px; }
-  .compact & textarea { height: 121px; }
   #bold    { font-weight: bold; }
   #italic  { font-style: italic; }
 }
 
-#twitter {
-  .twitter-timeline { width: 100%!important; height: 196px!important; }
-  .compact & .twitter-timeline { height: 121px!important; }
-}
-
 .legend {
-  text-align: right;
-}
-.caption {
   textarea { width: 100%; margin-bottom:@padding-base-vertical; }
 }
 

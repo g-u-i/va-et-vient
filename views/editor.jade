@@ -3,44 +3,75 @@ html
   head
     link(rel='stylesheet', href='/css/style.css')
     title #{session} | #{title}
-  body.compact
+  body
     div#top
       header.page-header
         h1 #{session} | #{title}
       section#content
-        each note in notes
-          article(id=note.time).record.row
-            p.legend.col-xs-3 #{note.text}
+        article.record.row.lead
+          p.legend.col-xs-3 My first line of instruction
+          div.col-xs-9
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+        article.record.row.lead
+          p.legend.col-xs-3 My second line of instruction
+          div.col-xs-9
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+        article.record.row.lead
+          p.legend.col-xs-3 …
+          div.col-xs-9
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+            div.col-xs-2
+              img(src="/#{session}/#{folder}/#{file}").thumb
+        //- each line in lines
+          article.record.row.lead
+            p.legend.column.col-xs-3 #{line.legend}
             div.col-xs-9
-
-    div#bottom.row
-      section#editor.col-xs-6
+              for file, folder in line.images
+                div.col-xs-2
+                  img(src="/#{session}/#{folder}/#{file}").thumb
+    div#bottom
+      section.editor
         form
           fieldset.row
-            div.col-xs-6
-              textarea(placeholder="Write your notes here.", maxlength=200)#note
-            div.col-xs-6
-              p
-                button(type="button" value='01').btn.btn-success.sendNote
-                  span.glyphicon.glyphicon-send
-                  |  Modeleur 1
-              p
-                button(type="button" value='02').btn.btn-success.sendNote
-                  span.glyphicon.glyphicon-send
-                  |  Modeleur 2
-              p
-                button(type="button" value='03').btn.btn-success.sendNote
-                  span.glyphicon.glyphicon-send
-                  |  Modeleur 3
-      section#twitter.col-md-6
-        a(href="https://twitter.com/search?q=from%3A%40thfo"  data-widget-id="475752125822009344" data-chrome="noheader nofooter noborders").twitter-timeline Tweets concernant "from:@thfo"
-        script !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-
-
+            div.col-xs-3
+              textarea(placeholder="Write your notes here.", maxlength=200)
+              div.btn-group.btn-group-justified
+                div.btn-group
+                  button(type="submit").btn.btn-success Sent
 
     //- scripts
     script(src='/js/socket.io.min.js')
     script(src='/js/jquery-1.11.1.js')
     script(src='/bootstrap/dist/js/bootstrap.min.js')
-    script(src='/js/editor.js')
-    script var app = {}; app.session = "#{session}";
+    script(src='/js/minified/editor.min.js')

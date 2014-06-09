@@ -10,17 +10,16 @@ html
       section#content
         each line in lines
           article.record.row.lead
-            p.caption.col-xs-3 #{line.caption}
+            p.legend.col-xs-3 #{line.legend}
             for file, folder in line.images
               div.image.col-xs-3
-                if (file)
-                  img(src="/#{session}/#{folder}/#{file}").thumb
+                img(src="/#{session}/#{folder}/#{file}").thumb
     div#bottom
-      section#editor
+      section.editor
         form
           fieldset.row
             div.col-xs-3
-              textarea(placeholder="Share something!", maxlength=200)#caption
+              textarea(placeholder="Share something!", maxlength=200)#legend
               div.btn-group.btn-group-justified
                 div.btn-group
                   button(type="button" data-toggle="button").btn.btn-default#bold b
@@ -29,31 +28,26 @@ html
                 div.btn-group
                   input(type="button", value="Record")#send.btn.btn-success
             each obj in images
-              div.col-xs-3.images(columnName="#{obj.columnName}")
+              div.col-xs-3.images(foldername="#{obj.folder}")
                 select.hide
                   each file, key in obj.files
                     if (key)
-                      option(value="#{file.name}" index="#{key}") #{file.name}
-                    if (!key)
-                      option(value="#{file.name}" index="#{key}" selected="selected") #{file.name}
+                      option(value="#{file}" index="#{key}") #{file}
+                    if(!key)
+                      option(value="#{file}" index="#{key}" selected="selected") #{file}
                 div.thumbs
                   each file, key in obj.files
-                    img(src="/"+obj.sessionName +"/"+ obj.columnName + "/" + file.name, alt=file.alt, index="#{key}").thumb
-
+                    img(src="/"+obj.session_folder +"/"+ obj.folder + "/" + file, alt="", index="#{key}").thumb
                 input(type="range", min="1", max="#{obj.length}", step="1", value="1")
                 div.btn-group.btn-group-justified
                   div.btn-group
-                    button.copyCaption(type="button" columnName=obj.columnName).btn.btn-default
-                      span.glyphicon.glyphicon-transfer
-                        |  légende
+                    button(type="button").btn.btn-default Get legend
                   div.btn-group
-                    button(type="button" data-toggle="button" ).btn.btn-default
-                      span.glyphicon.glyphicon-hand-up
-                        |  choisir
+                    button(type="button" data-toggle="button").btn.btn-default Use Picture
     //- scripts
     script(src='/js/socket.io.min.js')
     script var app = {}; app.session = "#{session}";
     script(src='/js/jquery-1.11.1.js')
     script(src='/js/minified/jquery-mousewheel.min.js')
     script(src='/bootstrap/dist/js/bootstrap.min.js')
-    script(src='/js/redaction.js')
+    script(src='/js/minified/redaction.min.js')

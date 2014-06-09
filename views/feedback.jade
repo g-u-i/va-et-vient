@@ -1,24 +1,19 @@
 doctype html
 html
   head
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Open+Sans')
     link(rel='stylesheet', href='/css/style.css')
+    script(src='/js/socket.io.min.js')
+    script(src='/js/jquery-1.11.1.js')
+    script(src='/js/visualisation.min.js')
     title #{session} | #{title}
   body
-    div#top
-      header.page-header
-        h1 #{session} | #{title}
-      section#content
-        each line in lines
-          article.record.row
-            p.legend.col-xs-3 #{line.legend}
-            for file, folder in line.images
-              div.image.col-xs-3
-                if (file!='false')
-                  img(src="/#{session}/#{folder}/#{file}").thumb
-
-    //- scripts
-    script(src='/js/socket.io.min.js')
-    script var app = {}; app.session = "#{session}";
-    script(src='/js/jquery-1.11.1.js')
-    script(src='/bootstrap/dist/js/bootstrap.min.js')
-    script(src='/js/minified/feedback.min.js')
+    header.page-header
+      h1 #{session} | #{title}
+    section#recordedlines
+      each line in lines
+        article.record.row.lead
+          p.legend.column.col-xs-3 #{line.legend}
+          for file, folder in line.images
+            div.column.col-xs-3
+              img(src="/#{session}/#{folder}/#{file}").thumb
