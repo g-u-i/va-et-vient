@@ -11,6 +11,7 @@ html
         each line in lines
           article.record.row
             p.legend.col-xs-3 #{line.caption}
+            p #{line.timeString}
             for file, folder in line.images
               div.image.col-xs-3
                 if (file)

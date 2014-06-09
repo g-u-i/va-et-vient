@@ -132,9 +132,13 @@ jQuery(document).ready(function($) {
       images[$(this).attr('columnName')] = image;
     });
 
+    var time  = new Date();
+    var timeString = time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
+ 
     var line = {
       session : app.session,
-      time    : new Date().getTime(),
+      time    : time.getTime(),
+      timeString : timeString,
       caption  : formatCaption($('#caption').val()),
       images  : images
     }
@@ -153,7 +157,7 @@ jQuery(document).ready(function($) {
   };
 
   function onMouseWheelColumn(event){
-    console.log('mousewheel deltaY', event.deltaY);
+    //console.log('mousewheel deltaY', event.deltaY);
     var $newVisible;
 
     if(event.deltaY > 0){

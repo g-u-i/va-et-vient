@@ -29,7 +29,7 @@ module.exports = function(app,io,m){
   function getEditor(req, res) {
     var session = req.param('session');
     res.render("editor", {
-      title : "Editor",
+      title : "Prise de notes",
       session : session,
       notes: m.getNotesList(session),
       images:m.getImages(session)
@@ -42,7 +42,7 @@ module.exports = function(app,io,m){
 
 
     res.render("capture", {
-      title : "Prise de vue",
+      title : "Modelage / prise de vue",
       session : session,
       column : column,
       notes: m.getNotesList(session)
@@ -52,7 +52,7 @@ module.exports = function(app,io,m){
     var session = req.param('session');
 
     res.render("redaction", {
-      title : "Secrétariat de rédaction",
+      title : "Éditeur",
       session : session,
       lines: m.getRecordedSessionLines(session),
       images:m.getImages(session)
@@ -63,7 +63,7 @@ module.exports = function(app,io,m){
     var lines = getRecordedSessionLines(session);
 
     res.render("visualisation", {
-      title : "Feedback",
+      title : "",
       session : session,
       lines: lines
     });
