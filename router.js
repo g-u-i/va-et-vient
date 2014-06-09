@@ -12,7 +12,7 @@ module.exports = function(app,io,m){
   app.get("/editor/:session", getEditor);
   app.get("/capture/:session/:column", getCapture);
   app.get("/redaction/:session", getRedaction);
-  app.get("/visualisation/:session", getVisualisation);
+  app.get("/feedback/:session", getFeedback);
   app.get("/admin", getAdmin);
 
   //POST
@@ -58,14 +58,14 @@ module.exports = function(app,io,m){
       images:m.getImages(session)
     });
   };
-  function getVisualisation(req, res) {
+  function getFeedback(req, res) {
     var session = req.param('session');
-    var lines = getRecordedSessionLines(session);
 
-    res.render("visualisation", {
-      title : "",
+    res.render("feedback", {
+      title : "Lecture",
       session : session,
-      lines: lines
+      lines: m.getRecordedSessionLines(session),
+      images:m.getImages(session)
     });
   };
   function getAdmin(req, res) {

@@ -4,21 +4,22 @@ html
     link(rel='stylesheet', href='/css/style.css')
     title #{session} | #{title}
   body
-    div#top
-      header.page-header
-        h1 #{session} | #{title}
-      section#content
-        each line in lines
-          article.record.row
-            p.legend.col-xs-3 #{line.legend}
-            for file, folder in line.images
-              div.image.col-xs-3
-                if (file!='false')
-                  img(src="/#{session}/#{folder}/#{file}").thumb
+    header.page-header
+      h1 #{session} | #{title}
+    section#content
+      each line in lines
+        article.record.row
+          p.legend.column.col-xs-3
+            span.time #{line.timeString}
+            |  #{line.caption}
+          for file, folder in line.images
+            div.image.column.col-xs-3
+              if (file)
+                img(src="/#{session}/#{folder}/#{file}").thumb
 
     //- scripts
     script(src='/js/socket.io.min.js')
     script var app = {}; app.session = "#{session}";
     script(src='/js/jquery-1.11.1.js')
     script(src='/bootstrap/dist/js/bootstrap.min.js')
-    script(src='/js/minified/feedback.min.js')
+    script(src='/js/feedback.js')

@@ -1,4 +1,4 @@
-function init() {
+jQuery(document).ready(function($) {
 
   var serverBaseUrl = document.domain;
   var socket = io.connect(serverBaseUrl);
@@ -12,7 +12,7 @@ function init() {
   socket.on('incomingLine', onIncomingLine);
   socket.on('error', onSocketError);
 
-  /* DOM */
+  /* dom */
   $(document).on('keypress', keyListenner);
 
   /**
@@ -47,6 +47,10 @@ function init() {
         selectGridCell(event);
         return;
         break;
+      case 27: // echap
+        unselectGridCell(event);
+        return;
+        break;
     }
 
     switch ( String.fromCharCode(event.which) ) {
@@ -56,29 +60,14 @@ function init() {
     }
 
   }
-
-
   /**
   * helpers
   */
-  function addNewLine(data){
-    var $newline = $('<article>').addClass('record row lead')
-        .append($('<div>').addClass('column col-xs-3').append($('<p>').addClass('legend').html(data.legend)));
-
-    for(folder in data.images){
-      var src = '/images/'+folder+'/'+data.images[folder];
-      $newline.append($('<div>').addClass('column col-xs-3').append($('<img>').addClass('thumb').attr('src', src)));
-    }
-
-    $newline.appendTo('#recordedlines');
-  };
-
-
   function selectGridCell(event) {
 
     event.preventDefault();
     var code = event.charCode || event.keyCode;
-    var $highlight = $('#recordedlines .column.highlight').length > 0 ? $('#recordedlines .column.highlight:first') : null;
+    var $highlight = $('#content .column.highlight').length > 0 ? $('#content .column.highlight:first') : null;
 
     if( $highlight===null ){
 
@@ -90,8 +79,8 @@ function init() {
       var x = $highlight.index();
       var y = $highlight.parents('.record').index();
 
-      var xm = $('#recordedlines .record:first .column').length - 1;
-      var ym = $('#recordedlines .record').length - 1;
+      var xm = $('#content .record:first .column').length - 1;
+      var ym = $('#content .record').length - 1;
 
       switch ( code ) {
         case 38: // Key up
@@ -128,12 +117,15 @@ function init() {
 
     highlightGridCell(x,y);
   }
+  function unselectGridCell(event) {
+    $('.highlight').removeClass('highlight');
+  }
 
   function highlightGridCell(x,y) {
     x++;
     y++;
     $('.highlight').removeClass('highlight');
-    $('#recordedlines .record:nth-child(' + y + ') .column:nth-child(' + x + ')').addClass('highlight');
+    $('#content .record:nth-child(' + y + ') .column:nth-child(' + x + ')').addClass('highlight');
   }
 
   function manifyGridCell(event) {
@@ -144,6 +136,4 @@ function init() {
     $('body').toggleClass('manify');
   }
 
-};
-
-$(document).on('ready', init);
+});
