@@ -16,27 +16,13 @@ jQuery(document).ready(function($) {
   /* dom */
   $('#send').on('click', sendNewLine);
   $('.copyCaption').on('click', onCopyCaption);
-  $(document).on('keypress', keyListenner);
 
   $('#editor .thumbs, #editor .thumbslegends').on('mousewheel', onMouseWheelColumn);
   $('#editor input[type="range"]').on('change', onImageRangeChange);
   $('#editor .btn#bold, #editor .btn#italic').on('click', onToggleStyle );
   $('#editor .images .btn[data-toggle]').on('click', onToggleImage );
 
-  function keyListenner(event) {
-    console.log( String.fromCharCode(event.which) );
-    if (event.ctrlKey || event.metaKey) {
-      switch ( String.fromCharCode(event.which) ) {
-        case " ":
-          event.preventDefault();
-          onSendCapture();
-          break;
-      }
-    }
-  }
-
   init();
-  // $(document).on('keypress', keyListenner);
 
   /**
   * handlers
@@ -112,11 +98,12 @@ jQuery(document).ready(function($) {
   function onCopyCaption(e){
     //console.log(e);
     var columnName = $(e.currentTarget).attr('columnName');
+    var val = $("textarea#caption").val();
 
     console.log("columnName", columnName);
 
-    $("textarea#caption").append(
-      $('.images[columnName="'+columnName+'"] .thumbs img.on').attr("alt")
+    $("textarea#caption").val(
+      val + $('.images[columnName="'+columnName+'"] .thumbs img.on').attr("alt")
     );
   }
   /* dom */
@@ -134,7 +121,7 @@ jQuery(document).ready(function($) {
 
     var time  = new Date();
     var timeString = time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
- 
+
     var line = {
       session : app.session,
       time    : time.getTime(),
@@ -205,72 +192,6 @@ jQuery(document).ready(function($) {
     else
       $('#bold').removeClass('active');
   }
-
-  function keyListenner(event) {
-
-    switch ( event.key ) {
-      case "Up":
-      case "Right":
-      case "Down":
-      case "Left":
-        selectGridCell(event);
-        break;
-    }
-  };
-
-  function selectGridCell(event) {
-
-    event.preventDefault();
-    var $highlight = $('#recordedlines .images.highlight').length > 0 ? $('#recordedlines .images.highlight:first') : null;
-
-    if( $highlight===null ){
-
-      var x = 0;
-      var y = 0;
-
-    } else {
-
-      var x = $highlight.index();
-      var y = $highlight.parents('.record').index();
-      switch ( event.key ) {
-        case "Up":
-          y--;
-          break;
-        case "Right":
-          x++;
-          break;
-        case "Down":
-          y++;
-          break;
-        case "Left":
-          x--;
-          break;
-      }
-
-    }
-
-    // x++;
-    // y++;
-
-    // console.log('x: ',x + '(' + ($('#recordedlines .record:nth-child(' + y + ') .column').length - 1) + ')');
-    // console.log('y: ',y + '(' + ($('#recordedlines .record').length -1) + ')');
-
-    // if( y < 0 ) y = 0;
-    // if( y > $('#recordedlines .record').length - 1 ) y = 0;
-
-    // if( x < 0 ) x = 0;
-    // if( x > $('#recordedlines .record:nth-child(' + y + ') .column').length - 1 ) x = 0;
-
-
-    highlightGridCell(x,y);
-  };
-
-  function highlightGridCell(x,y) {
-    console.log('x: ',x);
-    console.log('y: ',y);
-    $('.highlight').removeClass('highlight');
-    $('#recordedlines .record:nth-child(' + y + ') .images:nth-child(' + x + ')').addClass('highlight');
-  };
 
   function init(){
     $('.thumbs img:first-child, .thumbslegends p:first-child').addClass('on');
