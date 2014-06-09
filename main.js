@@ -150,16 +150,23 @@ module.exports = function(app, io){
         var columnName = path.basename(path.dirname(notePath));
 
         var note = JSON.parse(fs.readFileSync(notePath, 'utf8'));
-            note.images = [];
 
-        glob('sessions/'+session+'/'+columnName+'/'+noteId+'_*.jpg', {nocase: true, sync: true}, function(er, images){
-          console.log("im",images);
-          note.images.push(images);
+        glob('sessions/'+session+'/'+columnName+'/'+noteId+'_*.jpg', {nocase: true, sync: true}, function(er, imgs){
+          //console.log("im",imgs);
+          var imgNameList = [];
+          imgs.forEach(function(img){
+            imgNameList.push( path.basename(img));
+          });
+
+          if(imgNameList.length < 1) imgNameList = false;
+
+          note.images = imgNameList;
+
         });
         notes.push(note);
       });
     });
-    console.log("note",notes);
+    //console.log("note",notes);
     return notes;
   };
 

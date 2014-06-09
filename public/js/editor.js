@@ -37,11 +37,20 @@ function init() {
     var $newline = $('<article>')
         .addClass('record row')
         .attr('id', 't'+data.time)
-        .append($('<p>')
-          .addClass('legend col-xs-3')
-          .html(data.text))
         .append($('<div>')
-          .addClass('col-xs-9'));
+          .addClass('col-xs-3')
+          .append($('<p>')
+            .addClass('modeleur col-xs-2')
+            .html(data.column)
+          )
+          .append($('<p>')
+            .addClass('legend col-xs-10')
+            .html(data.text)
+          )
+        )
+        .append($('<div>')
+          .addClass('col-xs-9')
+        );
     $newline.appendTo('#content');
   };
 };

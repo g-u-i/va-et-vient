@@ -14,7 +14,10 @@ html
               p.modeleur.col-xs-2 #{note.column}
               p.legend.col-xs-10 #{note.text}
             div.col-xs-9
-
+              each file in note.images
+                div.col-xs-2 
+                  if file
+                    img(src="/#{note.session}/#{note.column}/#{file}").thumb
 
     div#bottom.row
       section#editor.col-xs-6
