@@ -3,14 +3,16 @@ html
   head
     link(rel='stylesheet', href='/css/style.css')
     title #{session} — #{title}
-  body.compact
+  body
     div#top
       header.page-header
         h1 #{session} | #{title}
       section#content
         each note in notes
-          article(id="t"+note.time).record.row
-            p.legend.col-xs-3 #{note.text}
+          article(id="t"+note.time).record.editor.row
+            div.col-xs-3
+              p.modeleur.col-xs-2 #{note.column}
+              p.legend.col-xs-10 #{note.text}
             div.col-xs-9
 
 
@@ -18,9 +20,9 @@ html
       section#editor.col-xs-6
         form
           fieldset.row
-            div.col-xs-6
+            div.col-xs-9.lead
               textarea(placeholder="Write your notes here.", maxlength=200)#note
-            div.col-xs-6
+            div.col-xs-3
               p
                 button(type="button" value='01').btn.btn-primary.sendNote
                   span.glyphicon.glyphicon-send

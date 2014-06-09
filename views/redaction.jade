@@ -50,6 +50,10 @@ html
                     button(type="button" data-toggle="button" ).btn.btn-default
                       span.glyphicon.glyphicon-eye-close
                       |  choisir
+                div.thumbslegends
+                  each file, key in obj.files
+                    p(index="#{key}").thumblegend #{file.alt}
+
     //- scripts
     script(src='/js/socket.io.min.js')
     script var app = {}; app.session = "#{session}";

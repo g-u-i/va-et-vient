@@ -16,11 +16,24 @@ jQuery(document).ready(function($) {
   /* dom */
   $('#send').on('click', sendNewLine);
   $('.copyCaption').on('click', onCopyCaption);
+  $(document).on('keypress', keyListenner);
 
-  $('#editor .thumbs').on('mousewheel', onMouseWheelColumn);
+  $('#editor .thumbs, #editor .thumbslegends').on('mousewheel', onMouseWheelColumn);
   $('#editor input[type="range"]').on('change', onImageRangeChange);
   $('#editor .btn#bold, #editor .btn#italic').on('click', onToggleStyle );
   $('#editor .images .btn[data-toggle]').on('click', onToggleImage );
+
+  function keyListenner(event) {
+    console.log( String.fromCharCode(event.which) );
+    if (event.ctrlKey || event.metaKey) {
+      switch ( String.fromCharCode(event.which) ) {
+        case " ":
+          event.preventDefault();
+          onSendCapture();
+          break;
+      }
+    }
+  }
 
   init();
   // $(document).on('keypress', keyListenner);
@@ -45,21 +58,36 @@ jQuery(document).ready(function($) {
 
     var $imgscontainer = $('#editor .images[columnname="'+data.column+'"]');
     var $imgsbox = $('#editor .images[columnname="'+data.column+'"] .thumbs');
+    var $lgdsbox = $('#editor .images[columnname="'+data.column+'"] .thumbslegends');
     var $select  = $('#editor .images[columnname="'+data.column+'"] select');
     var $input  = $('#editor .images[columnname="'+data.column+'"] input[type="range"]');
 
     var index = Math.floor($imgsbox.find('img:last').attr('index'))+1;
+    if( isNaN(index) )
+      index = 0;
+
+    console.log('index after',index);
 
     $imgscontainer.addClass('new-image');
 
-    $imgsbox.append(
-      $('<img>')
+    $img = $('<img>')
         .addClass('thumb')
         .attr('index', index)
         .attr('alt', data.note.text)
         .attr('src', data.src)
-        .hide()
-    );
+
+    $lgd = $('<p>')
+        .addClass('thumblegend')
+        .attr('index', index)
+        .html(data.note.text)
+
+    if(index!=0){
+      $img.hide();
+      $lgd.hide();
+    }
+
+    $imgsbox.append( $img );
+    $lgdsbox.append( $lgd );
 
     var delay = setTimeout(function() {
       $imgscontainer.removeClass('new-image');
@@ -153,8 +181,8 @@ jQuery(document).ready(function($) {
   function changeVisibleImage($col, index){
     //console.log('changeVisibleImage', index);
 
-    $col.find('img').hide().removeClass('on');
-    $('img[index="'+index+'"]', $col).show().addClass('on');
+    $col.find('img, .thumblegend').hide().removeClass('on');
+    $('img[index="'+index+'"], .thumblegend[index="'+index+'"]', $col).show().addClass('on');
 
     $('option', $col).removeAttr('selected');
     $('select option[index="'+index+'"]',$col).attr('selected', true);
@@ -242,7 +270,7 @@ jQuery(document).ready(function($) {
   };
 
   function init(){
-    $('.thumbs img:first-child').addClass('on');
+    $('.thumbs img:first-child, .thumbslegends p:first-child').addClass('on');
   }
   /**
   * helpers

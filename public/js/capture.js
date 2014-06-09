@@ -20,7 +20,7 @@ function init() {
     switch ( String.fromCharCode(event.which) ) {
       case " ":
         event.preventDefault();
-        sendCapture();
+        onSendCapture();
         break;
     }
   }
