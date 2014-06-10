@@ -3,9 +3,10 @@ html
   head
     link(rel='stylesheet', href='/css/style.css')
     title #{session} | #{title}
-  body
-    header.page-header
-      //- h1 #{session} | #{title}
+  body.feedback
+    header.page-header.row
+      h1.col-xs-3 10.06.2014 ENSAD
+      h2.col-xs-3.col-md-offset-6 Expérimenter le musée
     section#content
       each line in lines
         article.record.row.lead

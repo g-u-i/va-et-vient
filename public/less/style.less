@@ -128,3 +128,17 @@ body {
   margin-left: -2px;
   border: red 2px solid;
 }
+
+
+@media print {
+    .legend {
+        font-size: 11px!important;
+    }
+}
+
+body.feedback {
+  header { border:none!important;
+    h1 { font-size: @font-size-base; text-align: center; }
+    h2 { font-size: @font-size-base; text-align: center; }
+  }
+}
