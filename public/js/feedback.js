@@ -13,7 +13,7 @@ jQuery(document).ready(function($) {
   socket.on('error', onSocketError);
 
   /* dom */
-  $(document).on('keypress', keyListenner);
+  $(document).on('keydown', keyListenner);
 
   /**
   * handlers
@@ -36,6 +36,8 @@ jQuery(document).ready(function($) {
 
   /* DOM */
   function keyListenner(event) {
+
+    // console.log('event',event);
 
     var code = event.charCode || event.keyCode;
 
