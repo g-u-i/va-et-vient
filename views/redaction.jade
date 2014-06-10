@@ -10,8 +10,9 @@ html
       section#content
         each line in lines
           article.record.row
-            p.legend.col-xs-3 #{line.caption}
-            p #{line.timeString}
+            p.legend.column.col-xs-3
+              span.time #{line.timeString}
+              |  #{line.caption}
             for file, folder in line.images
               div.image.col-xs-3
                 if (file)

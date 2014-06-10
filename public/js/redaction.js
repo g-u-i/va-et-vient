@@ -204,9 +204,16 @@ jQuery(document).ready(function($) {
 
     var $newline = $('<article>')
         .addClass('record row')
-        .append($('<p>')
-        .addClass('legend col-xs-3')
-        .html(data.caption));
+        .append(
+          $('<p>')
+          .addClass('legend col-xs-3')
+          .html(data.caption)
+          .prepend(
+            $('<span>')
+            .addClass('.time')
+            .html(data.timeString)
+          )
+        );
 
     for(folder in data.images){
 

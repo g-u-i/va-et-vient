@@ -63,6 +63,35 @@ jQuery(document).ready(function($) {
   /**
   * helpers
   */
+  function addNewLine(data){
+    console.log(data);
+
+    var $newline = $('<article>')
+        .addClass('record row')
+        .append(
+          $('<p>')
+          .addClass('legend col-xs-3')
+          .html(data.caption)
+          .prepend(
+            $('<span>')
+            .addClass('.time')
+            .html(data.timeString)
+          )
+        );
+
+    for(folder in data.images){
+
+      var $col = $('<div>').addClass('col-xs-3');
+      var src = '/'+data.session+'/'+folder+'/'+data.images[folder];
+
+      if(data.images[folder])$col.append($('<img>').addClass('thumb').attr('src', src));
+
+      $newline.append($col);
+    }
+
+    $newline.appendTo('#content');
+  };
+
   function selectGridCell(event) {
 
     event.preventDefault();
@@ -117,6 +146,7 @@ jQuery(document).ready(function($) {
 
     highlightGridCell(x,y);
   }
+
   function unselectGridCell(event) {
     $('.highlight').removeClass('highlight');
   }

@@ -8,7 +8,7 @@ html
       h1 #{session} | #{title}
     section#content
       each line in lines
-        article.record.row
+        article.record.row.lead
           p.legend.column.col-xs-3
             span.time #{line.timeString}
             |  #{line.caption}
