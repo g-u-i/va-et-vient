@@ -13,6 +13,8 @@ module.exports = function(app,io,m){
   app.get("/capture/:session/:column", getCapture);
   app.get("/redaction/:session", getRedaction);
   app.get("/feedback/:session", getFeedback);
+  app.get("/live/:session", getLive);
+
   app.get("/admin", getAdmin);
 
   //POST
@@ -66,6 +68,16 @@ module.exports = function(app,io,m){
       session : session,
       lines: m.getRecordedSessionLines(session),
       images:m.getImages(session)
+    });
+  };
+  function getLive(req, res) {
+    var session = req.param('session');
+
+    res.render("live", {
+      title : "live",
+      session : session,
+      lines:  m.getRecordedSessionLines(session),
+      images: m.getImages(session)
     });
   };
   function getAdmin(req, res) {

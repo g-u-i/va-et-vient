@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', href='/css/style.css')
+    title #{session} | #{title}
+  body.feedback
+    header.page-header.row
+      h1.col-xs-3 10.06.2014 ENSAD
+      h2.col-xs-3.col-md-offset-6 Expérimenter le musée
+    section#content
+
+    //- scripts
+    script(src='/js/socket.io.min.js')
+    script var app = {}; app.session = "#{session}";
+    script(src='/js/jquery-1.11.1.js')
+    script(src='/bootstrap/dist/js/bootstrap.min.js')
+    script(src='/js/live.js')
