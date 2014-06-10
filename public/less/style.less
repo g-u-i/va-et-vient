@@ -141,4 +141,18 @@ body.feedback {
     h1 { font-size: @font-size-base; text-align: center; }
     h2 { font-size: @font-size-base; text-align: center; }
   }
+  @media screen {
+    #content { margin-right:3em; }
+  }
+  .record {
+    p.legend { position: relative;
+      .time {
+        display: block;
+        position: absolute;
+        top: 1em;
+        left: -3em;
+        -webkit-transform: rotate(-90deg);
+      }
+    }
+  }
 }
