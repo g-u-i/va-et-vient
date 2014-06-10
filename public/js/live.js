@@ -20,10 +20,18 @@ jQuery(document).ready(function($) {
       .attr('alt', data.note.text)
       .attr('src', data.src)
       .attr('width',"100%")
+    )
+    .append($('<h1>')
+      .html(data.note.text)
+      .attr('width',"100%")
+
     );
 
   console.log($newimage);
-  console.log("article#t"+data.note.time+' .col-xs-9');
-  $newimage.prependTo("#content");
+
+  if(data.session == app.session){
+    ("#content").html("");
+    $newimage.prependTo("#content");
+  } 
 };
 });
