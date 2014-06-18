@@ -3,6 +3,8 @@ banc-bi-js
 
 visual caption/image timeline editor
 
+![im](http://banc.g-u-i.net/thumbs/815c92c33bf376922b82615e92e80271.900.0.0.0.0.100.jpg)
+
 ####installation
 
 - créer un dossier `sessions`
