@@ -3,7 +3,7 @@ banc-bi-js
 
 visual caption/image timeline editor
 
-installation
+####installation
 
 - créer un dossier `sessions`
 - lancer `npm install`
@@ -15,17 +15,8 @@ todo
 -
 #### server
 
-#### édition ui
-- iframe live tweet
-- champ de pris de notes
-- diriger une *note* vers poste ( #1 #2 #3 )
-
 #### rédaction UI
-- sélectionner une seule colonne
-- récuperer la *note* qui à été transmise au modeleur
-- éditer la *note* pour la transformer en *légende*
-- selectionner une variante typographique ( statut légende )
-- afficher le timecode de la note
+
 - décompte du nombre de caractères restant pour la légende
 - shortcuts
   - `TAB` pour changer de col
@@ -33,19 +24,9 @@ todo
   - `fléche D/G` pour passer d’une image à l’autre
   - `entrer` pour envoyer ...
 
-#### feedback UI
-- varier la densité de l'affichage
-  - toute la timeline 
-  - full screen avec déplacement de cases en cases au clavier
-- intrompre la diffusion ( écran noire )
 
 #### capture ui
 - capturer depuis la webcam
-- afficher les nouvelles *notes* envoyés par l'éditeur
-- marquer la *note* comme traitée
-- shortcuts
-  - `space` pour capturer
-  - `l` marquer comme traité
 
 #### impression 
 - forcer les images à 300 dpi en css
