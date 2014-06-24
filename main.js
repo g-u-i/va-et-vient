@@ -22,11 +22,7 @@ module.exports = function(app, io){
   });
 
   function init(){
-    // images = readImages();
-    // checkImagesInterval = setInterval(function(){
-    //   checkImages();
-    // }, 500);
-    exportToArticle("expenmuseo-edited");
+    // exportToArticle("expenmuseo-edited");
   };
 
   // events
@@ -211,10 +207,7 @@ module.exports = function(app, io){
     };
 
     getRecordedSessionLines(session).forEach(function(l){
-
       lineNum++;
-
-      console.log(l);
       text += markdown.toHTML(l.caption);
       text += markdown.toHTML("[--]" + timestampToTimer(l.time) + "[--]");
 
@@ -226,9 +219,7 @@ module.exports = function(app, io){
 
         if(!img) imgPath = whitePath;
         fs.copySync(imgPath, linkPath);
-
       }
-
     });
 
     fs.mkdir(path.dirname(textFile), function(){
