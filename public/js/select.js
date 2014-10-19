@@ -30,7 +30,5 @@ jQuery(document).ready(function($) {
   };
 
   function init(){
-    $('.thumbs img:first-child, .thumbslegends p:first-child').addClass('on');
   }
-
 });
