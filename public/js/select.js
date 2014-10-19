@@ -379,6 +379,8 @@ jQuery(document).ready(function($) {
 
   function listenEventStart($context){
       $context.keypress(start);
+=======
+  function init(){
+>>>>>>> 3b5798c23a3ea3462b937757ef1be569b73ad1c1
   }
-
 });

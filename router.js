@@ -1,6 +1,6 @@
 var _ = require("underscore");
 var url = require('url')
-var fs = require('fs');
+var fs = require('fs-extra');
 
 module.exports = function(app,io,m){
 
@@ -10,10 +10,7 @@ module.exports = function(app,io,m){
 
   app.get("/", getIndex);
   app.get("/select/:session", getSelect);
-
-
-  //POST
-  //app.post("/newSession", postNewSession);
+  app.get("/print/:session/:recipeId/", getPrint);
 
   /**
   * routing functions
@@ -25,13 +22,28 @@ module.exports = function(app,io,m){
   };
   function getSelect(req, res) {
     var session = req.param('session');
+    var sessionPath = 'sessions/'+session;
+
+    fs.ensureDirSync(sessionPath);
 
     res.render("select", {
       title : "Selection de la recette",
       session : session,
     });
   };
+  function getPrint(req, res) {
+    var session = req.param('session');
+    var recipeId = req.param('recipeId');
 
-  /* POST */
+    res.render("print", {
+      title : "",
+      session : session,
+      recipeId : recipeId,
+      recipe : m.getRecipe(session, recipeId),
+    });
+  };
+
+  /* UTILS */
+
 
 };

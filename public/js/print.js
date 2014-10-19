@@ -21,15 +21,14 @@ jQuery(document).ready(function($) {
   */
   /* sockets */
   function onSocketConnect() {
-    sessionId = socket.socket.sessionid;
+    sessionId = socket.io.engine.id;
     console.log('Connected ' + sessionId);
-    // socket.emit('newUser', {id: sessionId, name: $('#name').val()});
+    socket.emit('newUser', {id: sessionId, name: app.session});
   };
   function onSocketError(reason) {
     console.log('Unable to connect to server', reason);
   };
 
   function init(){
-    $('.thumbs img:first-child, .thumbslegends p:first-child').addClass('on');
   }
 });
