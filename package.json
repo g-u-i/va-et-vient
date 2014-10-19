@@ -1,4 +1,8 @@
 {
+  "repository": {
+  "type": "git",
+  "url": "git://github.com/g-u-i/va-et-vient.git"
+  },
   "dependencies": {
     "express": "3.1.0",
     "jade": "*",
@@ -7,6 +11,7 @@
     "glob" :"*",
     "gm" :"*",
   	"markdown" : "*",
-  	"fs-extra" : "*"
+  	"fs-extra" : "*",
+    "webshot" : "*"
   }
 }
