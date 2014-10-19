@@ -12,6 +12,6 @@
     "gm" :"*",
   	"markdown" : "*",
   	"fs-extra" : "*",
-    "webshot" : "*"
+    "phantom" : "*"
   }
 }

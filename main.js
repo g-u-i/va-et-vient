@@ -1,9 +1,10 @@
-var fs = require('fs-extra');
-var glob = require("glob");
-var path = require("path");
-var gm = require('gm');
-var markdown = require( "markdown" ).markdown;
-var exec = require('child_process').exec;
+var fs = require('fs-extra'),
+		glob = require("glob"),
+		path = require("path"),
+		gm = require('gm'),
+		markdown = require( "markdown" ).markdown,
+		exec = require('child_process').exec,
+		phantom = require('phantom');
 
 module.exports = function(app, io){
 
@@ -16,7 +17,9 @@ module.exports = function(app, io){
 		socket.on("newRecipe", onNewRecipe)
 	});
 
-	function init(){};
+	function init(){
+
+	};
 
 	// events
 
@@ -47,6 +50,23 @@ module.exports = function(app, io){
 		});
 	};
  	//
+
+ 	function renderRecipe(session, recipeId){
+
+ 		var url = "http://localhost:8080/print/"+session+'/'+recipeId;
+
+	 	phantom.create(function(ph){
+		  ph.createPage(function(page) {
+		    page.open(url, function(status) {
+		      page.render('/exports/'+session+'_'+recipeId+'.pdf', function(){
+		        console.log('Page Rendered',url);
+		        ph.exit();
+		      });
+		    });
+		  });
+		});
+ 	}
+
 	this.getRecipe = function(session, recipeId){return getRecipe(session, recipeId);};
 	function getRecipe(session, recipeId) {
 
