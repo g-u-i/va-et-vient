@@ -43,6 +43,8 @@ module.exports = function(app, io){
 				recipeId = glob(sessions_p+'/'+session+'/*.png', {nocase: true, sync: true}).length,
 				path = sessions_p+session+'/'+recipeId;
 
+				console.log(req);
+
 		exec('screencapture -x '+path+'.png',function(error, stdout, stderr){
 			fs.writeFile(path+'.json', JSON.stringify(req), function(err) {
 				io.sockets.emit("newRecipeId", {recipeId: recipeId});

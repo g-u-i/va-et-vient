@@ -88,7 +88,7 @@ jQuery(document).ready(function($) {
         
         console.log(choiceCount());
 
-				socket.emit('newRecipe', {recipe: recipe});
+				//socket.emit('newRecipe', {recipe: recipe});
 
 			});
 
