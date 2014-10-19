@@ -4,10 +4,70 @@ html
     link(rel='stylesheet', href='/css/style.css')
     title #{session} | #{title}
   body.feedback
+    canvas(id="epautre" resize)
+    canvas(id="pita" resize)
+    canvas(id="tofu" resize)
+    canvas(id="chutney" resize)
+    canvas(id="champignons" resize)
+    canvas(id="algues" resize)
+    canvas(id="bettrave" resize)
+    canvas(id="tomate" resize)
+    canvas(id="carotte" resize)
+    canvas(id="mousse" resize)
+    canvas(id="pois" resize)
+    canvas(id="camembert" resize)
+
+    div#start-message
+        h2 Va et Vient
+        p Description du déroulé
+        p Pour commencer appuyer sur n'importe quel bouton
+    
+    div.boutons
+        ul
+            li.epautre
+            li.pita
+            li.tofu
+            li.chutney
+            li.champignons
+            li.algues
+            li.bettrave
+            li.tomate
+            li.carotte
+            li.mousse
+            li.pois
+            li.camembert
+
+        ul
+            li.valide Valider
+        
+
+    div.ingredient-jauge
+        div.ingredients
+            span.number-ingredients 0
+            span / 8
+        div.jauge    
+
+    div.chrono
+        div.time
 
     //- scripts
     script(src='/socket.io/socket.io.js')
     script var app = {}; app.session = "#{session}";
     script(src='/js/jquery-1.11.1.js')
     script(src='/bootstrap/dist/js/bootstrap.min.js')
+    script(src="/js/paper.js" type="text/javascript")
+    
+    script(type="text/paperscript" src="/js/champignons.js" canvas="champignons")
+    script(type="text/paperscript" src="/js/algues.js" canvas="algues")
+    script(type="text/paperscript" src="/js/bettrave.js" canvas="bettrave")
+    script(type="text/paperscript" src="/js/tomate.js" canvas="tomate")
+    script(type="text/paperscript" src="/js/carottes.js" canvas="carotte")
+    script(type="text/paperscript" src="/js/chutney.js" canvas="chutney")
+    script(type="text/paperscript" src="/js/epautre.js" canvas="epautre")
+    script(type="text/paperscript" src="/js/tofu.js" canvas="tofu")
+    script(type="text/paperscript" src="/js/mousse.js" canvas="mousse")
+    script(type="text/paperscript" src="/js/pita.js" canvas="pita")
+    script(type="text/paperscript" src="/js/pois.js" canvas="pois")
+    script(type="text/paperscript" src="/js/camembert.js" canvas="camembert")
+
     script(src='/js/select.js')

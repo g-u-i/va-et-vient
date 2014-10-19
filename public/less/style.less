@@ -1,1 +1,69 @@
-@import 'bootstrap.less';
+// @import 'bootstrap.less';
+
+body {
+	width: 100%;
+	background: #FFF;
+	font-family: helvetica, sans-serif;
+}
+
+canvas {
+	width: 1920px;
+	position: absolute;
+}
+
+#start-message{
+	border: 3px solid;
+	position: absolute;
+	background-color: #FFF;
+	top: 20%;
+	left: 40%;
+	padding: 30px;
+	z-index: 200;
+}
+
+.boutons {
+	position: fixed;
+	width: 85%;
+	margin-left: 10%;
+	z-index: 100;
+}
+
+.boutons li{
+	border: 3px solid #000;
+	border-radius: 50%;
+	width: 80px;
+	height: 80px;
+	list-style: none;
+	display: inline-block;
+	margin: 60px 120px 60px 120px;
+}
+
+.boutons li.valide {
+/*	display: none;*/
+	margin-top: 60px;
+	margin-left: 1110px;
+	padding: 20px 0 20px 0;
+}
+
+.ingredient-jauge {
+	position: absolute;
+	bottom: 80px;
+	font-size: 2em;
+	font-family: helvetica, sans-serif;
+	left: 50px;
+}
+
+.chrono {
+	border: 2px solid #000;
+	width: 1800px;
+	height: 30px;
+	position: absolute;
+	bottom: 30px;
+	left: 50px;
+}
+
+.time {
+	width: 10px;
+	height: 30px;
+	background-color: black;
+}
