@@ -10,10 +10,7 @@ module.exports = function(app,io,m){
 
   app.get("/", getIndex);
   app.get("/select/:session", getSelect);
-
-
-  //POST
-  //app.post("/newSession", postNewSession);
+  app.get("/print/:session/:recipeId/", getPrint);
 
   /**
   * routing functions
@@ -34,7 +31,19 @@ module.exports = function(app,io,m){
       session : session,
     });
   };
+  function getPrint(req, res) {
+    var session = req.param('session');
+    var recipeId = req.param('recipeId');
 
-  /* POST */
+    res.render("print", {
+      title : "",
+      session : session,
+      recipeId : recipeId,
+      recipe : m.getRecipe(session, recipeId),
+    });
+  };
+
+  /* UTILS */
+
 
 };

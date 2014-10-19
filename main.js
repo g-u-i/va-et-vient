@@ -6,27 +6,20 @@ var markdown = require( "markdown" ).markdown;
 var exec = require('child_process').exec;
 
 module.exports = function(app, io){
+
   console.log("main module initialized");
 
   var sessions_p = "sessions/"
-  var export_p = "exports/"
-  // var img_p = 'public/images/';
-  
-  var images = [];
-  var checkImagesInterval;
-
-  var spawn = require('child_process').spawn;
 
   io.on("connection", function(socket){
-
     socket.on("newLine", onNewLine);
     socket.on("newUser", onNewUser);
     socket.on("newRecipe", onNewRecipe)
-
   });
 
   function init(){
     onNewRecipe();
+    getRecipe("A", 1);
   };
 
   // events
@@ -52,22 +45,23 @@ module.exports = function(app, io){
     exec('screencapture -x '+sessions_p+'/'+session+'/'+recipeId+'.png', function(error, stdout, stderr){ 
       console.log("capture");
       io.sockets.emit("newRecipeId", {recipeId: recipeId});
-    });
+    });   
   }
 
   // helpers
-  function pad(num, size) {
-    var s = num+"";
-    while (s.length < size) s = "0" + s;
-    return s;
-  }
-  function execute(command, callback){ exec(command, function(error, stdout, stderr){ callback(stdout); });};
-  function timestampToTimer(time){
 
-      var d = new Date(time);
-      return pad(d.getHours()   ,2) + ':' + 
-             pad(d.getMinutes() ,2) + ':' + 
-             pad(d.getSeconds()   ,2);
+  this.getRecipe = function(session, id){return getRecipe(session, id);};
+  function getRecipe(session, id) {
+    var patern = sessions_p+session+'/'+id;
+    fs.existsSync(patern+'.png', function(hasimage) {
+      if (hasimage) fs.existsSync(patern+'.json', function(hasjson) {
+          if (hasjson) {
+            var recipe = JSON.parse(fs.readFileSync(patern+'.json', 'utf8'));
+          }
+        });
+    });
+    console.log(patern);
+    return "okkassss"+patern;
   }
 
   init();
