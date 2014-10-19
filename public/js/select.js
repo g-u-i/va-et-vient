@@ -12,7 +12,6 @@ jQuery(document).ready(function($) {
 	socket.on('error', onSocketError);
 	socket.on('newRecipeId', onNewRecipeId)
 	
-	$('canvas').css('display', 'none');
 
 	var keys = [
 		{ key : 101, selector : "champignons" },
@@ -26,7 +25,8 @@ jQuery(document).ready(function($) {
 		{ key : 117, selector : "pita" },
 		{ key : 115, selector : "pois" }
 	],
-	recipe = {},firstTime;
+	recipe = {},firstTime, current, progress;
+
 
 
 	init();
@@ -46,10 +46,9 @@ jQuery(document).ready(function($) {
 	};
 
 	function onNewRecipeId(req){
-		// console.log("hello number" + req.recipeId)
+		reset();
+		console.log(req.recipe);
 	}
-
-
 	//
 	function setRecipe(){
 		var time  = new Date();
@@ -60,19 +59,21 @@ jQuery(document).ready(function($) {
 			time    : time.getTime(),
 			choices  : [ 0,0,0,0,0,0,0,0,0,0,0,0 ]
 		}
-	}
+	};
 
 	function reset(){
 		firstTime = true;
 		setRecipe();
-	}
+		resetProgress();
+		$('canvas').css('display', 'none');
+		$("#start-message").css("display", "block");
+	};
 
 	function start(){
 		$("#start-message").css("display", "none");
-		jaugeProgress();
-
 		firstTime = false;
-	}
+		updateProgress();
+	};
 
 	function init(){
 
@@ -84,19 +85,18 @@ jQuery(document).ready(function($) {
 			else {
 				$.each( keys, function( arrayKey, value ){
 					if(e.which == value.key) {
-						$('.ingredients .number-ingredients').empty();
-						$('.ingredients .number-ingredients').append(choiceCount());
+
 	 
-						if(choiceCount() < 8){
+						if(choiceCount() < 9){
 							toogleAnimVisibility(value.selector);
 							recipe.choices[arrayKey] = !recipe.choices[arrayKey];
-						}
-						else{
-							alert("Vous avez choisi assez d'élements vous ne pouvez plus en ajouter")
-							toogleAnimHide(value.selector);
+						}else if(recipe.choices[arrayKey]){
+							toogleAnimVisibility(value.selector);
 							recipe.choices[arrayKey] = !recipe.choices[arrayKey];
+						}else{
+							console.log("Vous avez choisi assez d'élements vous ne pouvez plus en ajouter");
 						}
-					}        
+					}      
 				});
 			}
 		});
@@ -110,14 +110,9 @@ jQuery(document).ready(function($) {
 			$('#'+selector).css('display', 'block').addClass('active');
 			$('.btn-'+selector).css('background-color', '#CF8B56').animate({width:"120px", height:"120px"});
 		}
-	}
-
-	function toogleAnimHide(selector){
-		if($('#'+selector).hasClass('active')){
-			$('#'+selector).css('display', 'none').removeClass('active');
-			$('.btn-'+selector).css('background-color', 'transparent').animate({width:"80px", height:"80px"});
-		}
-	}
+		$('.ingredients .number-ingredients').empty();
+		$('.ingredients .number-ingredients').append(choiceCount());
+	};
 
 	function choiceCount(){
 		var i=0;
@@ -129,34 +124,36 @@ jQuery(document).ready(function($) {
 
 		console.log('test recipe',choiceCount());
 
-		if(choiceCount() <= 8 && choiceCount() >= 5 ){
+		if(choiceCount() > 4 && choiceCount() < 9 ){
 			
 			$('.valide').css('background-color', 'green');
 			socket.emit('newRecipe', {recipe: recipe});
 			console.log('recette validée');
 
 		}else{
-			alert("recette non valide !");
+			console.log("recette non valide !");
 		}
 	}
 
-	function jaugeProgress(){
-		var current;
-		var progress = ( 100 * parseFloat($('.time').css('width')) / parseFloat($('.time').parent().css('width')) );
-		current = progress;
-		function updateProgress() {
-			var max = 15; // one minute
-			var add = 1.67 / max;
-			if (current < 100) {
-					current += add;
-					$(".time").css("width", current + "%");
-					setTimeout(updateProgress, 60); // update every second
-			}else{
-				console.log('fin du temps délimité');
-				sendRecipe();
-			}
+	function updateProgress() {
+		var max = 15; // one minute
+		var add = 1.67 / max;
+		if (current < 100 && !firstTime) {
+				current += add;
+				$(".time").css("width", current + "%");
+				setTimeout(updateProgress, 60); // update every second
+		}else{
+			console.log('fin du temps délimité');
+			sendRecipe();
 		}
-		updateProgress();
-	}
+	};
+
+	function resetProgress(){
+		$(".time").css("width", 0 + "%");
+		progress = ( 100 * parseFloat($('.time').css('width')) / parseFloat($('.time').parent().css('width')) );
+		current = progress;
+	};
+
+
 
 });

@@ -50,7 +50,8 @@ module.exports = function(app, io){
 
 		exec('screencapture -x '+path+'.png',function(error, stdout, stderr){
 			fs.writeFile(path+'.json', JSON.stringify(recipe), function(err) {
-				io.sockets.emit("newRecipeId", {recipeId: recipeId});
+				io.sockets.emit("newRecipeId", {recipe: recipe});
+				console.log('new recipe recorded', recipeId);
 				renderRecipe(session, recipeId);
 			});
 		});
@@ -64,6 +65,7 @@ module.exports = function(app, io){
 
 	 	phantom.create(function(ph){
 		  ph.createPage(function(page) {
+		  	//page.set('viewportSize', { width : 595, height : 842});
 		    page.open(url, function(status) {
 		      page.render(pdf, function(){
 		        console.log('Page Rendered',url);
