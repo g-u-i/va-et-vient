@@ -7,62 +7,60 @@ var exec = require('child_process').exec;
 
 module.exports = function(app, io){
 
-  console.log("main module initialized");
+	console.log("main module initialized");
+	var sessions_p = "sessions/"
 
-  var sessions_p = "sessions/"
+	io.on("connection", function(socket){
+		socket.on("newLine", onNewLine);
+		socket.on("newUser", onNewUser);
+		socket.on("newRecipe", onNewRecipe)
+	});
 
-  io.on("connection", function(socket){
-    socket.on("newLine", onNewLine);
-    socket.on("newUser", onNewUser);
-    socket.on("newRecipe", onNewRecipe)
-  });
+	function init(){};
 
-  function init(){
-    onNewRecipe();
-    getRecipe("A", 1);
-  };
+	// events
 
-  // events
+	function onNewUser(req){
+		console.log(req);
+	};
+	function onNewLine(req){
+		console.log(req);
 
-  function onNewUser(req){
-    console.log(req);
-  };
-  function onNewLine(req){
-    console.log(req);
+		var path = '/'+req.session+'/data.json';
+		var lines = getRecordedSessionLines(req.session);
 
-    var path = '/'+req.session+'/data.json';
-    var lines = getRecordedSessionLines(req.session);
+		lines.push(req);
 
-    lines.push(req);
+		recordSessionLines(req.session, lines);
+		io.sockets.emit("incomingLine", req);
+	};
 
-    recordSessionLines(req.session, lines);
-    io.sockets.emit("incomingLine", req);
-  };
-  function onNewRecipe(req){
-    var session  ="A"
-    var recipeId = glob(sessions_p+'/'+session+'/*.png', {nocase: true, sync: true}).length;
+	function onNewRecipe(req){
+		var session  ="A",
+				recipeId = glob(sessions_p+'/'+session+'/*.png', {nocase: true, sync: true}).length,
+				path = sessions_p+session+'/'+recipeId;
 
-    exec('screencapture -x '+sessions_p+'/'+session+'/'+recipeId+'.png', function(error, stdout, stderr){ 
-      console.log("capture");
-      io.sockets.emit("newRecipeId", {recipeId: recipeId});
-    });   
-  }
+		exec('screencapture -x '+path+'.png',function(error, stdout, stderr){
+			fs.writeFile(path+'.json', JSON.stringify(req), function(err) {
+				io.sockets.emit("newRecipeId", {recipeId: recipeId});
+			});
+		});
+	};
+ 	//
+	this.getRecipe = function(session, recipeId){return getRecipe(session, recipeId);};
+	function getRecipe(session, recipeId) {
 
-  // helpers
+		var path = sessions_p+session+'/'+recipeId;
 
-  this.getRecipe = function(session, id){return getRecipe(session, id);};
-  function getRecipe(session, id) {
-    var patern = sessions_p+session+'/'+id;
-    fs.existsSync(patern+'.png', function(hasimage) {
-      if (hasimage) fs.existsSync(patern+'.json', function(hasjson) {
-          if (hasjson) {
-            var recipe = JSON.parse(fs.readFileSync(patern+'.json', 'utf8'));
-          }
-        });
-    });
-    console.log(patern);
-    return "okkassss"+patern;
-  }
-
-  init();
+		fs.existsSync(path+'.png', function(hasimage) {
+			if (hasimage) fs.existsSync(path+'.json', function(hasjson) {
+				if (hasjson) {
+					var recipe = JSON.parse(fs.readFileSync(path+'.json', 'utf8'));
+				}
+			});
+		});
+		console.log(path);
+		return "okkassss"+path;
+	}
+	init();
 };
