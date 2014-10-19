@@ -61,8 +61,8 @@ jQuery(document).ready(function($) {
 
 	function start(e){
 		$("#start-message").css("display", "none");
+    jaugeProgress();
 		countDown();
-		jaugeProgress();
 	}
 
 	function init(){
@@ -71,9 +71,11 @@ jQuery(document).ready(function($) {
 
 		$(document).keypress(function(e){
       start();
-      validRecette(e);
 			$.each( keys, function( arrayKey, value ){
 				if(e.which == value.key) {
+          $('.ingredients .number-ingredients').empty();
+          $('.ingredients .number-ingredients').append(choiceCount);
+          sendRecipe();
 					if(choiceCount() < 8){
 						toogleAnimVisibility(value.selector);
 						recipe.choices[arrayKey] = !recipe.choices[arrayKey];
@@ -83,29 +85,10 @@ jQuery(document).ready(function($) {
             toogleAnimHide(value.selector);
             recipe.choices[arrayKey] = !recipe.choices[arrayKey];
           }
-				}
-
-        
+				}        
         console.log(choiceCount());
 
-				//socket.emit('newRecipe', {recipe: recipe});
-
 			});
-
-			// compteur éléments
-			// $('.ingredients .number-ingredients').empty();
-			// $('.ingredients .number-ingredients').append(active);
-			
-			// // 
-			// if(active <= 8 && active >= 5 ){
-			//   console.log("Vous pouvez valider votre recette");
-			//   validRecette(e);
-			// }else if(active >= 8){
-			//   removeAnim(e);
-			//   $('.valide').css('display', 'block');
-			//   validRecette(e);
-			//   console.log("Vous ne pouvez pas rajouter d'élements à votre recette");
-			// }
 
 		});
 	}
@@ -134,8 +117,19 @@ jQuery(document).ready(function($) {
 	}
 
   function sendRecipe(){
+    if(choiceCount <= 8 && choiceCount >= 5 ){
+      console.log("Vous pouvez valider votre recette");
+      $('.valide').css('background-color', 'green');
+      validRecette(e);
+    }
 
-
+    // if($('.chrono').hasClass('finished') && choiceCount >= 5){
+    //   alert("Le temps est écoulé, votre recette est envoyée à l'impression")
+    //   console.log("recette_validée"); 
+    // }
+    // else{
+    //   alert("Le temps est terminé, vous n'avez pas assez d'éléments pour valider la recette")
+    // }
   }
 
 	function jaugeProgress(){
