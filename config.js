@@ -5,7 +5,7 @@ module.exports = function(app,express){
   app.set("views", __dirname + "/views"); //Specify the views folder
   app.set("view engine", "jade"); //View engine is Jade
   app.use(express.static(__dirname + "/public")); //Specify where the static content is
-  app.use(express.static(__dirname + "/sessions")); //Specify where the static content is
+  app.use(express.static(__dirname + "/sessions"));
   app.use(express.bodyParser()); //Tells server to support JSON, urlencoded, and multipart requests
 
 }

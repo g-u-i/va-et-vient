@@ -7,19 +7,13 @@ jQuery(document).ready(function($) {
   /**
   * Events
   */
+
   /* sockets */
   socket.on('connect', onSocketConnect);
   socket.on('error', onSocketError);
 
-  /* dom */
-//  $('#send').on('click', sendNewLine);
-
   init();
 
-  /**
-  * handlers
-  */
-  /* sockets */
   function onSocketConnect() {
     sessionId = socket.io.engine.id;
     console.log('Connected ' + sessionId);
@@ -28,7 +22,6 @@ jQuery(document).ready(function($) {
   function onSocketError(reason) {
     console.log('Unable to connect to server', reason);
   };
-
   function init(){
   }
 });
