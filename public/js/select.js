@@ -17,7 +17,14 @@ jQuery(document).ready(function($) {
 	var keys = [
 		{ key : 101, selector : "champignons" },
 		{ key : 121, selector : "algues" },
-		{ key : 102, selector : "bettrave" }
+		{ key : 102, selector : "bettrave" },
+    { key : 103, selector : "tomate" },
+    { key : 114, selector : "carotte" },
+    { key : 122, selector : "epautre" },
+    { key : 104, selector : "tofu" },
+    { key : 116, selector : "mousse" },
+    { key : 117, selector : "pita" },
+    { key : 115, selector : "pois" }
 	],
 	recipe = {};
 
@@ -49,7 +56,7 @@ jQuery(document).ready(function($) {
 	};
 
 	function onNewRecipeId(req){
-		console.log("hello number" + req.recipeId)
+		// console.log("hello number" + req.recipeId)
 	}
 
 	function start(e){
@@ -63,13 +70,23 @@ jQuery(document).ready(function($) {
 		resetRecipe();
 
 		$(document).keypress(function(e){
+      start();
+      validRecette(e);
 			$.each( keys, function( arrayKey, value ){
 				if(e.which == value.key) {
 					if(choiceCount() < 8){
 						toogleAnimVisibility(value.selector);
 						recipe.choices[arrayKey] = !recipe.choices[arrayKey];
 					}
+          else{
+            alert("Vous avez choisi assez d'élements vous ne pouvez plus en ajouter")
+            toogleAnimHide(value.selector);
+            recipe.choices[arrayKey] = !recipe.choices[arrayKey];
+          }
 				}
+
+        
+        console.log(choiceCount());
 
 				socket.emit('newRecipe', {recipe: recipe});
 
@@ -96,17 +113,31 @@ jQuery(document).ready(function($) {
 	function toogleAnimVisibility(selector){
 		if($('#'+selector).hasClass('active')){
 			$('#'+selector).css('display', 'none').removeClass('active');
-			$('.'+selector).css('background-color', 'transparent').animate({width:"80px", height:"80px"});
+			$('.btn-'+selector).css('background-color', 'transparent').animate({width:"80px", height:"80px"});
 		}else{
 			$('#'+selector).css('display', 'block').addClass('active');
-			$('.'+selector).css('background-color', '#CF8B56').animate({width:"120px", height:"120px"});
+			$('.btn-'+selector).css('background-color', '#CF8B56').animate({width:"120px", height:"120px"});
 		}
 	}
+
+  function toogleAnimHide(selector){
+    if($('#'+selector).hasClass('active')){
+      $('#'+selector).css('display', 'none').removeClass('active');
+      $('.btn-'+selector).css('background-color', 'transparent').animate({width:"80px", height:"80px"});
+    }
+  }
+
 	function choiceCount(){
 		var i=0;
 		$.each( recipe.choices , function( arrayKey, value ){ if(value) i++; });
 		return i;
 	}
+
+  function sendRecipe(){
+
+
+  }
+
 	function jaugeProgress(){
 		var corrent;
 		var progress = ( 100 * parseFloat($('.time').css('width')) / parseFloat($('.time').parent().css('width')) );
@@ -125,13 +156,14 @@ jQuery(document).ready(function($) {
 
 	function validRecette(e){
 			if(e.which == 32){
-					console.log("recette_validée");
+          socket.emit('newRecipe', {recipe: recipe});
+					console.log("recette_validée"); 
 			}
 	}
 
 	function countDown(){
 			setTimeout(function() {
-					console.log("recette_validée");
+        console.log('fin du temps délimité');
 			}, 60000);
 	}
 });
