@@ -6,8 +6,7 @@
     "underscore": "*",
     "glob" :"*",
     "gm" :"*",
-	"markdown" : "*",
-	"fs-extra" : "*"
-
+  	"markdown" : "*",
+  	"fs-extra" : "*"
   }
 }
