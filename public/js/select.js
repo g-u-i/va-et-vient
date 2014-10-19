@@ -18,26 +18,16 @@ jQuery(document).ready(function($) {
 		{ key : 101, selector : "champignons" },
 		{ key : 121, selector : "algues" },
 		{ key : 102, selector : "bettrave" },
-    { key : 103, selector : "tomate" },
-    { key : 114, selector : "carotte" },
-    { key : 122, selector : "epautre" },
-    { key : 104, selector : "tofu" },
-    { key : 116, selector : "mousse" },
-    { key : 117, selector : "pita" },
-    { key : 115, selector : "pois" }
+		{ key : 103, selector : "tomate" },
+		{ key : 114, selector : "carotte" },
+		{ key : 122, selector : "epautre" },
+		{ key : 104, selector : "tofu" },
+		{ key : 116, selector : "mousse" },
+		{ key : 117, selector : "pita" },
+		{ key : 115, selector : "pois" }
 	],
-	recipe = {};
+	recipe = {},firstTime;
 
-	function resetRecipe(){
-		var time  = new Date();
-		
-		recipe = {
-			session : app.session,
-			id      : 0,
-			time    : time.getTime(),
-			choices  : [ 0,0,0,0,0,0,0,0,0,0,0,0 ]
-		}
-	}
 
 	init();
 
@@ -59,37 +49,56 @@ jQuery(document).ready(function($) {
 		// console.log("hello number" + req.recipeId)
 	}
 
-	function start(e){
+
+	//
+	function setRecipe(){
+		var time  = new Date();
+		
+		recipe = {
+			session : app.session,
+			id      : 0,
+			time    : time.getTime(),
+			choices  : [ 0,0,0,0,0,0,0,0,0,0,0,0 ]
+		}
+	}
+
+	function reset(){
+		firstTime = true;
+		setRecipe();
+	}
+
+	function start(){
 		$("#start-message").css("display", "none");
-    jaugeProgress();
-		countDown();
+		jaugeProgress();
+
+		firstTime = false;
 	}
 
 	function init(){
 
-		resetRecipe();
+		reset();
 
 		$(document).keypress(function(e){
-      start();
-			$.each( keys, function( arrayKey, value ){
-				if(e.which == value.key) {
-          $('.ingredients .number-ingredients').empty();
-          $('.ingredients .number-ingredients').append(choiceCount);
-          sendRecipe();
-					if(choiceCount() < 8){
-						toogleAnimVisibility(value.selector);
-						recipe.choices[arrayKey] = !recipe.choices[arrayKey];
-					}
-          else{
-            alert("Vous avez choisi assez d'élements vous ne pouvez plus en ajouter")
-            toogleAnimHide(value.selector);
-            recipe.choices[arrayKey] = !recipe.choices[arrayKey];
-          }
-				}        
-        console.log(choiceCount());
-
-			});
-
+			if(firstTime) start();
+			else if(e.which == 32) sendRecipe();
+			else {
+				$.each( keys, function( arrayKey, value ){
+					if(e.which == value.key) {
+						$('.ingredients .number-ingredients').empty();
+						$('.ingredients .number-ingredients').append(choiceCount());
+	 
+						if(choiceCount() < 8){
+							toogleAnimVisibility(value.selector);
+							recipe.choices[arrayKey] = !recipe.choices[arrayKey];
+						}
+						else{
+							alert("Vous avez choisi assez d'élements vous ne pouvez plus en ajouter")
+							toogleAnimHide(value.selector);
+							recipe.choices[arrayKey] = !recipe.choices[arrayKey];
+						}
+					}        
+				});
+			}
 		});
 	}
 
@@ -103,61 +112,51 @@ jQuery(document).ready(function($) {
 		}
 	}
 
-  function toogleAnimHide(selector){
-    if($('#'+selector).hasClass('active')){
-      $('#'+selector).css('display', 'none').removeClass('active');
-      $('.btn-'+selector).css('background-color', 'transparent').animate({width:"80px", height:"80px"});
-    }
-  }
+	function toogleAnimHide(selector){
+		if($('#'+selector).hasClass('active')){
+			$('#'+selector).css('display', 'none').removeClass('active');
+			$('.btn-'+selector).css('background-color', 'transparent').animate({width:"80px", height:"80px"});
+		}
+	}
 
 	function choiceCount(){
 		var i=0;
 		$.each( recipe.choices , function( arrayKey, value ){ if(value) i++; });
-		return i;
+		return i+1;
 	}
 
-  function sendRecipe(){
-    if(choiceCount <= 8 && choiceCount >= 5 ){
-      console.log("Vous pouvez valider votre recette");
-      $('.valide').css('background-color', 'green');
-      validRecette(e);
-    }
+	function sendRecipe(){
 
-    // if($('.chrono').hasClass('finished') && choiceCount >= 5){
-    //   alert("Le temps est écoulé, votre recette est envoyée à l'impression")
-    //   console.log("recette_validée"); 
-    // }
-    // else{
-    //   alert("Le temps est terminé, vous n'avez pas assez d'éléments pour valider la recette")
-    // }
-  }
+		console.log('test recipe',choiceCount());
+
+		if(choiceCount() <= 8 && choiceCount() >= 5 ){
+			
+			$('.valide').css('background-color', 'green');
+			socket.emit('newRecipe', {recipe: recipe});
+			console.log('recette validée');
+
+		}else{
+			alert("recette non valide !");
+		}
+	}
 
 	function jaugeProgress(){
-		var corrent;
+		var current;
 		var progress = ( 100 * parseFloat($('.time').css('width')) / parseFloat($('.time').parent().css('width')) );
-		corrent = progress;
+		current = progress;
 		function updateProgress() {
 			var max = 15; // one minute
 			var add = 1.67 / max;
-			if (corrent < 100) {
-					corrent += add;
-					$(".time").css("width", corrent + "%");
-					setTimeout(updateProgress, 70); // update every second
+			if (current < 100) {
+					current += add;
+					$(".time").css("width", current + "%");
+					setTimeout(updateProgress, 60); // update every second
+			}else{
+				console.log('fin du temps délimité');
+				sendRecipe();
 			}
 		}
 		updateProgress();
 	}
 
-	function validRecette(e){
-			if(e.which == 32){
-          socket.emit('newRecipe', {recipe: recipe});
-					console.log("recette_validée"); 
-			}
-	}
-
-	function countDown(){
-			setTimeout(function() {
-        console.log('fin du temps délimité');
-			}, 60000);
-	}
 });
