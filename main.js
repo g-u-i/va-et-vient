@@ -59,19 +59,21 @@ module.exports = function(app, io){
 
  	function renderRecipe(session, recipeId){
 
- 		var url = 'http://localhost:8080/print/'+session+'/'+recipeId+'/';
+ 		var url = 'http://localhost:8080/print/'+session+'/'+recipeId+'/',
+ 				pdf = sessions_p+'/'+session+'/'+recipeId+'.pdf';
 
 	 	phantom.create(function(ph){
 		  ph.createPage(function(page) {
 		    page.open(url, function(status) {
-		      page.render(sessions_p+'/'+session+'/'+recipeId+'.pdf', function(){
+		      page.render(pdf, function(){
 		        console.log('Page Rendered',url);
 		        ph.exit();
+		        fs.copy(pdf, 'printbox/'+session+'_'+recipeId+'.pdf');
 		      });
 		    });
 		  });
 		});
- 	}
+ 	};
 	this.getRecipe = function(session, recipeId){return getRecipe(session, recipeId);};
 	function getRecipe(session, recipeId) {
 
