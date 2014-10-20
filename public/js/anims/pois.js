@@ -90,7 +90,7 @@ var Sabo=function(){
 		for(var a=0; a<sabos.length; a++){
 			sabos[a].updateForce();
 			sabos[a].updataPosition();
-			sabos[a].updatePath()
+			sabos[a].updatePath();
 		}
 		if(sabos.length>50){
 				var b=sabos[0];

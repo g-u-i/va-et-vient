@@ -72,27 +72,27 @@ var width = view.size.width;
     // }
 /*FIN TESTS RONDS*/
 
-var rect = new Shape.Rectangle({
+var rect = new Path.Rectangle({
     from: [0, 0],
     to: [150, 100],
     fillColor: '#F7C352'
 });
 
-var rect2 = new Shape.Rectangle({
-    from: [0, 0],
-    to: [150, 100],
-    fillColor: '#F7C352'
-});
-
-
-var rect3 = new Shape.Rectangle({
+var rect2 = new Path.Rectangle({
     from: [0, 0],
     to: [150, 100],
     fillColor: '#F7C352'
 });
 
 
-var rect4 = new Shape.Rectangle({
+var rect3 = new Path.Rectangle({
+    from: [0, 0],
+    to: [150, 100],
+    fillColor: '#F7C352'
+});
+
+
+var rect4 = new Path.Rectangle({
     from: [0, 0],
     to: [150, 100],
     fillColor: '#F7C352'
@@ -114,7 +114,7 @@ rect.onFrame = function(event) {
     var loc = path.getLocationAt(offset % path.length );
     if (loc) {
         this.position = loc.point;
-        this.rotation = loc.tangent.angle;
+        this.rotation = loc.tangent.angle / 100;
     }
 }
 
@@ -123,7 +123,7 @@ rect2.onFrame = function(event) {
     var loc = path.getLocationAt(offset % path.length);
     if (loc) {
         this.position = loc.point;
-        this.rotation = loc.tangent.angle;
+        this.rotation = loc.tangent.angle / 70;
     }
 }
 
@@ -132,7 +132,7 @@ rect3.onFrame = function(event) {
     var loc = path.getLocationAt(offset % path.length);
     if (loc) {
         this.position = loc.point;
-        this.rotation = loc.tangent.angle;
+        this.rotation = loc.tangent.angle / 150;
     }
 }
 
@@ -141,7 +141,7 @@ rect4.onFrame = function(event) {
     var loc = path.getLocationAt(offset % path.length);
     if (loc) {
         this.position = loc.point;
-        this.rotation = loc.tangent.angle;
+        this.rotation = loc.tangent.angle / 50;
     }
 }
 

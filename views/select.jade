@@ -4,10 +4,10 @@ html
     link(rel='stylesheet', href='/css/style.css')
     title #{session} | #{title}
   body.feedback
+    canvas(id="chutney" resize)
     canvas(id="epautre" resize)
     canvas(id="pita" resize)
     canvas(id="tofu" resize)
-    canvas(id="chutney" resize)
     canvas(id="champignons" resize)
     canvas(id="algues" resize)
     canvas(id="bettrave" resize)
@@ -17,11 +17,29 @@ html
     canvas(id="pois" resize)
     canvas(id="camembert" resize)
 
-    div#start-message
+    div(id='start-message' class="alert")
         h2 Va et Vient
         p Description du déroulé
         p Pour commencer appuyer sur n'importe quel bouton
+
+    div(id='alert-elements' class='alert')
+        h2 Va et Vient
+        p Vous avez choisi assez d'éléments, vous ne pouvez plus en ajouter
+        p Appuyez sur le bouton vert pour valider votre recette
+
+    div(id='end-message' class='alert')
+        p.infos-id
+        p Vous avez validé votre recette, elle va désormais être réalisé par notre chef. 
+        p Veuillez aller chercher votre fiche recette et la transmettre au cuisinier.
+        p Vous pourrez déguster dans quelques instants le plat que vous venez de créer.
+
+    div(id='nonvalide-message' class='alert')
+        p Vous ne pouvez pas validé votre recette
+        p Vous n'avez pas sélectionné assez d'éléments
     
+    div(id='endtime-message' class='alert')
+        p Votre temps imparti est terminé ! 
+
     div.boutons
         ul
             li.btn-epautre
@@ -36,14 +54,12 @@ html
             li.btn-mousse
             li.btn-pois
             li.btn-camembert
-
-        ul
-            li.valide Valider
-        
+            li.valide 
+                span.valide-text Valider
 
     div.ingredient-jauge
         div.ingredients
-            span.number-ingredients 0
+            span.number-ingredients
             span / 8
         div.jauge    
 
@@ -54,7 +70,6 @@ html
     script(src='/socket.io/socket.io.js')
     script var app = {}; app.session = "#{session}";
     script(src='/js/jquery-1.11.1.js')
-    script(src='/bootstrap/dist/js/bootstrap.min.js')
     script(src="/js/paper.js" type="text/javascript")
     
     script(type="text/paperscript" src="/js/anims/champignons.js" canvas="champignons")

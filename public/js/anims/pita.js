@@ -3,7 +3,7 @@ var amount = 10;
             var path = new Path({
                 fillColor: '#563354',
             });
-            path.opacity = 0.8;
+            path.opacity = 1;
         }
 
         var position = view.center;
