@@ -98,10 +98,17 @@ canvas {
 .btn-camembert {
   background-color: #17866d;
 }
+footer {
+  width: 1900px;
+  height: 100px;
+  position: absolute;
+  bottom: 0px;
+  background-color: white;
+}
 .ingredient-jauge {
   position: absolute;
-  bottom: 80px;
-  font-size: 2em;
+  bottom: 60px;
+  font-size: 1.7em;
   font-family: helvetica, sans-serif;
   left: 50px;
 }

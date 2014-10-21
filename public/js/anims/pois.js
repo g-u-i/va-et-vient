@@ -60,7 +60,7 @@ var Sabo=function(){
 			this.path.remove()
 		}
 		this.path=new Path.Circle({
-			center:view.center,
+			center:[200, 300],
 			radius:20,
 			fillColor:"#F8AEAF"
 		});

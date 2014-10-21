@@ -53,9 +53,7 @@ jQuery(document).ready(function($) {
 			$('#end-message p.infos-id').empty();
 			$('#end-message p.infos-id').append(req.recipe.session + req.recipe.id + "<br>" + req.recipe.time );
 		}, 500);
-		
 		setTimeout(reset, 10000);
-		// reset();
 		console.log(req.recipe);
 	}
 	//
@@ -72,8 +70,8 @@ jQuery(document).ready(function($) {
 
 	function reset(){
 		firstTime = true;
-		setRecipe();
 		resetProgress();
+		setRecipe();
 		$('canvas').css('display', 'none');
 		$('.alert').css('display', 'none');
 		$('.ingredients .number-ingredients').empty();
@@ -85,7 +83,6 @@ jQuery(document).ready(function($) {
             top: 0
 		});
 		$("#start-message").css("display", "block");
-
 	};
 
 	function start(){
@@ -103,14 +100,18 @@ jQuery(document).ready(function($) {
 			if(firstTime) start();
 			else if(e.which == 32) sendRecipe();
 			else {
-				$.each( keys, function( arrayKey, value ){
+				$.each(keys, function(arrayKey, value){
 					if(e.which == value.key) {	 
-						if(choiceCount() < 9){
+						if(choiceCount() < 8){
 							toogleAnimVisibility(value.selector);
 							recipe.choices[arrayKey] = !recipe.choices[arrayKey];
+							$('.ingredients .number-ingredients').empty();
+							$('.ingredients .number-ingredients').append(choiceCount());
 						}else if(recipe.choices[arrayKey]){
 							toogleAnimVisibility(value.selector);
 							recipe.choices[arrayKey] = !recipe.choices[arrayKey];
+							$('.ingredients .number-ingredients').empty();
+							$('.ingredients .number-ingredients').append(choiceCount());
 						}else{
 							console.log("Vous avez choisi assez d'élements vous ne pouvez plus en ajouter");
 							$('#alert-elements').css('display', 'block');
@@ -142,29 +143,26 @@ jQuery(document).ready(function($) {
                 top: -10
             });
 		}
-		$('.ingredients .number-ingredients').empty();
-		$('.ingredients .number-ingredients').append(choiceCount());
 	};
 
 	function choiceCount(){
 		var i=0;
 		$.each( recipe.choices , function( arrayKey, value ){ if(value) i++; });
-		return i+1;
+		return i;
 	}
 
 	function sendRecipe(){
-
+		console.log("sendRecipe");
 		console.log('test recipe',choiceCount());
 
 		if(choiceCount() > 4 && choiceCount() < 9 ){
 			socket.emit('newRecipe', {recipe: recipe});
 			console.log('recette validée');
-
 		}else {
-			// $('#nonvalide-message').css('display', 'block');
-			// setTimeout(function(){
-			// 	$('#nonvalide-message').css('display', 'none');
-			// }, 5000);
+			$('#nonvalide-message').css('display', 'block');
+			setTimeout(function(){
+				$('#nonvalide-message').css('display', 'none');
+			}, 5000);
 			console.log("recette non valide !");
 		}
 	}
@@ -176,13 +174,13 @@ jQuery(document).ready(function($) {
 				current += add;
 				$(".time").css("width", current + "%");
 				setTimeout(updateProgress, 60); // update every second
-		}else{
+		}else if(current > 99) {
 			console.log('fin du temps délimité');
-			// $('#endtime-message').css('display', 'block');
-			// setTimeout(function(){
-			// 	$('#endtime-message').css('display', 'none');
+			$('#endtime-message').css('display', 'block');
+			setTimeout(function(){
+				$('#endtime-message').css('display', 'none');
 			sendRecipe();
-			// }, 5000);
+			}, 5000);
 		}
 	};
 
