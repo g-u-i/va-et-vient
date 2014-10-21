@@ -72,29 +72,29 @@ var width = view.size.width;
     // }
 /*FIN TESTS RONDS*/
 
-var rect = new Path.Rectangle({
-    from: [0, 0],
-    to: [150, 100],
+var rect = new Path.RegularPolygon({
+    sides: 6,
+    radius:70,
     fillColor: '#F7C352'
 });
 
-var rect2 = new Path.Rectangle({
-    from: [0, 0],
-    to: [150, 100],
-    fillColor: '#F7C352'
-});
-
-
-var rect3 = new Path.Rectangle({
-    from: [0, 0],
-    to: [150, 100],
+var rect2 = new Path.RegularPolygon({
+    sides: 6,
+    radius:70,
     fillColor: '#F7C352'
 });
 
 
-var rect4 = new Path.Rectangle({
-    from: [0, 0],
-    to: [150, 100],
+var rect3 = new Path.RegularPolygon({
+    sides: 6,
+    radius:70,
+    fillColor: '#F7C352'
+});
+
+
+var rect4 = new Path.RegularPolygon({
+    sides: 6,
+    radius:70,
     fillColor: '#F7C352'
 });
 

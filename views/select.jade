@@ -4,9 +4,12 @@ html
     link(rel='stylesheet', href='/css/style.css')
     title #{session} | #{title}
   body.feedback
+
+    <img width="415" height="492" id="orange" style="display: none;" src="/js/orange.png">
+
     canvas(id="chutney" resize)
-    canvas(id="epautre" resize)
     canvas(id="pita" resize)
+    canvas(id="epautre" resize)
     canvas(id="tofu" resize)
     canvas(id="champignons" resize)
     canvas(id="algues" resize)
@@ -15,7 +18,9 @@ html
     canvas(id="carotte" resize)
     canvas(id="mousse" resize)
     canvas(id="pois" resize)
-    canvas(id="camembert" resize)
+    canvas(id="camembert" width="500" height="500")
+
+
 
     div(id='start-message' class="alert")
         h2 Va et Vient
@@ -54,8 +59,8 @@ html
             li.btn-mousse
             li.btn-pois
             li.btn-camembert
-            li.valide 
-                span.valide-text Valider
+            //- li.valide 
+            //-     span.valide-text Valider
 
     div.ingredient-jauge
         div.ingredients
@@ -71,6 +76,8 @@ html
     script var app = {}; app.session = "#{session}";
     script(src='/js/jquery-1.11.1.js')
     script(src="/js/paper.js" type="text/javascript")
+    script(type="text/javascript" src="/js/modernizr-2.0.6.custom.js")
+
     
     script(type="text/paperscript" src="/js/anims/champignons.js" canvas="champignons")
     script(type="text/paperscript" src="/js/anims/algues.js" canvas="algues")
@@ -83,6 +90,6 @@ html
     script(type="text/paperscript" src="/js/anims/mousse.js" canvas="mousse")
     script(type="text/paperscript" src="/js/anims/pita.js" canvas="pita")
     script(type="text/paperscript" src="/js/anims/pois.js" canvas="pois")
-    script(type="text/paperscript" src="/js/anims/camembert.js" canvas="camembert")
+    script(type="text/javascript" src="/js/anims/camembert.js" canvas="camembert")
 
     script(src='/js/select.js')

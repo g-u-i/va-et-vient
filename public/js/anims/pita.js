@@ -1,7 +1,7 @@
-var amount = 10;
+var amount = 6;
         for (var i = 0; i < amount; i++) {
             var path = new Path({
-                fillColor: '#563354',
+                fillColor: '#9267AB',
             });
             path.opacity = 1;
         }
@@ -21,7 +21,6 @@ var amount = 10;
                     position + { angle: i / amount * 360, length: length },
                     position + { angle: (i + 1) / amount * 360, length: length }
                 ];
-                //path.fillColor.hue = count - length;
             }
         }
 

@@ -59,7 +59,7 @@ var Boid = Base.extend({
         createItems: function() {
 
             this.path = new Path({
-                strokeColor: '#3A668F',
+                strokeColor: '#000d9e',
                 strokeWidth: 15,
                 strokeCap: 'round'
             });
@@ -67,7 +67,7 @@ var Boid = Base.extend({
                 this.path.add(new Point());
 
             this.shortPath = new Path({
-                strokeColor: '#3A668F',
+                strokeColor: '#000d9e',
                 strokeWidth: 8,
                 strokeCap: 'round'
             });

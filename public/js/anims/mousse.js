@@ -1,7 +1,7 @@
 
 var center = view.center;
 var amount = 10;
-var colors = ['#05BAA3', '#D2FFF8', '#05BAA3', '#D2FFF8'];
+var colors = ['#05BAA3', 'white', '#05BAA3', 'white'];
 var width = view.size.width;
 var height = view.size.height;
 

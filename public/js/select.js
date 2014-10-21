@@ -50,6 +50,7 @@ jQuery(document).ready(function($) {
 	function onNewRecipeId(req){
 		setTimeout(function(){
 			$('#end-message').css('display', 'block');
+			$('#end-message p.infos-id').empty();
 			$('#end-message p.infos-id').append(req.recipe.session + req.recipe.id + "<br>" + req.recipe.time );
 		}, 500);
 		
@@ -77,8 +78,14 @@ jQuery(document).ready(function($) {
 		$('.alert').css('display', 'none');
 		$('.ingredients .number-ingredients').empty();
 		$('.ingredients .number-ingredients').append("0");
-		$('.boutons li').animate({width:"80px", height:"80px"});
+		$('.boutons li').animate({
+			width:"40px", 
+			height:"40px",
+			left: 0,
+            top: 0
+		});
 		$("#start-message").css("display", "block");
+
 	};
 
 	function start(){
@@ -120,10 +127,20 @@ jQuery(document).ready(function($) {
 	function toogleAnimVisibility(selector){
 		if($('#'+selector).hasClass('active')){
 			$('#'+selector).css('display', 'none').removeClass('active');
-			$('.btn-'+selector).animate({width:"80px", height:"80px"});
+			$('.btn-'+selector).animate({
+				width:"40px", 
+				height:"40px", 
+				left: 0,
+                top: 0
+			});
 		}else{
 			$('#'+selector).css('display', 'block').addClass('active');
-			$('.btn-'+selector).animate({width:"120px", height:"120px"});
+			$('.btn-'+selector).animate({
+				width:"60px", 
+				height:"60px", 
+				left: -10,
+                top: -10
+            });
 		}
 		$('.ingredients .number-ingredients').empty();
 		$('.ingredients .number-ingredients').append(choiceCount());

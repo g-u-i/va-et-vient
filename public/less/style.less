@@ -1,15 +1,15 @@
 // @import 'bootstrap.less';
 @champignons: #CF8B56;
-@algues: #3A668F;
+@algues: #000d9e;
 @betterave: #E43B82;
 @tomate: #E9284A;
 @carotte: #F0655D;
-@epautre: #F88721;
+@epautre: #FF5E00;
 @tofu: #F7C352;
 @mousse: #05BAA3;
-@pita: #563354;
+@pita: #9267AB;
 @pois: #F8AEAF;
-@chutney: #5DCEC8;
+@chutney: #0aff68;
 @camembert: #17866D;
 
 @canvas-width: 1920px;
@@ -20,6 +20,7 @@ body {
 	width: 100%;
 	background: #FFF;
 	font-family: helvetica, sans-serif;
+	overflow: hidden;
 }
 
 canvas {
@@ -61,18 +62,21 @@ canvas {
 
 .boutons {
 	position: fixed;
-	width: 85%;
+	width: 75%;
 	margin-left: 10%;
 	z-index: 100;
 }
 
 .boutons li{
 	border-radius: 50%;
-	width: 80px;
-	height: 80px;
+	width: 40px;
+	height: 40px;
 	list-style: none;
 	display: inline-block;
 	margin: 60px 120px 60px 120px;
+	position: relative;
+    top: 0;
+    left: 0;
 }
 
 .boutons li.valide {
@@ -145,18 +149,19 @@ canvas {
 }
 
 .chrono {
-	border: 2px solid #000;
 	width: 1800px;
-	height: 30px;
+	height: 20px;
 	position: absolute;
 	bottom: 30px;
 	left: 50px;
-	border-radius: 30px;
+	border-radius: 20px;
+	background-color: #EDEDED;
+
 }
 
 .time {
 	width: 10px;
-	height: 30px;
+	height: 20px;
 	background-color: black;
-	border-radius: 30px;
-}
+	border-radius: 20px;
+}	
