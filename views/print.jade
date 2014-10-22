@@ -5,11 +5,11 @@ html
     title #{session} | #{recipeId}
   body.print
 
-    img(src='/#{session}/#{recipeId}.png').img-responsive
+    div.recette
+        img(src='/#{session}/#{recipeId}.png').img-responsive
     
     div.infos
-        h1 Recette n°#{recipe.id}
-        p #{recipe.time}
+        h1 Recette n°#{recipe.session}#{recipe.id} à #{recipe.humanTime}
 
     //- scripts
     script(src='/socket.io/socket.io.js')

@@ -47,6 +47,9 @@ module.exports = function(app, io){
 
 		// update recipe ID 
 		recipe.id = recipeId;
+		recipe.humanTime = timestampToTimer(recipe.time);
+
+
 
 		exec('screencapture -x '+path+'.png',function(error, stdout, stderr){
 			fs.writeFile(path+'.json', JSON.stringify(recipe), function(err) {
@@ -66,7 +69,7 @@ module.exports = function(app, io){
 	 	phantom.create(function(ph){
 		  ph.createPage(function(page) {
 		  	//page.set('viewportSize', { width : "2970", height : "21cm"});
- 				page.set("paperSize", { format: "A4", orientation: 'landscape', margin: '1cm' });
+ 				page.set("paperSize", { format: "A4", orientation: 'portrait', margin: '0cm' });
  		    page.open(url, function(status) {
 		      page.render(pdf, function(){
 		        console.log('Page Rendered',url);
@@ -87,5 +90,19 @@ module.exports = function(app, io){
 		console.log(recipe, path);
 		return recipe;
 	}
+
+  // helpers
+  function pad(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+  }
+  function timestampToTimer(time){
+
+      var d = new Date(time);
+      return pad(d.getHours()   ,2) + ':' + 
+             pad(d.getMinutes() ,2) + ':' + 
+             pad(d.getSeconds()   ,2);
+  }
 	init();
 };
