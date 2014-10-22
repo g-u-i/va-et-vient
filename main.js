@@ -65,12 +65,14 @@ module.exports = function(app, io){
 
 	 	phantom.create(function(ph){
 		  ph.createPage(function(page) {
-		  	//page.set('viewportSize', { width : 595, height : 842});
-		    page.open(url, function(status) {
+		  	//page.set('viewportSize', { width : "2970", height : "21cm"});
+ 				page.set("paperSize", { format: "A4", orientation: 'landscape', margin: '1cm' });
+ 		    page.open(url, function(status) {
 		      page.render(pdf, function(){
 		        console.log('Page Rendered',url);
+						fs.copy(pdf, 'printbox/'+session+'_'+recipeId+'.pdf');
+
 		        ph.exit();
-		        fs.copy(pdf, 'printbox/'+session+'_'+recipeId+'.pdf');
 		      });
 		    });
 		  });

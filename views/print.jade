@@ -4,9 +4,13 @@ html
     link(rel='stylesheet', href='/css/style.css')
     title #{session} | #{recipeId}
   body.print
-    h1 #{recipe.time}
+
     img(src='/#{session}/#{recipeId}.png').img-responsive
     
+    div.infos
+        h1 Recette n°#{recipe.id}
+        p #{recipe.time}
+
     //- scripts
     script(src='/socket.io/socket.io.js')
     script var app = {}; app.session = "#{session}"; app.recipe = "#{recipe}";

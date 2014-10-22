@@ -3,6 +3,8 @@ body {
   background: #FFF;
   font-family: helvetica, sans-serif;
   overflow: hidden;
+  font-size: 3em;
+  text-align: center;
 }
 canvas {
   width: 1920px;
@@ -129,10 +131,12 @@ footer {
   border-radius: 20px;
 }
 /* PRINT */
-.print {
+body.print {
+  margin: 0;
+  padding: 0;
   width: 21cm;
   height: 29cm;
 }
-.print img {
+body.print img {
   height: 50%;
 }
