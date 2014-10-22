@@ -82,12 +82,10 @@ jQuery(document).ready(function($) {
 			height:"40px",
 			left: 0,
 			top: 0
-		});
+		}).css('box-shadow', 'none');
 		$("#start-message").css("display", "block");
 
 		console.log(recipe, firstTime);
-
-
 	};
 
 	function start(){
@@ -103,7 +101,6 @@ jQuery(document).ready(function($) {
 		$(document).keypress(function(e){
 			
 			console.log(e.which, firstTime);
-
 
 			if(firstTime) start();
 			else if(e.which == 32) sendRecipe();
@@ -133,6 +130,7 @@ jQuery(document).ready(function($) {
 					}      
 				});
 			}
+			updateJaugeIngredients();
 		});
 	}
 
@@ -144,7 +142,7 @@ jQuery(document).ready(function($) {
 				height:"40px", 
 				left: 0,
 				top: 0
-			});
+			}).css('box-shadow', 'none');
 		}else if(state){
 			$('#'+selector).fadeIn('slow').addClass('active');
 			$('.btn-'+selector).animate({
@@ -152,7 +150,7 @@ jQuery(document).ready(function($) {
 				height:"60px", 
 				left: -10,
 				top: -10
-			});
+			}).css('box-shadow', '2px 2px 10px grey');
 		}
 	};
 
@@ -161,6 +159,13 @@ jQuery(document).ready(function($) {
 		$.each( recipe.choices , function( arrayKey, value ){ if(value) i++; });
 		return i;
 	}
+	function updateJaugeIngredients(){
+		$(".ingredients").removeClass('active');
+		for(i=choiceCount(); i>0; i--){
+			console.log(i);
+			$(".ingredients:nth-child("+(8-i+1)+")").addClass('active');
+		}
+	} 
 
 	function sendRecipe(){
 		console.log("sendRecipe");
@@ -200,7 +205,6 @@ jQuery(document).ready(function($) {
 		progress = ( 100 * parseFloat($('.time').css('width')) / parseFloat($('.time').parent().css('width')) );
 		current = progress;
 	};
-
 
 
 });
