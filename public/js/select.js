@@ -46,11 +46,9 @@ jQuery(document).ready(function($) {
 	};
 
 	function onNewRecipeId(req){
-		setTimeout(function(){
-			$('#end-message').css('display', 'block');
-			$('#end-message p.infos-id').empty();
-			$('#end-message p.infos-id').append(req.recipe.session + req.recipe.id + "<br>" + req.recipe.humanTime );
-		}, 500);
+		$('#end-message').css('display', 'block');
+		$('#end-message p.infos-id').empty();
+		$('#end-message p.infos-id').append(req.recipe.session + req.recipe.id + "<br>" + req.recipe.humanTime );
 		setTimeout(reset, 10000);
 	}
 	//
@@ -71,8 +69,12 @@ jQuery(document).ready(function($) {
 		resetProgress();
 		setRecipe();
 
+
 		$('canvas').css('display', 'none');
 		$('.alert').css('display', 'none');
+
+		$('footer').css('display', 'block');
+		$('.boutons').css('display', 'block');
 
 		$('.ingredients .number-ingredients').empty();
 		$('.ingredients .number-ingredients').append("0");
@@ -84,7 +86,9 @@ jQuery(document).ready(function($) {
 			top: 0
 		}).css('box-shadow', 'none');
 		$("#start-message").css("display", "block");
-
+		
+		updateJaugeIngredients();
+		
 		console.log(recipe, firstTime);
 	};
 
@@ -172,7 +176,15 @@ jQuery(document).ready(function($) {
 		console.log('test recipe',choiceCount());
 
 		if(choiceCount() > 4 && choiceCount() < 9 ){
-			socket.emit('newRecipe', {recipe: recipe});
+			$('footer').css('display', 'none');
+			$('.boutons').css('display', 'none');
+			
+			setTimeout(
+				function(){
+					console.log("send !")
+					socket.emit('newRecipe', {recipe: recipe});
+				}
+				,100);
 			console.log('recette validée');
 		}else {
 			$('#nonvalide-message').css('display', 'block');
@@ -195,7 +207,7 @@ jQuery(document).ready(function($) {
 			$('#endtime-message').css('display', 'block');
 			setTimeout(function(){
 				$('#endtime-message').css('display', 'none');
-			sendRecipe();
+				sendRecipe();
 			}, 5000);
 		}
 	};
