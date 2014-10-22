@@ -49,7 +49,7 @@ jQuery(document).ready(function($) {
 		setTimeout(function(){
 			$('#end-message').css('display', 'block');
 			$('#end-message p.infos-id').empty();
-			$('#end-message p.infos-id').append(req.recipe.session + req.recipe.id + "<br>" + req.recipe.time );
+			$('#end-message p.infos-id').append(req.recipe.session + req.recipe.id + "<br>" + req.recipe.humanTime );
 		}, 500);
 		setTimeout(reset, 10000);
 	}

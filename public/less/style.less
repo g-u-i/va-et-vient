@@ -198,13 +198,21 @@ footer {
 
 /* PRINT */
 
-.print	{
+body.print	{
+
+ 	margin: 0;
+ 	padding: 0;
+ 	
 	width: 21cm;
 	height:29cm;
-}
-
-.print img {
-	height:50%; 
+	
+	.recette {
+		width: 100%;
+		height: 50%;
+		img {
+			width:100%; 
+		}
+	}
 
 }
 
