@@ -45,7 +45,7 @@ int keyCodes[NUM_INPUTS] = {
 ///////////////////////////
 // NOISE CANCELLATION /////
 ///////////////////////////
-#define SWITCH_THRESHOLD_OFFSET_PERC  30   // number between 1 and 49
+#define SWITCH_THRESHOLD_OFFSET_PERC 5// number between 1 and 49
                                            // larger value protects better against noise oscillations, but makes it harder to press and release
                                            // recommended values are between 2 and 20
                                            // default value is 5

@@ -28,9 +28,7 @@ jQuery(document).ready(function($) {
 		{ key : 113, selector : "camembert" }
 	],
 	recipe = {},firstTime, current, progress;
-
-
-
+	
 	init();
 
 	/**
@@ -53,9 +51,7 @@ jQuery(document).ready(function($) {
 			$('#end-message p.infos-id').empty();
 			$('#end-message p.infos-id').append(req.recipe.session + req.recipe.id + "<br>" + req.recipe.time );
 		}, 500);
-		setTimeout(reset, 1000);
-		
-		//zconsole.log(req.recipe);
+		setTimeout(reset, 10000);
 	}
 	//
 	function setRecipe(){
