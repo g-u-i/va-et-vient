@@ -3,10 +3,10 @@
 
 # settings
 
-printer=_192_168_1_35                    # labos
+printer=Canon_LBP7100C_7110C                    # labos
 archivebox="archivebox/"
 printinbox="printbox/"
-interval=5
+interval=3
 
 # main loop
 mkdir $archivebox $printinbox
