@@ -19,13 +19,13 @@ jQuery(document).ready(function($) {
 		{ key : 102, selector : "bettrave" },
 		{ key : 103, selector : "tomate" },
 		{ key : 114, selector : "carotte" },
-		{ key : 122, selector : "epautre" },
+		{ key : 100, selector : "epautre" },
 		{ key : 104, selector : "tofu" },
 		{ key : 116, selector : "mousse" },
 		{ key : 117, selector : "pita" },
 		{ key : 115, selector : "pois" },
-		{ key : 97, selector : "chutney" },
-		{ key : 113, selector : "camembert" }
+		{ key : 106, selector : "chutney" },
+		{ key : 119, selector : "camembert" }
 	],
 	recipe = {},firstTime, current, progress;
 
