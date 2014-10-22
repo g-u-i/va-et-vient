@@ -28,9 +28,7 @@ jQuery(document).ready(function($) {
 		{ key : 119, selector : "camembert" }
 	],
 	recipe = {},firstTime, current, progress;
-
-
-
+	
 	init();
 
 	/**
@@ -54,7 +52,6 @@ jQuery(document).ready(function($) {
 			$('#end-message p.infos-id').append(req.recipe.session + req.recipe.id + "<br>" + req.recipe.time );
 		}, 500);
 		setTimeout(reset, 10000);
-		console.log(req.recipe);
 	}
 	//
 	function setRecipe(){
@@ -70,19 +67,27 @@ jQuery(document).ready(function($) {
 
 	function reset(){
 		firstTime = true;
+		
 		resetProgress();
 		setRecipe();
+
 		$('canvas').css('display', 'none');
 		$('.alert').css('display', 'none');
+
 		$('.ingredients .number-ingredients').empty();
 		$('.ingredients .number-ingredients').append("0");
+
 		$('.boutons li').animate({
 			width:"40px", 
 			height:"40px",
 			left: 0,
-            top: 0
+			top: 0
 		});
 		$("#start-message").css("display", "block");
+
+		console.log(recipe, firstTime);
+
+
 	};
 
 	function start(){
@@ -96,15 +101,21 @@ jQuery(document).ready(function($) {
 		reset();
 
 		$(document).keypress(function(e){
-			console.log(e.which);
+			
+			console.log(e.which, firstTime);
+
+
 			if(firstTime) start();
 			else if(e.which == 32) sendRecipe();
 			else {
 				$.each(keys, function(arrayKey, value){
 					if(e.which == value.key) {	 
 						if(choiceCount() < 8){
-							toogleAnimVisibility(value.selector);
+							
 							recipe.choices[arrayKey] = !recipe.choices[arrayKey];
+							toogleAnimVisibility(value.selector, recipe.choices[arrayKey]);
+
+
 							$('.ingredients .number-ingredients').empty();
 							$('.ingredients .number-ingredients').append(choiceCount());
 						}else if(recipe.choices[arrayKey]){
@@ -125,23 +136,23 @@ jQuery(document).ready(function($) {
 		});
 	}
 
-	function toogleAnimVisibility(selector){
-		if($('#'+selector).hasClass('active')){
+	function toogleAnimVisibility(selector, state){
+		if(!state){
 			$('#'+selector).fadeOut('slow').removeClass('active');
 			$('.btn-'+selector).animate({
 				width:"40px", 
 				height:"40px", 
 				left: 0,
-                top: 0
+				top: 0
 			});
-		}else{
+		}else if(state){
 			$('#'+selector).fadeIn('slow').addClass('active');
 			$('.btn-'+selector).animate({
 				width:"60px", 
 				height:"60px", 
 				left: -10,
-                top: -10
-            });
+				top: -10
+			});
 		}
 	};
 
