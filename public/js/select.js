@@ -127,7 +127,7 @@ jQuery(document).ready(function($) {
 
 	function toogleAnimVisibility(selector){
 		if($('#'+selector).hasClass('active')){
-			$('#'+selector).css('display', 'none').removeClass('active');
+			$('#'+selector).fadeOut('slow').removeClass('active');
 			$('.btn-'+selector).animate({
 				width:"40px", 
 				height:"40px", 
@@ -135,7 +135,7 @@ jQuery(document).ready(function($) {
                 top: 0
 			});
 		}else{
-			$('#'+selector).css('display', 'block').addClass('active');
+			$('#'+selector).fadeIn('slow').addClass('active');
 			$('.btn-'+selector).animate({
 				width:"60px", 
 				height:"60px", 

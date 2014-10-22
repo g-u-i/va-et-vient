@@ -2,12 +2,12 @@
 
 (function(window, $,  undefined) {
     var ctx = null;
-    var W = 100, H = 100;
+    var W = 130, H = 100;
     var NUM_WAVES = 7;
     // var BLUR_RADIUS = 30;
     var THETA_RESOLUTION = 0.05;
     var cx = W / 2, cy = H / 2;
-    var r0 = 0.4;
+    var r0 = 0.6;
     var waves = [];
     var t = new Date() | 0;
 
