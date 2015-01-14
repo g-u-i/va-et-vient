@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', href='/css/style.css')
+    title #{session} | #{title}
+  body.index
+
+  h1 Capture page 
+
+  div.video
+    h3 Video Live Stream
+    video#video
+
+  div.screenshot
+    h3 Screenshot View
+    canvas#canvas
+
+  div.capture
+    button#capture-btn Capture
+
+  img(src="http://placekitten.com/g/320/261" id="photo" alt="photo")
+
+  //- scripts
+  script(src='/socket.io/socket.io.js')
+  script var app = {}; app.session = "#{session}";
+  script(src='/js/jquery-1.11.1.js')
+
+  script(src='/js/capture.js')

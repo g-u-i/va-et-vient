@@ -2,11 +2,13 @@ doctype html
 html
   head
     link(rel='stylesheet', href='/css/style.css')
-    title #{session} | #{title}
+    title #{title}
   body.index
 
+  h1 Hello 
+  
+
     //- scripts
-    script(src='/js/socket.io.min.js')
+    script(src='/socket.io/socket.io.js')
     script var app = {}; app.session = "#{session}";
     script(src='/js/jquery-1.11.1.js')
-    script(src='/bootstrap/dist/js/bootstrap.min.js')
