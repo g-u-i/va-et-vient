@@ -1,6 +1,7 @@
 doctype html
 html
   head
+    link(href='http://fonts.googleapis.com/css?family=Karla:400,400italic,700,700italic' rel='stylesheet' type='text/css')
     link(rel='stylesheet', href='/css/style.css')
     title #{session} | #{title}
   body.feedback
@@ -23,27 +24,43 @@ html
 
 
     div(id='start-message' class="alert")
-        h2 Va et Vient
-        p Description du déroulé
-        p Pour commencer appuyer sur n'importe quel bouton
+        h2 Va & Vient
+        p Bienvenue à Va & Vient,
+        p Ici, chaque bouton bleu correspond à un cercle sur l’écran. 
+        p Vous disposez au maximum de 3 minutes pour réaliser votre recette visuelle. 
+        p Elle peut être composée de 5 à 8 éléments. 
+        p Activez ou désactivez en appuyant sur les boutons bleus. 
+        p Validez en pressant sur le bouton vert pour imprimer votre recette avant de la transmettre à la cuisine pour son interprétation.
+        p Pour commencer appuyez sur n'importe quel bouton
 
     div(id='alert-elements' class='alert')
-        h2 Va et Vient
-        p Vous avez choisi assez d'éléments, vous ne pouvez plus en ajouter
-        p Appuyez sur le bouton vert pour valider votre recette
+        h2 Va & Vient
+        p Vous avez selectionné suffisament d'éléments.
+        p Appuyez sur le bouton vert pour valider.
+        p Ou déselectionnez un élément pour pouvoir le modifier.
 
     div(id='end-message' class='alert')
+        h2 Va & Vient
         p.infos-id
-        p Vous avez validé votre recette, elle va désormais être réalisé par notre chef. 
-        p Veuillez aller chercher votre fiche recette et la transmettre au cuisinier.
+        p Vous avez validé votre recette, elle va désormais être réalisée en cuisine. 
+        p Récuperez votre fiche pour le chef.
         p Vous pourrez déguster dans quelques instants le plat que vous venez de créer.
+        p Vous serez appelé par votre numéro de recette.
 
     div(id='nonvalide-message' class='alert')
-        p Vous ne pouvez pas validé votre recette
-        p Vous n'avez pas sélectionné assez d'éléments
+        h2 Va & Vient
+        p La recette ne peut être validée.
+        p Veuillez sélectionner davantage d'éléments.
+        p La recette doit être composée de 5 à 8 éléments.
     
     div(id='endtime-message' class='alert')
-        p Votre temps imparti est terminé ! 
+        h2 Va & Vient
+        p Votre temps imparti est terminé! 
+
+    //- div(id='endtime-ok' class='alert')
+    //-     h2 Va & Vient
+    //-     p Vous avez assez d'éléments pour valider votre recette.
+    //-     p Appuyez sur le bouton vert pour valider votre recette.
 
     div.boutons
         ul
