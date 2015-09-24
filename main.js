@@ -6,129 +6,89 @@ var fs = require('fs-extra'),
 		exec = require('child_process').exec,
 		phantom = require('phantom');
 
-var uploadDir = '/uploads';
-
-
 module.exports = function(app, io){
 
 	console.log("main module initialized");
 	var sessions_p = "sessions/"
 
 	io.on("connection", function(socket){
-		// socket.on("newLine", onNewLine);
+		socket.on("newLine", onNewLine);
 		socket.on("newUser", onNewUser);
-		socket.on("imageCapture", onNewImage);
-		// socket.on("newCapture", onCapture);
+		socket.on("newRecipe", onNewRecipe)
 	});
+
+	function init(){
+
+	};
 
 	// events
 
 	function onNewUser(req){
 		console.log(req);
 	};
+	function onNewLine(req){
+		console.log(req);
 
-	function onNewImage(req) {
+		var path = '/'+req.session+'/data.json';
+		var lines = getRecordedSessionLines(req.session);
 
-		function decodeBase64Image(dataString) {
-  			var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-    		response = {};
+		lines.push(req);
 
-		  if (matches.length !== 3) {
-		    return new Error('Invalid input string');
-		  }
+		recordSessionLines(req.session, lines);
+		io.sockets.emit("incomingLine", req);
+	};
 
-		  response.type = matches[1];
-		  response.data = new Buffer(matches[2], 'base64');
+	function onNewRecipe(req){
 
-		  return response;
-		}
+		var recipe   = req.recipe,
+				session  = recipe.session,
+				recipeId = glob(sessions_p+'/'+session+'/*.png', {nocase: true, sync: true}).length,
+				path = sessions_p+session+'/'+recipeId;
 
-		var imageBuffer = decodeBase64Image(req.data);
-		console.log(imageBuffer);
-		filename = 'sessions/' + req.name + '/' + Date.now() + '.jpg';
-		console.log(filename);
-		fs.writeFile(filename , imageBuffer.data, function(err) { 
-			console.log(err);
+		// update recipe ID 
+		recipe.id = recipeId;
+		recipe.humanTime = timestampToTimer(recipe.time);
+
+
+
+		exec('screencapture -x '+path+'.png',function(error, stdout, stderr){
+			fs.writeFile(path+'.json', JSON.stringify(recipe), function(err) {
+				io.sockets.emit("newRecipeId", {recipe: recipe});
+				console.log('new recipe recorded', recipeId);
+				renderRecipe(session, recipeId);
+			});
 		});
-	}
+	};
+ 	//
 
-	function onCapture(req){
-		console.log("Capture cliqué");
-		if (req.method === 'POST') {
-	    	var body = '';
-	    	req.on('data', function(data) {
-	      		body += data;
-	    	});
-	    	req.on('end', function () {
-				var filename = generateFilename();
-				var filepath = __dirname + 'session/' + req.session + '/' + filename;
-				var params = qs.parse(body);
+ 	function renderRecipe(session, recipeId){
 
-				if (!params.base64) {
-					return errResponse('base64 parameter required');
-	      		}
+ 		var url = 'http://localhost:8080/print/'+session+'/'+recipeId+'/',
+ 				pdf = sessions_p+'/'+session+'/'+recipeId+'.pdf';
 
-				base64ToFile(params.base64, filepath, function(err, filepath) {
-		        	if (err) {
-		          		errResponse(err);
-		          		return;
-		        	}
-				
-					var imageurl = 'http://localhost:8080/select/' + req.session + "/capture" + uploadDir + '/' + filename;
+	 	phantom.create(function(ph){
+		  ph.createPage(function(page) {
+		  	//page.set('viewportSize', { width : "2970", height : "21cm"});
+ 				page.set("paperSize", { format: "A4", orientation: 'portrait', margin: '0cm' });
+ 		    page.open(url, function(status) {
+		      page.render(pdf, function(){
+		        console.log('Page Rendered',url);
+						fs.copy(pdf, 'printbox/'+session+'_'+recipeId+'.pdf');
 
-		        	successResponse({image_url: imageurl});
-		      	});
-	   		});
-	  	} else {
-	    	var file = __dirname + req.url;
-
-	    	var ext = file.split('.');
-	    	ext = ext[ext.length-1];
-	    	if (/png/gi.test(ext)) {
-	      		var filename = path.basename(file);
-	      		var mimetype = 'image/' + ext;
-
-	      		res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-	      		res.setHeader('Content-type', mimetype);
-
-	      		var filestream = fs.createReadStream(file);
-	      		filestream.pipe(res);
-	    	}
-	  	}
-
-		var headers = {
-		    'Access-Control-Allow-Origin': '*',
-		    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-		    'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type',
-		    'Content-Type': 'application/json'
-		};
-
-		function successResponse(data) {
-			res.writeHead(200, headers);
-			res.write(JSON.stringify(data));
-			res.end();
-		}
-
-
-		function errResponse(err) {
-			console.log(err);
-			res.writeHead(500, headers);
-			res.write(JSON.stringify({error: err}));
-			res.end();
-		}
-
-		function base64ToFile(base64, filename, callback) {
-		  var buff = new Buffer(base64.replace(/^data:image\/(png|gif|jpeg);base64,/,''), 'base64');
-
-		  fs.writeFile(filename, buff, function(err) {
-		    callback(err, filename);
+		        ph.exit();
+		      });
+		    });
 		  });
-		}
+		});
+ 	};
+	this.getRecipe = function(session, recipeId){return getRecipe(session, recipeId);};
+	function getRecipe(session, recipeId) {
 
-
-		function generateFilename() {
-		  return Date.now() + '.png';
-		}
+		var path = sessions_p+session+'/'+recipeId;
+		var recipe = JSON.parse(fs.readFileSync(path+'.json', 'utf8'));
+		
+		console.log(recipe, path);
+		return recipe;
 	}
 
   // helpers
@@ -138,10 +98,11 @@ module.exports = function(app, io){
     return s;
   }
   function timestampToTimer(time){
+
       var d = new Date(time);
       return pad(d.getHours()   ,2) + ':' + 
              pad(d.getMinutes() ,2) + ':' + 
              pad(d.getSeconds()   ,2);
   }
-
+	init();
 };

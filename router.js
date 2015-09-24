@@ -10,8 +10,7 @@ module.exports = function(app,io,m){
 
   app.get("/", getIndex);
   app.get("/select/:session", getSelect);
-  app.get("/select/:session/capture", getCapture)
-  // app.get("/print/:session/:recipeId/", getPrint);
+  app.get("/print/:session/:recipeId/", getPrint);
 
   /**
   * routing functions
@@ -19,7 +18,7 @@ module.exports = function(app,io,m){
 
   // GET
   function getIndex(req, res) {
-    res.render("index", {title : "Opendoc"});
+    res.render("index", {title : "museo", sessions:m.getSessionsList()});
   };
   function getSelect(req, res) {
     var session = req.param('session');
@@ -32,15 +31,19 @@ module.exports = function(app,io,m){
       session : session,
     });
   };
-  function getCapture(req, res) {
+  function getPrint(req, res) {
     var session = req.param('session');
     var recipeId = req.param('recipeId');
 
-    res.render("capture", {
-      title : "Prise de vue-Opendoc",
+    res.render("print", {
+      title : "",
       session : session,
+      recipeId : recipeId,
+      recipe : m.getRecipe(session, recipeId),
     });
   };
+
+  /* UTILS */
 
 
 };

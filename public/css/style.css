@@ -1,16 +1,157 @@
-html {
-  margin: 0;
-}
 body {
-  margin: 20px;
-  color: #000;
+  width: 1920px;
+  height: 1080px;
+  margin: 0;
   background: #FFF;
+  font-family: helvetica, sans-serif;
+  overflow: hidden;
 }
-.video video,
-.screenshot canvas {
-  border: 1px solid #000;
+canvas {
+  width: 1920px;
+  position: absolute;
 }
-.video,
-.screenshot {
+.alert {
+  width: 384px;
+  border: 3px solid;
+  position: absolute;
+  background-color: #FFF;
+  top: 280px;
+  left: 752.94117647px;
+  padding: 0px 30px 30px 30px;
+  z-index: 200;
+}
+.alert h2 {
+  border-bottom: 1px solid #000;
+  padding: 0 0 10px 0;
+}
+#alert-elements {
+  display: none;
+}
+#end-message {
+  display: none;
+}
+#nonvalid-message {
+  display: none;
+}
+#endtime-message {
+  display: none;
+}
+.boutons {
+  position: fixed;
+  width: 100%;
+  top: 10%;
+  left: 350px;
+  z-index: 100;
+}
+.boutons li {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  list-style: none;
   display: inline-block;
+  margin: 110px 340px 110px 0;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.boutons li.valide {
+  width: 80px;
+  height: 80px;
+  margin-left: 1080px;
+  background-color: green;
+  border-radius: 50%;
+  text-align: center;
+}
+.boutons li.valide span.valide-text {
+  line-height: 80px;
+}
+.btn-epautre {
+  background-color: #ff5e00;
+}
+.btn-pita {
+  background-color: #9267ab;
+}
+.btn-tofu {
+  background-color: #f7c352;
+}
+.btn-chutney {
+  background-color: #0aff68;
+}
+.btn-champignons {
+  background-color: #cf8b56;
+}
+.btn-algues {
+  background-color: #000d9e;
+}
+.btn-bettrave {
+  background-color: #e43b82;
+}
+.btn-tomate {
+  background-color: #e9284a;
+}
+.btn-carotte {
+  background-color: #f0655d;
+}
+.btn-mousse {
+  background-color: #05baa3;
+}
+.btn-pois {
+  background-color: #f8aeaf;
+}
+.btn-camembert {
+  background-color: #17866d;
+}
+footer {
+  width: 1980px;
+  height: 100px;
+  position: absolute;
+  bottom: 0px;
+}
+.ingredient-jauge {
+  position: absolute;
+  bottom: 60px;
+  font-size: 1.7em;
+  font-family: helvetica, sans-serif;
+  left: 50px;
+}
+.ingredients {
+  width: 50px;
+  height: 50px;
+  margin-top: 10px;
+  background-color: #E9E1E1;
+}
+.ingredients.needed {
+  background-color: grey;
+}
+.ingredients.active {
+  background-color: blue;
+}
+.chrono {
+  width: 1800px;
+  height: 20px;
+  position: absolute;
+  bottom: 30px;
+  left: 50px;
+  border-radius: 20px;
+  background-color: #EDEDED;
+}
+.time {
+  width: 10px;
+  height: 20px;
+  background-color: black;
+  border-radius: 20px;
+}
+/* PRINT */
+body.print {
+  margin: 0;
+  padding: 0;
+  width: 21cm;
+  height: 29cm;
+}
+body.print .recette {
+  width: 100%;
+  height: 50%;
+}
+body.print .recette img {
+  width: 100%;
 }

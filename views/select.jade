@@ -1,16 +1,101 @@
 doctype html
 html
   head
-    link(href='http://fonts.googleapis.com/css?family=Karla:400,400italic,700,700italic' rel='stylesheet' type='text/css')
     link(rel='stylesheet', href='/css/style.css')
     title #{session} | #{title}
   body.feedback
-    h1 Session #{session}
+
+    <img width="415" height="492" id="orange" style="display: none;" src="/js/orange.png">
+
+    canvas(id="chutney" resize)
+    canvas(id="pita" resize)
+    canvas(id="epautre" resize)
+    canvas(id="tofu" resize)
+    canvas(id="champignons" resize)
+    canvas(id="algues" resize)
+    canvas(id="bettrave" resize)
+    canvas(id="tomate" resize)
+    canvas(id="carotte" resize)
+    canvas(id="mousse" resize)
+    canvas(id="pois" resize)
+    canvas(id="camembert" width="700" height="700")
+
+
+
+    div(id='start-message' class="alert")
+        h2 Va et Vient
+        p Description du déroulé
+        p Pour commencer appuyer sur n'importe quel bouton
+
+    div(id='alert-elements' class='alert')
+        h2 Va et Vient
+        p Vous avez choisi assez d'éléments, vous ne pouvez plus en ajouter
+        p Appuyez sur le bouton vert pour valider votre recette
+
+    div(id='end-message' class='alert')
+        p.infos-id
+        p Vous avez validé votre recette, elle va désormais être réalisé par notre chef. 
+        p Veuillez aller chercher votre fiche recette et la transmettre au cuisinier.
+        p Vous pourrez déguster dans quelques instants le plat que vous venez de créer.
+
+    div(id='nonvalide-message' class='alert')
+        p Vous ne pouvez pas validé votre recette
+        p Vous n'avez pas sélectionné assez d'éléments
+    
+    div(id='endtime-message' class='alert')
+        p Votre temps imparti est terminé ! 
+
+    div.boutons
+        ul
+            li.btn-mousse
+            li.btn-carotte
+            li.btn-champignons
+            li.btn-camembert
+            li.btn-epautre
+            li.btn-pois
+            li.btn-algues
+            li.btn-pita
+            li.btn-chutney
+            li.btn-tofu  
+            li.btn-tomate
+            li.btn-bettrave
+
+            //- li.valide 
+            //-     span.valide-text Valider
+    
+    footer
+        div.ingredient-jauge
+            div.ingredients
+            div.ingredients
+            div.ingredients
+            div.ingredients.needed
+            div.ingredients.needed
+            div.ingredients.needed
+            div.ingredients.needed
+            div.ingredients.needed
+
+        div.chrono
+            div.time
 
     //- scripts
     script(src='/socket.io/socket.io.js')
     script var app = {}; app.session = "#{session}";
     script(src='/js/jquery-1.11.1.js')
+    script(src="/js/paper.js" type="text/javascript")
     script(type="text/javascript" src="/js/modernizr-2.0.6.custom.js")
+
+    
+    script(type="text/paperscript" src="/js/anims/champignons.js" canvas="champignons")
+    script(type="text/paperscript" src="/js/anims/algues.js" canvas="algues")
+    script(type="text/paperscript" src="/js/anims/bettrave.js" canvas="bettrave")
+    script(type="text/paperscript" src="/js/anims/tomate.js" canvas="tomate")
+    script(type="text/paperscript" src="/js/anims/carottes.js" canvas="carotte")
+    script(type="text/paperscript" src="/js/anims/chutney.js" canvas="chutney")
+    script(type="text/paperscript" src="/js/anims/epautre.js" canvas="epautre")
+    script(type="text/paperscript" src="/js/anims/tofu.js" canvas="tofu")
+    script(type="text/paperscript" src="/js/anims/mousse.js" canvas="mousse")
+    script(type="text/paperscript" src="/js/anims/pita.js" canvas="pita")
+    script(type="text/paperscript" src="/js/anims/pois.js" canvas="pois")
+    script(type="text/javascript" src="/js/anims/camembert.js" canvas="camembert")
 
     script(src='/js/select.js')
