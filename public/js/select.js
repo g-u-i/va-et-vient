@@ -85,11 +85,12 @@ jQuery(document).ready(function($) {
 			left: 0,
 			top: 0
 		}).css('box-shadow', 'none');
-		$("#start-message").css("display", "block");
+		$("#start-message").css("display", "none");
 		
 		updateJaugeIngredients();
 		
 		console.log(recipe, firstTime);
+		$("#champignons2").show();
 	};
 
 	function start(){
