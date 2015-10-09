@@ -89,7 +89,7 @@ jQuery(document).ready(function($) {
 		
 		updateJaugeIngredients();
 		
-		console.log(recipe, firstTime);
+		//console.log(recipe, firstTime);
 		$("#radis").show();
 	};
 

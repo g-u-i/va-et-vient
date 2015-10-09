@@ -1,8 +1,11 @@
 var center = view.center;
 var width = view.size.width;
 var height = view.size.height;
+var count = 0;
 
 function Radis(_radius, _radius2, _destination, _position){
+  count ++;
+  console.log(count);
   this.destination = _destination;
   this.position = _position;
   this.radius = _radius;
@@ -20,16 +23,27 @@ function Radis(_radius, _radius2, _destination, _position){
     var randomScale = Math.random();
     path.scale(randomScale);
     radisChildren.push(path);
+    path.style = {
+      strokeColor: '#000',
+      strokeWidth: 3,
+      strokeCap: 'round',
+    };
   }
-  this.radis = new CompoundPath({
-    children: radisChildren,
-    strokeColor: '#000',
-    strokeWidth: 3,
-    strokeCap: 'round',
-  });
+  // this.radis = new CompoundPath({
+  //   children: radisChildren,
+  //   strokeColor: '#000',
+  //   strokeWidth: 3,
+  //   strokeCap: 'round',
+  // });
+
+  // this.item = new Group({
+  //   children: [this.radis],
+  //   transformContent: false,
+  //   position: this.position
+  // });
 
   this.item = new Group({
-    children: [this.radis],
+    children: radisChildren,
     transformContent: false,
     position: this.position
   });
@@ -53,12 +67,42 @@ Radis.prototype = {
     var radius = Math.random() * 5 + 50;
     var radius2 = Math.random() * 7 + 20;
     
-    var children = this.radis.children;
+
+    // this.item.children[4].strokeColor = "red";
+    // this.item.children[0].rotate(Math.sin((event.count + i) / 50 + (i*2)) * 2);
+    //this.item.children.rotate(Math.sin((event.count + i) / 50 + (i*2)) * 2);
+    //var children = this.radis.children;
+
+    // var childrenPath = this.item.children[0].children;
+    // console.log(childrenPath);
+    // childrenPath[0].scale(2);
+    //childrenPath.rotate(Math.sin((event.count + i) / 50 + (i*2)) * 2);
+
+    // for(var i=0; i<this.radis.length; i++){
+    //   this.radis[i].rotate(Math.sin((event.count + i) / 50 + (i*2)) * 2);
+    // }
+
+    // var originPos = children[0].position;
+    // //var chilDest = childPos + 1;
+
+    // if(children[0].position > originPos + 2){
+    //   children[0].position-=1;
+    //   console.log(children[0].position);
+    //   console.log("Position origins: " + originPos);
+    // }
+    // else{
+    //   children[0].position += 1;
+    // }
+    //var  destination = Point.random() * children[i].position;
+
+    //children[0].position = children[0].position + 2;
     // for(var i=0; i<children.length; i++){
-    //   var randomScale = Math.random();
-    //   //console.log(children[i].radius);
-    //   children[i].scale(randomScale);
-    //   //this.radis.rotate(Math.sin((event.count + i) / 50 + (i*2)) * 2);
+    //   var vector = destination - children[i].position;
+    //   children[i].position += vector / 30;
+    
+    //   if (vector.length < 5) {
+    //     destination = Point.random() * children[i].position;
+    //   }
     // }
     // var scaleChild = 1;
     // scaleChild = i;
@@ -83,6 +127,11 @@ for (var i = 0; i < number; i++) {
   var position = Point.random() * view.size;
   var radius = Math.random() * 5 + 50;
   var radius2 = Math.random() * 7 + 20;
+    //   var maxPoint = new Point(children[0].position.x + 2, children[0].position.y + 2);
+    // var randomPoint = Point.random() * children[0].position;
+
+    // // A point between {x:0, y:0} and {x:100, y:100}:
+    // var destination = maxPoint * randomPoint;
   allRadis.push(new Radis(radius, radius2, destination, position));
 }
 
