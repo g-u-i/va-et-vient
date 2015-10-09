@@ -90,7 +90,7 @@ jQuery(document).ready(function($) {
 		updateJaugeIngredients();
 		
 		console.log(recipe, firstTime);
-		$("#fromage").show();
+		$("#radis").show();
 	};
 
 	function start(){
