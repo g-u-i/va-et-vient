@@ -90,7 +90,7 @@ jQuery(document).ready(function($) {
 		updateJaugeIngredients();
 		
 		//console.log(recipe, firstTime);
-		$("#chicoree").show();
+		$("#legumes").show();
 	};
 
 	function start(){
