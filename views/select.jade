@@ -6,7 +6,7 @@ html
     title #{session} | #{title}
   body.feedback
 
-    <img width="415" height="492" id="orange" style="display: none;" src="/js/orange.png">
+    //- <img width="415" height="492" id="orange" style="display: none;" src="/js/orange.png">
 
     //- canvas(id="chutney" resize)
     //- canvas(id="pita" resize)
@@ -14,12 +14,16 @@ html
     //- canvas(id="tofu" resize)
     //- canvas(id="champignons" resize)
     //- canvas(id="algues" resize)
-    canvas(id="bettrave" resize)
+    //- canvas(id="bettrave" resize)
     //- canvas(id="tomate" resize)
     //- canvas(id="carotte" resize)
     //- canvas(id="mousse" resize)
     //- canvas(id="pois" resize)
     //- canvas(id="camembert" width="700" height="700")
+    canvas(id="chataignes" resize)
+    canvas(id="legumes" resize)
+    canvas(id="tofu2" resize)
+    canvas(id="pain" resize)
     canvas(id="potimarron" resize)
     canvas(id="champignons2" resize)
     canvas(id="carottes2" resize)
@@ -27,8 +31,6 @@ html
     canvas(id="radis" resize)
     canvas(id="salsifis" resize)
     canvas(id="chicoree" resize)
-    canvas(id="chataignes" resize)
-    canvas(id="legumes" resize)
 
 
 
@@ -114,7 +116,7 @@ html
     
     //- script(type="text/paperscript" src="/js/anims/champignons.js" canvas="champignons")
     //- script(type="text/paperscript" src="/js/anims/algues.js" canvas="algues")
-    script(type="text/paperscript" src="/js/anims/bettrave.js" canvas="bettrave")
+    //- script(type="text/paperscript" src="/js/anims/bettrave.js" canvas="bettrave")
     //- script(type="text/paperscript" src="/js/anims/tomate.js" canvas="tomate")
     //- script(type="text/paperscript" src="/js/anims/carottes.js" canvas="carotte")
     //- script(type="text/paperscript" src="/js/anims/chutney.js" canvas="chutney")
@@ -133,5 +135,7 @@ html
     script(type="text/paperscript" src="/js/anims/chicoree.js" canvas="chicoree")
     script(type="text/paperscript" src="/js/anims/chataignes.js" canvas="chataignes")
     script(type="text/paperscript" src="/js/anims/legumes.js" canvas="legumes")
+    script(type="text/paperscript" src="/js/anims/tofu2.js" canvas="tofu2")
+        script(type="text/paperscript" src="/js/anims/pain.js" canvas="pain")
 
     script(src='/js/select.js')
