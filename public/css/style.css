@@ -10,6 +10,11 @@ canvas {
   width: 1920px;
   position: absolute;
 }
+h3 {
+  font-size: 20px;
+  font-weight: normal;
+  text-align: center;
+}
 .index {
   width: 100px;
   height: 500px;
@@ -105,7 +110,7 @@ canvas {
 .boutons {
   position: fixed;
   width: 100%;
-  top: 10%;
+  top: 0;
   left: 350px;
   z-index: 100;
 }
@@ -119,59 +124,30 @@ canvas {
   position: relative;
   top: 0;
   left: 0;
-}
-.boutons li.valide {
-  width: 80px;
-  height: 80px;
-  margin-left: 1080px;
-  background-color: green;
-  border-radius: 50%;
-  text-align: center;
-}
-.boutons li.valide span.valide-text {
-  line-height: 80px;
-}
-.btn-epautre {
-  background-color: #ff5e00;
-}
-.btn-pita {
-  background-color: #9267ab;
-}
-.btn-tofu {
-  background-color: #f7c352;
-}
-.btn-chutney {
-  background-color: #0aff68;
-}
-.btn-champignons {
-  background-color: #cf8b56;
-}
-.btn-algues {
-  background-color: #000d9e;
-}
-.btn-bettrave {
-  background-color: #e43b82;
-}
-.btn-tomate {
-  background-color: #e9284a;
-}
-.btn-carotte {
-  background-color: #f0655d;
-}
-.btn-mousse {
-  background-color: #05baa3;
-}
-.btn-pois {
-  background-color: #f8aeaf;
-}
-.btn-camembert {
-  background-color: #17866d;
+  background-color: #0d71b9;
 }
 footer {
   width: 1980px;
   height: 100px;
   position: absolute;
-  bottom: 0px;
+  bottom: 100px;
+}
+footer .valider {
+  width: 150px;
+  position: absolute;
+  left: 50%;
+  margin-left: -75px;
+}
+footer .valider .btn-valider {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  list-style: none;
+  position: relative;
+  top: 0;
+  left: 0;
+  background-color: #009245;
+  margin: auto;
 }
 .ingredient-jauge {
   position: absolute;
@@ -183,14 +159,35 @@ footer {
 .ingredients {
   width: 50px;
   height: 50px;
-  margin-top: 10px;
-  background-color: #E9E1E1;
+  position: relative;
+  display: inline-block;
 }
-.ingredients.needed {
-  background-color: grey;
+.ingredients .inside {
+  width: 20px;
+  height: 20px;
+  border-radius: 50px;
+  background-color: #000;
+  border: 1px solid #000;
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  display: none;
 }
-.ingredients.active {
-  background-color: blue;
+.ingredients .outside {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  border: 2px solid #000;
+  position: absolute;
+}
+.ingredients.min span {
+  position: absolute;
+  top: -30px;
+  left: 5px;
+  font-size: 15px;
+}
+.ingredients.active .inside {
+  display: block;
 }
 .chrono {
   width: 1800px;

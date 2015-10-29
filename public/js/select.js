@@ -4,6 +4,8 @@ jQuery(document).ready(function($) {
 	var socket = io.connect(serverBaseUrl);
 	var sessionId = '';
 
+	var maxIng = 6;
+
 	/**
 	* Events
 	*/
@@ -14,18 +16,18 @@ jQuery(document).ready(function($) {
 	
 
 	var keys = [
-		{ key : 101, selector : "champignons" },
-		{ key : 121, selector : "algues" },
-		{ key : 102, selector : "bettrave" },
-		{ key : 103, selector : "tomate" },
-		{ key : 114, selector : "carotte" },
-		{ key : 100, selector : "epautre" },
-		{ key : 104, selector : "tofu" },
-		{ key : 116, selector : "mousse" },
-		{ key : 117, selector : "pita" },
-		{ key : 115, selector : "pois" },
-		{ key : 106, selector : "chutney" },
-		{ key : 119, selector : "camembert" }
+		{ key : 101, selector : "salsifis" },
+		{ key : 121, selector : "chicoree" },
+		{ key : 102, selector : "radis" },
+		{ key : 103, selector : "navet" },
+		{ key : 114, selector : "fromage" },
+		{ key : 100, selector : "carottes2" },
+		{ key : 104, selector : "champignons2" },
+		{ key : 116, selector : "potimarron" },
+		{ key : 117, selector : "pain" },
+		{ key : 115, selector : "tofu2" },
+		{ key : 106, selector : "legumes" },
+		{ key : 119, selector : "chataignes" }
 	],
 	recipe = {},firstTime, current, progress;
 	
@@ -94,7 +96,7 @@ jQuery(document).ready(function($) {
 	};
 
 	function start(){
-		$("#start-message").css("display", "block");
+		$("#start-message").css("display", "none");
 		firstTime = false;
 		updateProgress();
 	};
@@ -112,7 +114,7 @@ jQuery(document).ready(function($) {
 			else {
 				$.each(keys, function(arrayKey, value){
 					if(e.which == value.key) {	 
-						if(choiceCount() < 8){
+						if(choiceCount() < maxIng){
 							
 							recipe.choices[arrayKey] = !recipe.choices[arrayKey];
 							toogleAnimVisibility(value.selector, recipe.choices[arrayKey]);
@@ -163,11 +165,12 @@ jQuery(document).ready(function($) {
 		$.each( recipe.choices , function( arrayKey, value ){ if(value) i++; });
 		return i;
 	}
+
 	function updateJaugeIngredients(){
 		$(".ingredients").removeClass('active');
 		for(i=choiceCount(); i>0; i--){
 			console.log(i);
-			$(".ingredients:nth-child("+(8-i+1)+")").addClass('active');
+			$(".ingredients:nth-child("+(i)+")").addClass('active');
 		}
 	} 
 

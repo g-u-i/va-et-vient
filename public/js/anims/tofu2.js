@@ -50,7 +50,7 @@ var items = project.activeLayer.children;
 //console.log(path.segments[1].point.y);
 
 function onFrame(event) {
-  console.log(path.segments[1].point.y);
+  //console.log(path.segments[1].point.y);
   var increase = 0.1;
   var scaling = 0.004;
   //FOR THE BIG CIRCLES

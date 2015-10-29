@@ -15,6 +15,9 @@
 @canvas-width: 1920px;
 @canvas-height: 980px;
 
+@blue: #0d71b9;
+@green: #009245;
+
 
 body {
 	width: 1920px;
@@ -29,6 +32,8 @@ canvas {
 	width: @canvas-width;
 	position: absolute;
 }
+
+h3{font-size:20px; font-weight: normal; text-align: center;	}
 
 //PAGE INDEX
 .index {
@@ -134,11 +139,9 @@ canvas {
 .boutons {
 	position: fixed;
 	width: 100%;
-	top: 10%;
+	top: 0;
 	left: 350px;
-	// margin-top: 120px;
 	z-index: 100;
-	// border: 1px #000 solid;
 }
 
 .boutons li{
@@ -149,77 +152,33 @@ canvas {
 	display: inline-block;
 	margin: 110px 340px 110px 0;
 	position: relative;
-    top: 0;
-    left: 0;
-}
-
-.boutons li.valide {
-	// display: none;
-	width: 80px;
-	height: 80px;
-	margin-left: 1080px;
-	background-color: green;
-	border-radius: 50%;
-	text-align: center;
-}
-
-.boutons li.valide span.valide-text{
-	line-height: 80px;
-}
-	
-.btn-epautre{
-	background-color: @epautre;
-}
-
-.btn-pita {
-	background-color: @pita;
-}
-
-.btn-tofu{
-	background-color: @tofu;
-}
-
-.btn-chutney{
-	background-color: @chutney;
-}
-
-.btn-champignons{
-	background-color: @champignons;
-}
-
-.btn-algues{
-	background-color: @algues;
-}
-
-.btn-bettrave{
-	background-color: @betterave
-}
-
-.btn-tomate{
-	background-color: @tomate;
-}
-
-.btn-carotte{
-	background-color: @carotte;
-}
-
-.btn-mousse{
-	background-color: @mousse;
-}
-
-.btn-pois {
-	background-color: @pois;
-}
-.btn-camembert{
-	background-color: @camembert;
+  top: 0;
+  left: 0;
+  background-color: @blue;
 }
 
 footer {
 	width: 1980px;
 	height: 100px;
 	position: absolute;
-	bottom: 0px;
-	// background-color: white;
+	bottom: 100px;
+	.valider {
+		width: 150px;
+		position: absolute;
+		left:50%;
+		margin-left: -75px;
+		.btn-valider{
+			border-radius: 50%;
+			width: 40px;
+			height: 40px;
+			list-style: none;
+			position: relative;
+		  top: 0;
+		  left: 0;
+		  background-color: @green;
+		  margin:auto;
+		}
+	}
 }
 
 .ingredient-jauge {
@@ -233,15 +192,38 @@ footer {
 .ingredients {
 	width : 50px;
 	height : 50px;
-	// border: 1px solid #000;
-	margin-top: 10px;
-	background-color: #E9E1E1;
-
-	&.needed {
-		background-color: grey;
+	position: relative;
+	display: inline-block;
+	.inside{
+		width : 20px;
+		height : 20px;
+		border-radius: 50px;
+		background-color: #000;
+		border: 1px solid #000;
+		position: absolute;
+		left: 6px;
+		top:6px;
+		display: none;
 	}
-	&.active {
-		background-color: blue;
+	.outside{
+		width : 30px;
+		height : 30px;
+		border-radius: 50px;
+		border: 2px solid #000;
+		position: absolute;
+	}
+	&.min{
+		span{
+			position: absolute;
+			top:-30px;
+			left: 5px;
+			font-size: 15px;
+		}
+	}
+	&.active{
+		.inside{
+			display: block;
+		}
 	}
 }
 
