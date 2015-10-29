@@ -107,7 +107,7 @@ jQuery(document).ready(function($) {
 
 		$(document).keypress(function(e){
 			
-			console.log(e.which, firstTime);
+			//console.log(e.which, firstTime);
 
 			if(firstTime) start();
 			else if(e.which == 32) sendRecipe();
@@ -169,7 +169,7 @@ jQuery(document).ready(function($) {
 	function updateJaugeIngredients(){
 		$(".ingredients").removeClass('active');
 		for(i=choiceCount(); i>0; i--){
-			console.log(i);
+			//console.log(i);
 			$(".ingredients:nth-child("+(i)+")").addClass('active');
 		}
 	} 
@@ -199,11 +199,15 @@ jQuery(document).ready(function($) {
 	}
 
 	function updateProgress() {
-		var max = 15; // one minute
+		var max = 30; // two minutes
 		var add = 1.67 / max;
 		if (current < 100 && !firstTime) {
 				current += add;
-				$(".time").css("width", current + "%");
+				console.log(current);
+				// for(var a = 0; i<6; i++){
+				// 	setTimeout(console.log("test"), 10);
+				// }
+				//$(".time").css("width", current + "%");
 				setTimeout(updateProgress, 60); // update every second
 		}else if(current > 99) {
 			console.log('fin du temps délimité');
@@ -216,8 +220,8 @@ jQuery(document).ready(function($) {
 	};
 
 	function resetProgress(){
-		$(".time").css("width", 0 + "%");
-		progress = ( 100 * parseFloat($('.time').css('width')) / parseFloat($('.time').parent().css('width')) );
+		//$(".time").css("width", 0 + "%");
+		//progress = ( 100 * parseFloat($('.time').css('width')) / parseFloat($('.time').parent().css('width')) );
 		current = progress;
 	};
 

@@ -190,19 +190,20 @@ footer .valider .btn-valider {
   display: block;
 }
 .chrono {
-  width: 1800px;
-  height: 20px;
   position: absolute;
-  bottom: 30px;
-  left: 50px;
-  border-radius: 20px;
-  background-color: #EDEDED;
+  bottom: 60px;
+  font-size: 1.7em;
+  font-family: helvetica, sans-serif;
+  right: 150px;
 }
-.time {
-  width: 10px;
-  height: 20px;
-  background-color: black;
-  border-radius: 20px;
+.chrono .time {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  display: inline-block;
+  border-radius: 50px;
+  border: 2px solid #000;
+  margin-right: 15px;
 }
 /* PRINT */
 body.print {
