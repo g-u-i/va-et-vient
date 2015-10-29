@@ -85,16 +85,16 @@ jQuery(document).ready(function($) {
 			left: 0,
 			top: 0
 		}).css('box-shadow', 'none');
-		$("#start-message").css("display", "none");
+		$("#start-message").css("display", "block");
 		
 		updateJaugeIngredients();
 		
 		//console.log(recipe, firstTime);
-		$("#radis").show();
+		//$("#radis").show();
 	};
 
 	function start(){
-		$("#start-message").css("display", "none");
+		$("#start-message").css("display", "block");
 		firstTime = false;
 		updateProgress();
 	};
@@ -116,7 +116,6 @@ jQuery(document).ready(function($) {
 							
 							recipe.choices[arrayKey] = !recipe.choices[arrayKey];
 							toogleAnimVisibility(value.selector, recipe.choices[arrayKey]);
-
 
 							$('.ingredients .number-ingredients').empty();
 							$('.ingredients .number-ingredients').append(choiceCount());

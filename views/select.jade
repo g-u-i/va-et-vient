@@ -31,19 +31,41 @@ html
     canvas(id="radis" resize)
     canvas(id="salsifis" resize)
     canvas(id="chicoree" resize)
+    canvas(id="navet" resize)
 
 
 
 
-    div(id='start-message' class="alert")
-        h2 Va & Vient
-        p Bienvenue à Va & Vient,
-        p Ici, chaque bouton bleu correspond à un cercle sur l’écran. 
-        p Vous disposez au maximum de 3 minutes pour réaliser votre recette visuelle. 
-        p Elle peut être composée de 5 à 8 éléments. 
-        p Activez ou désactivez en appuyant sur les boutons bleus. 
-        p Validez en pressant sur le bouton vert pour imprimer votre recette avant de la transmettre à la cuisine pour son interprétation.
-        p Pour commencer appuyez sur n'importe quel bouton
+    div#start-message.alert
+        div.message-content
+            h2 Va & Vient
+            div.bienvenue-message
+                p Bienvenue à #[b Va & Vient],
+                p Cette borne va vous permettre de créer la recette que vous allez manger dans quelques instants.
+                p Chaque ingrédient est représenté par des formes abstraites animées.
+                p Activez ou désactivez un ingrédient en appuyant sur les boutons bleus.
+                p Ici, chaque bouton bleu correspond à un cercle sur l’écran. 
+                p Vous disposez au maximum de #[b 2 minutes] pour réaliser votre recette visuelle. 
+                p Elle peut être composée de #[b 4 à 6 ingrédients]. 
+                p Validez en pressant sur le bouton vert pour imprimer votre recette avant de la transmettre à la cuisine pour son interprétation.
+            div.tuto
+                div
+                    img(src="/images/01.png")
+                    span ‣ Activer une forme
+                div
+                    img(src="/images/02.png")
+                    span ‣ Forme activée
+                div
+                    img(src="/images/03.png")
+                    span ‣ Valider / imprimer
+                div
+                    img(src="/images/04.png")
+                    span ‣ Indicateur d’ingrédient entre 4 & 6
+                div
+                    img(src="/images/05.png")
+                    span ‣ Indicateur de temps maximum 120 sec
+
+            button Appuyez sur n’importe quel bouton pour commencer
 
     div(id='alert-elements' class='alert')
         h2 Va & Vient
@@ -136,6 +158,7 @@ html
     script(type="text/paperscript" src="/js/anims/chataignes.js" canvas="chataignes")
     script(type="text/paperscript" src="/js/anims/legumes.js" canvas="legumes")
     script(type="text/paperscript" src="/js/anims/tofu2.js" canvas="tofu2")
-        script(type="text/paperscript" src="/js/anims/pain.js" canvas="pain")
+    script(type="text/paperscript" src="/js/anims/pain.js" canvas="pain")
+    script(type="text/paperscript" src="/js/anims/navet.js" canvas="navet")
 
     script(src='/js/select.js')

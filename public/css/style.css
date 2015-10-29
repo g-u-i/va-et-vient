@@ -10,6 +10,72 @@ canvas {
   width: 1920px;
   position: absolute;
 }
+.index {
+  width: 100px;
+  height: 500px;
+  top: 50%;
+  left: 50%;
+  margin-top: -250px;
+  margin-left: -50px;
+  position: absolute;
+}
+.index a {
+  font-size: 4em;
+  color: #000;
+  text-decoration: none;
+  margin-bottom: 100px;
+  display: block;
+}
+#start-message {
+  width: 1920px;
+  height: 980px;
+  border: none;
+  top: 0;
+  left: 0;
+}
+#start-message .message-content {
+  width: 60%;
+  padding-top: 150px;
+  margin: auto;
+}
+#start-message .message-content .bienvenue-message,
+#start-message .message-content .tuto {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 40px;
+}
+#start-message .message-content .bienvenue-message {
+  margin-right: 40px;
+  width: 50%;
+}
+#start-message .message-content .bienvenue-message p {
+  padding-right: 150px;
+}
+#start-message .message-content .tuto {
+  margin-left: 40px;
+  width: 40%;
+}
+#start-message .message-content .tuto > div {
+  margin-top: 35px;
+  position: relative;
+}
+#start-message .message-content .tuto span {
+  position: absolute;
+  top: 10px;
+}
+#start-message .message-content .tuto img {
+  width: 9%;
+  margin-right: 10px;
+}
+#start-message .message-content button {
+  margin-top: 50px;
+  color: #000;
+  font-size: 1em;
+  padding: 20px 20px;
+  background-color: #FFF;
+  border: 2px solid #000;
+  font-weight: bold;
+}
 .alert {
   width: 384px;
   border: 3px solid;

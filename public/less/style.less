@@ -30,6 +30,75 @@ canvas {
 	position: absolute;
 }
 
+//PAGE INDEX
+.index {
+	width: 100px;
+	height: 500px;
+	top:50%;
+	left: 50%;
+	margin-top: -250px;
+	margin-left: -50px;
+	position: absolute;
+
+	a{
+		font-size: 4em;
+		color: #000;
+		text-decoration: none;
+		margin-bottom: 100px;
+		display: block;
+	}
+}
+
+#start-message{
+	width: @canvas-width;
+	height: @canvas-height;
+	border:none;
+	top:0;
+	left:0;
+	.message-content{
+		width:60%;
+		padding-top: 150px;
+		margin:auto;
+		.bienvenue-message, .tuto{
+			display: inline-block;
+			vertical-align: top;
+			margin-top: 40px;
+		}
+		.bienvenue-message{
+			margin-right: 40px;
+			width: 50%;
+			p{
+				padding-right: 150px;
+			}
+		}
+		.tuto{
+			margin-left: 40px;
+			width: 40%;
+			> div {
+				margin-top: 35px;
+				position: relative;
+			}
+			span{
+				position: absolute;
+				top: 10px;
+			}
+			img{
+				width:9%;
+				margin-right: 10px;
+			}
+		}
+		button {
+			margin-top: 50px;
+			color: #000;
+			font-size: 1em;
+			padding: 20px 20px;
+			background-color: #FFF;
+			border: 2px solid #000;
+			font-weight: bold;
+		}
+	}
+}
+
 .alert{
 	width: @canvas-width / 5;
 	border: 3px solid;

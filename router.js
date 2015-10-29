@@ -18,7 +18,7 @@ module.exports = function(app,io,m){
 
   // GET
   function getIndex(req, res) {
-    res.render("index", {title : "museo"});
+    res.render("index", {title : "Va et Vient"});
   };
   function getSelect(req, res) {
     var session = req.param('session');

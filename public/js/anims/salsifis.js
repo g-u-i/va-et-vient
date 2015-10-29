@@ -7,7 +7,7 @@ var height = view.size.height;
 // The maximum height of the wave:
 var height = 15;
 
-function Salsifis(_sizeSal, _destination, _position, _amount, _dandineSpeed){
+function Salsifis(_sizeSal, _destination, _position, _amount, _dandineSpeed, _rotation, _speed){
   this.sizeSal = _sizeSal;
   this.destination = _destination;
   this.position = _position;
@@ -17,11 +17,12 @@ function Salsifis(_sizeSal, _destination, _position, _amount, _dandineSpeed){
   this.acceleration = new Point();
   this.vector = Point.random() * 2 - 1;
   this.maxSpeed = 10 + strength;
-  this.rotate = Math.random() *360;
+  this.rotation = _rotation;
+  this.speed = _speed;
   //console.log(this.rotate);
 
   this.path = new Path({
-    strokeColor: "red",
+    strokeColor: "#c99389",
     strokeWidth: 14,
     strokeCap: 'round'
   });
@@ -30,23 +31,31 @@ function Salsifis(_sizeSal, _destination, _position, _amount, _dandineSpeed){
   for (var i =0; i <= this.amount; i++) {
     this.path.add(new Point(i / this.amount, 1) * 150);
   }
-  this.path.selected = true;
   this.path.position = this.position;
   this.path.scale(this.sizeSal);
+  this.path.rotate(this.rotation)
+
+
 }
 
 Salsifis.prototype = {
   move: function(event, i){
-    // Update velocity
-    this.vector += this.acceleration;
-    this.vector.angle = this.vector.angle + 90;
-    // Limit speed (vector#limit?)
-    this.vector.length = Math.min(this.maxSpeed, this.vector.length);
-    //console.log(this.vector);
-    this.position += this.vector;
-    // Reset acceleration to 0 each cycle
-    this.acceleration = new Point();
-    this.path.position = this.position;
+    this.path.position.x += this.path.bounds.width / this.speed;
+
+    // If the this.path has left the view on the right, move it back
+    // to the left:
+    if (this.path.bounds.left > view.size.width) {
+      this.path.position.x = -this.path.bounds.width;
+    }
+  },
+  moveVert: function(event, i){
+    this.path.position.y += this.path.bounds.height / this.speed;
+
+    // If the this.path has left the view on the right, move it back
+    // to the left:
+    if (this.path.bounds.top > view.size.height) {
+      this.path.position.y = -this.path.bounds.height;
+    }
   },
   dandine: function(event, i){
     // Loop through the segments of the path:
@@ -54,37 +63,98 @@ Salsifis.prototype = {
       var segment = this.path.segments[a];
       // A cylic value between -1 and 1
       var sinus = Math.sin(event.time * this.dandineSpeed + a);
+      var cosinus = Math.cos(event.time * this.dandineSpeed + a);
       // Change the y position of the segment point:
-      segment.point.y = this.position.y + sinus * height + 100;
+      //segment.point.y = this.position.y + sinus * height + 100;
+      segment.point.x = this.position.x + sinus * height +100;
     }
     this.path.smooth();
   }, 
+  dandineHor: function(event, i){
+    // Loop through the segments of the path:
+    for (var a = 0; a <= this.amount; a++) {
+      var segment = this.path.segments[a];
+      // A cylic value between -1 and 1
+      var sinus = Math.sin(event.time * this.dandineSpeed + a);
+      var cosinus = Math.cos(event.time * this.dandineSpeed + a);
+      // Change the y position of the segment point:
+      segment.point.y = this.position.y + sinus * height + 100;
+      //segment.point.x = this.position.x + sinus * height +100;
+    }
+    this.path.smooth();
+  }, 
+  dandineDiag: function(event, i){
+    // Loop through the segments of the path:
+    for (var a = 0; a <= this.amount; a++) {
+      var segment = this.path.segments[a];
+      // A cylic value between -1 and 1
+      var sinus = Math.sin(event.time * this.dandineSpeed + a);
+      var cosinus = Math.cos(event.time * this.dandineSpeed + a);
+      // Change the y position of the segment point:
+      //segment.point.y = this.position.y + sinus * height + 5;
+      segment.point.x = this.position.x + sinus * 50 + 100;
+    }
+    this.path.smooth();
+  },
 }
 
 //--------------------- main ---------------------
 
-var allSalsifis = [];
-var number = 50;
+var allSalsifisVert = [];
+var allSalsifisHor = [];
+var allSalsifisDiag = [];
 
-for (var i = 0; i < number; i++) {
+for (var i = 0; i < 15; i++) {
   var destination = Point.random() * 2;
   var position = Point.random() * view.size;
-  var sizeSal = Math.random() * 1 + 0.5;
+  var sizeSal = Math.random() * 0.3 + 0.5;
   var amount = 5;
   var dandineSpeed = Math.random() * 5 + 3;
-  allSalsifis.push(new Salsifis(sizeSal, destination, position, amount, dandineSpeed));
+  var rotation = 60;
+  var speed = Math.random() * 40 + 120;
+  allSalsifisVert.push(new Salsifis(sizeSal, destination, position, amount, dandineSpeed, rotation, speed));
+}
+for (var i = 0; i < 30; i++) {
+  var destination = Point.random() * 2;
+  var position = Point.random() * view.size;
+  var sizeSal = Math.random() * 0.3 + 0.5;
+  var amount = 5;
+  var dandineSpeed = Math.random() * 5 + 3;
+  var rotation = 0;
+  var speed = Math.random() * 40 + 120;
+  allSalsifisHor.push(new Salsifis(sizeSal, destination, position, amount, dandineSpeed, rotation, speed));
 }
 
+for (var i = 0; i < 8; i++) {
+  var destination = Point.random() * 2;
+  var position = Point.random() * view.size;
+  var sizeSal = Math.random()  * 0.3 + 0.5;
+  var amount = 5;
+  var dandineSpeed = Math.random() * 5 + 3;
+  var rotation = 45;
+  var speed = Math.random() * 40 + 120;
+  allSalsifisDiag.push(new Salsifis(sizeSal, destination, position, amount, dandineSpeed, rotation, speed));
+}
+
+
 function onFrame(event) {
-  for (var i = 0, l = allSalsifis.length; i < l; i++) {
-    allSalsifis[i].move(event, i);
-    allSalsifis[i].dandine(event,i);
+  for (var i = 0, l = allSalsifisVert.length; i < l; i++) {
+    allSalsifisVert[i].moveVert(event, i);
+    allSalsifisVert[i].dandine(event,i);
+  }
+  for (var i = 0, l = allSalsifisHor.length; i < l; i++) {
+    allSalsifisHor[i].move(event, i);
+    allSalsifisHor[i].dandineHor(event,i);
+  }
+  for (var i = 0, l = allSalsifisDiag.length; i < l; i++) {
+    allSalsifisDiag[i].moveVert(event, i);
+    allSalsifisDiag[i].dandineDiag(event,i);
   }
 }
 
-// //ALGUES
+//ALGUES
 // // The amount of segment points we want to create:
-// var amount = 5;
+// var amount = 10;
 
 // // The maximum height of the wave:
 // var height = 15;
@@ -112,8 +182,8 @@ function onFrame(event) {
 //         } else {
 //             this.align(boids);
 //         }
-//         // this.borders();
-//         // this.update();
+//         this.borders();
+//         this.update();
 //         this.calculateTail();
 //         // this.moveHead();
 //     },
@@ -147,15 +217,15 @@ function onFrame(event) {
 
 //         this.path = new Path({
 //             strokeColor: '#000d9e',
-//             strokeWidth: 9,
+//             strokeWidth: 10,
 //             strokeCap: 'round'
 //         });
 //         for (var i = 0; i < this.amount; i++)
 //             this.path.add(new Point());
 
 //         this.shortPath = new Path({
-//             strokeColor: 'red',
-//             strokeWidth: 8,
+//             strokeColor: '#000d9e',
+//             strokeWidth: 10,
 //             strokeCap: 'round'
 //         });
 //         console.log(Math.min(1,this.amount));
