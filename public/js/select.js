@@ -48,7 +48,7 @@ jQuery(document).ready(function($) {
 	};
 
 	function onNewRecipeId(req){
-		var imageToAdd = "<img src='/"+req.recipe.session+"/"+req.recipe.id+".png' alt='recette' />";
+		var imageToAdd = "<img class='myrecipe' src='/"+req.recipe.session+"/"+req.recipe.id+".png' alt='recette' />";
 		$("body").append(imageToAdd);
 		$("canvas").hide();
 		setTimeout(function(){
@@ -73,19 +73,15 @@ jQuery(document).ready(function($) {
 
 	function reset(){
 		firstTime = true;
-		
 		resetProgress();
 		setRecipe();
-
 
 		$('canvas').css('display', 'none');
 		$('.alert').css('display', 'none');
 
 		$('footer').css('display', 'block');
 		$('.boutons').css('display', 'block');
-
-		$('.ingredients .number-ingredients').empty();
-		$('.ingredients .number-ingredients').append("0");
+		$('.boutons .outside').css('opacity', '0');
 
 		$("#start-message").css("display", "block");
 		
@@ -94,6 +90,7 @@ jQuery(document).ready(function($) {
 	};
 
 	function start(){
+		$("img.myrecipe").remove();
 		$("#start-message").css("display", "none");
 		firstTime = false;
 		updateProgress();
@@ -191,48 +188,57 @@ jQuery(document).ready(function($) {
 	}
 
 	function updateProgress() {
-		var $elementTime = $(".chrono .time");
-		var arrayTime = [];
-		$elementTime.each(function(){
-			arrayTime.push($(this));
-		});
-		var $firstElement = arrayTime[0];
-	  var $currentElement = $firstElement;
-	  var counter = 1;
-	  var border = 2;
-		var myCounter = new Countdown({  
-	    seconds:120,  // number of seconds to count down
-	    onUpdateStatus: function(sec){
-	    	//console.log(sec);
-	    	border ++;
-	    	
-	    	if((120 - sec) >= 20 * counter){
-	    		counter ++;
-	    		border = 2;
-	    		$currentElement = $currentElement.next('.time');
-	    		$currentElement.css("border", border + "px solid #000");
-	    	}
-	    	else{
-	    		$currentElement.css("border", border + "px solid #000");
-	    	}
-	    }, // callback for each second
-	    onCounterEnd: function(){ 
-	    	$('#endtime-message').css('display', 'block');
-				setTimeout(function(){
-					$('#endtime-message').css('display', 'none');
-					sendRecipe();
-				}, 5000);
-	    } // final action
-		});
-
 		myCounter.start();
 	};
 
 	function resetProgress(){
 		$(".chrono .time").css("border", "2px solid #000");
+		$currentElement= $(".chrono .time").eq(0);
+		border=2;
+  	counter=1;
+		myCounter.stop();
 	};
 
 
+});
+
+ //  var $elementTime = $(".chrono .time");
+	// var arrayTime = [];
+	// $elementTime.each(function(){
+	// 	arrayTime.push($(this));
+	// });
+	// var $firstElement = arrayTime[0];
+
+var myCounter = new Countdown({  
+  seconds:120,  // number of seconds to count down
+  border:2,
+  counter:1,
+  $currentElement: $(".chrono .time").eq(0),
+  onUpdateStatus: function(sec){
+  	//console.log(sec);
+  	border ++;
+  	
+  	if((120 - sec) >= 20 * counter){
+  		counter ++;
+  		border = 2;
+  		$currentElement = $currentElement.next('.time');
+  		$currentElement.css("border", border + "px solid #000");
+  		console.log(border);
+  		console.log($currentElement);
+  	}
+  	else{
+  		$currentElement.css("border", border + "px solid #000");
+  		console.log("ELse", border);
+  		console.log($currentElement);
+  	}
+  }, // callback for each second
+  onCounterEnd: function(){ 
+  	$('#endtime-message').css('display', 'block');
+		setTimeout(function(){
+			$('#endtime-message').css('display', 'none');
+			sendRecipe();
+		}, 5000);
+  } // final action
 });
 
 function Countdown(options) {
@@ -242,8 +248,13 @@ function Countdown(options) {
   updateStatus = options.onUpdateStatus || function () {},
   counterEnd = options.onCounterEnd || function () {};
 
+  //custom fonction
+  $currentElement = options.$currentElement;
+  counter = options.counter;
+  border = options.border;
+
   function decrementCounter() {
-    updateStatus(seconds);
+    updateStatus(seconds, counter, $currentElement);
     if (seconds === 0) {
       counterEnd();
       instance.stop();
