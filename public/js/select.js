@@ -1,7 +1,7 @@
 jQuery(document).ready(function($) {
 
 	var serverBaseUrl = document.domain;
-	var socket = io.connect(serverBaseUrl);
+	var socket = io.connect();
 	var sessionId = '';
 
 	var maxIng = 6;
@@ -81,18 +81,10 @@ jQuery(document).ready(function($) {
 		$('.ingredients .number-ingredients').empty();
 		$('.ingredients .number-ingredients').append("0");
 
-		$('.boutons li').animate({
-			width:"40px", 
-			height:"40px",
-			left: 0,
-			top: 0
-		}).css('box-shadow', 'none');
 		$("#start-message").css("display", "block");
 		
 		updateJaugeIngredients();
 		
-		//console.log(recipe, firstTime);
-		//$("#radis").show();
 	};
 
 	function start(){
@@ -143,20 +135,14 @@ jQuery(document).ready(function($) {
 	function toogleAnimVisibility(selector, state){
 		if(!state){
 			$('#'+selector).fadeOut('slow').removeClass('active');
-			$('.btn-'+selector).animate({
-				width:"40px", 
-				height:"40px", 
-				left: 0,
-				top: 0
-			}).css('box-shadow', 'none');
+			$('.btn-'+selector+ ' .outside').animate({
+				opacity: 0,
+			});
 		}else if(state){
 			$('#'+selector).fadeIn('slow').addClass('active');
-			$('.btn-'+selector).animate({
-				width:"60px", 
-				height:"60px", 
-				left: -10,
-				top: -10
-			}).css('box-shadow', '2px 2px 10px grey');
+			$('.btn-'+selector + ' .outside').animate({
+				opacity: 1,
+			});
 		}
 	};
 
@@ -178,7 +164,7 @@ jQuery(document).ready(function($) {
 		console.log("sendRecipe");
 		console.log('test recipe',choiceCount());
 
-		if(choiceCount() > 4 && choiceCount() < 9 ){
+		if(choiceCount() > 3 && choiceCount() < 7 ){
 			$('footer').css('display', 'none');
 			$('.boutons').css('display', 'none');
 			
@@ -199,31 +185,74 @@ jQuery(document).ready(function($) {
 	}
 
 	function updateProgress() {
-		var max = 30; // two minutes
-		var add = 1.67 / max;
-		if (current < 100 && !firstTime) {
-				current += add;
-				console.log(current);
-				// for(var a = 0; i<6; i++){
-				// 	setTimeout(console.log("test"), 10);
-				// }
-				//$(".time").css("width", current + "%");
-				setTimeout(updateProgress, 60); // update every second
-		}else if(current > 99) {
-			console.log('fin du temps délimité');
-			$('#endtime-message').css('display', 'block');
-			setTimeout(function(){
-				$('#endtime-message').css('display', 'none');
-				sendRecipe();
-			}, 5000);
-		}
+		var $elementTime = $(".chrono .time");
+		var arrayTime = [];
+		$elementTime.each(function(){
+			arrayTime.push($(this));
+		});
+		var $firstElement = arrayTime[0];
+	  var $currentElement = $firstElement;
+	  var counter = 1;
+	  var border = 2;
+		var myCounter = new Countdown({  
+	    seconds:120,  // number of seconds to count down
+	    onUpdateStatus: function(sec){
+	    	//console.log(sec);
+	    	border ++;
+	    	
+	    	if((120 - sec) >= 20 * counter){
+	    		counter ++;
+	    		border = 2;
+	    		$currentElement = $currentElement.next('.time');
+	    		$currentElement.css("border", border + "px solid #000");
+	    	}
+	    	else{
+	    		$currentElement.css("border", border + "px solid #000");
+	    	}
+	    }, // callback for each second
+	    onCounterEnd: function(){ 
+	    	$('#endtime-message').css('display', 'block');
+				setTimeout(function(){
+					$('#endtime-message').css('display', 'none');
+					sendRecipe();
+				}, 5000);
+	    } // final action
+		});
+
+		myCounter.start();
 	};
 
 	function resetProgress(){
-		//$(".time").css("width", 0 + "%");
-		//progress = ( 100 * parseFloat($('.time').css('width')) / parseFloat($('.time').parent().css('width')) );
-		current = progress;
+		$(".chrono .time").css("border", "2px solid #000");
 	};
 
 
 });
+
+function Countdown(options) {
+  var timer,
+  instance = this,
+  seconds = options.seconds || 10,
+  updateStatus = options.onUpdateStatus || function () {},
+  counterEnd = options.onCounterEnd || function () {};
+
+  function decrementCounter() {
+    updateStatus(seconds);
+    if (seconds === 0) {
+      counterEnd();
+      instance.stop();
+    }
+    seconds--;
+  }
+
+  this.start = function () {
+    clearInterval(timer);
+    timer = 0;
+    seconds = options.seconds;
+    timer = setInterval(decrementCounter, 1000);
+  };
+
+  this.stop = function () {
+    clearInterval(timer);
+  };
+}

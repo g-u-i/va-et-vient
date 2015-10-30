@@ -1,14 +1,23 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,700,700italic);
 body {
   width: 1920px;
   height: 1080px;
   margin: 0;
   background: #FFF;
-  font-family: helvetica, sans-serif;
+  font-family: 'Roboto', sans-serif;
   overflow: hidden;
 }
 canvas {
   width: 1920px;
   position: absolute;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Roboto', sans-serif;
 }
 h3 {
   font-size: 20px;
@@ -126,11 +135,24 @@ h3 {
   left: 0;
   background-color: #0d71b9;
 }
+.boutons li .outside {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #0d71b9;
+  position: absolute;
+  left: -7px;
+  top: -7px;
+  opacity: 0;
+}
 footer {
   width: 1980px;
   height: 100px;
   position: absolute;
-  bottom: 100px;
+  bottom: 50px;
+}
+footer h3 {
+  font-size: 14px;
 }
 footer .valider {
   width: 150px;
@@ -151,21 +173,19 @@ footer .valider .btn-valider {
 }
 .ingredient-jauge {
   position: absolute;
-  bottom: 60px;
-  font-size: 1.7em;
-  font-family: helvetica, sans-serif;
-  left: 50px;
+  left: 150px;
 }
 .ingredients {
-  width: 50px;
-  height: 50px;
+  width: 43px;
+  height: 43px;
   position: relative;
   display: inline-block;
+  margin-right: 18px;
 }
 .ingredients .inside {
-  width: 20px;
-  height: 20px;
-  border-radius: 50px;
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
   background-color: #000;
   border: 1px solid #000;
   position: absolute;
@@ -174,34 +194,37 @@ footer .valider .btn-valider {
   display: none;
 }
 .ingredients .outside {
-  width: 30px;
-  height: 30px;
-  border-radius: 50px;
+  width: 43px;
+  height: 43px;
+  border-radius: 50%;
   border: 2px solid #000;
   position: absolute;
 }
 .ingredients.min span {
   position: absolute;
-  top: -30px;
-  left: 5px;
-  font-size: 15px;
+  top: -38px;
+  left: 11px;
+  font-size: 14px;
+}
+.ingredients.min span:after {
+  content: "|";
+  display: block;
+  padding-left: 10px;
 }
 .ingredients.active .inside {
   display: block;
 }
 .chrono {
   position: absolute;
-  bottom: 60px;
-  font-size: 1.7em;
-  font-family: helvetica, sans-serif;
-  right: 150px;
+  right: 160px;
 }
 .chrono .time {
-  width: 30px;
-  height: 30px;
+  width: 43px;
+  height: 43px;
   position: relative;
   display: inline-block;
-  border-radius: 50px;
+  border-radius: 50%;
+  box-sizing: border-box;
   border: 2px solid #000;
   margin-right: 15px;
 }

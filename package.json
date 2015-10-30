@@ -5,13 +5,15 @@
   },
   "dependencies": {
     "express": "3.1.0",
-    "fs-extra": "*",
+    "fs": "0.0.2",
+    "fs-extra": "^0.26.0",
     "glob": "*",
     "gm": "*",
     "jade": "*",
     "markdown": "*",
-    "phantom": "*",
+    "phantom": "^0.8.0",
     "socket.io": "^1.3.7",
-    "underscore": "*"
+    "underscore": "*",
+    "weak": "^1.0.0"
   }
 }

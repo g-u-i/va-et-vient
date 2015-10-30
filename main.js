@@ -9,7 +9,7 @@ var fs = require('fs-extra'),
 module.exports = function(app, io){
 
 	console.log("main module initialized");
-	var sessions_p = "sessions/"
+	var sessions_p = "sessions/";
 
 	io.on("connection", function(socket){
 		socket.on("newLine", onNewLine);
@@ -40,6 +40,7 @@ module.exports = function(app, io){
 
 	function onNewRecipe(req){
 
+		console.log(req);
 		var recipe   = req.recipe,
 				session  = recipe.session,
 				recipeId = glob(sessions_p+'/'+session+'/*.png', {nocase: true, sync: true}).length,
@@ -49,9 +50,8 @@ module.exports = function(app, io){
 		recipe.id = recipeId;
 		recipe.humanTime = timestampToTimer(recipe.time);
 
-
-
-		exec('screencapture -x '+path+'.png',function(error, stdout, stderr){
+		exec('import '+path+'.png',function(error, stdout, stderr){
+		//exec('screencapture -x '+path+'.png',function(error, stdout, stderr){
 			fs.writeFile(path+'.json', JSON.stringify(recipe), function(err) {
 				io.sockets.emit("newRecipeId", {recipe: recipe});
 				console.log('new recipe recorded', recipeId);
@@ -63,7 +63,7 @@ module.exports = function(app, io){
 
  	function renderRecipe(session, recipeId){
 
- 		var url = 'http://localhost:8080/print/'+session+'/'+recipeId+'/',
+ 		var url = 'http://localhost:1337/print/'+session+'/'+recipeId+'/',
  				pdf = sessions_p+'/'+session+'/'+recipeId+'.pdf';
 
 	 	phantom.create(function(ph){
@@ -73,14 +73,16 @@ module.exports = function(app, io){
  		    page.open(url, function(status) {
 		      page.render(pdf, function(){
 		        console.log('Page Rendered',url);
-						fs.copy(pdf, 'printbox/'+session+'_'+recipeId+'.pdf');
-
+						fs.copy(pdf, 'printbox/'+session+'_'+recipeId+'.pdf', function(err){
+							console.log(err);
+						});
 		        ph.exit();
 		      });
 		    });
 		  });
 		});
  	};
+
 	this.getRecipe = function(session, recipeId){return getRecipe(session, recipeId);};
 	function getRecipe(session, recipeId) {
 

@@ -69,15 +69,17 @@ html
 
     div(id='alert-elements' class='alert')
         h2 Va & Vient
-        p Vous avez selectionné suffisament d'éléments.
+        p Vous avez selectionné suffisament d'ingrédients.
+        p Vous ne pouvez pas ajouter d'ingrédients supplémentaires à la recette.
         p Appuyez sur le bouton vert pour valider.
-        p Ou déselectionnez un élément pour pouvoir le modifier.
+        p Ou déselectionnez un ingrédients pour pouvoir en selectionner un nouveau.
 
     div(id='end-message' class='alert')
         h2 Va & Vient
         p.infos-id
         p Vous avez validé votre recette, elle va désormais être réalisée en cuisine. 
-        p Récuperez votre fiche pour le chef.
+        p Votre recette va être imprimée.
+        p Veuillez récuperez votre fiche pour la donner chef.
         p Vous pourrez déguster dans quelques instants le plat que vous venez de créer.
         p Vous serez appelé par votre numéro de recette.
 
@@ -85,7 +87,7 @@ html
         h2 Va & Vient
         p La recette ne peut être validée.
         p Veuillez sélectionner davantage d'éléments.
-        p La recette doit être composée de 5 à 8 éléments.
+        p La recette doit être composée de 4 à 6 éléments.
     
     div(id='endtime-message' class='alert')
         h2 Va & Vient
@@ -99,17 +101,29 @@ html
     div.boutons
         ul
             li.btn-salsifis
+                .outside
             li.btn-chicoree
+                .outside
             li.btn-radis
+                .outside
             li.btn-navet
+                .outside
             li.btn-fromage
+                .outside
             li.btn-carottes2
+                .outside
             li.btn-champignons2
+                .outside
             li.btn-potimarron
+                .outside
             li.btn-pain
-            li.btn-tofu2  
+                .outside
+            li.btn-tofu2
+                .outside  
             li.btn-legumes
+                .outside
             li.btn-chataignes
+                .outside
     
     footer
         div.ingredient-jauge
