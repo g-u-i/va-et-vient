@@ -48,9 +48,15 @@ jQuery(document).ready(function($) {
 	};
 
 	function onNewRecipeId(req){
-		$('#end-message').css('display', 'block');
-		$('#end-message p.infos-id').empty();
-		$('#end-message p.infos-id').append(req.recipe.session + req.recipe.id + "<br>" + req.recipe.humanTime );
+		var imageToAdd = "<img src='/"+req.recipe.session+"/"+req.recipe.id+".png' alt='recette' />";
+		$("body").append(imageToAdd);
+		$("canvas").hide();
+		setTimeout(function(){
+			$('#end-message').css('display', 'block');
+			$('#end-message .infos-id').empty();
+			$('#end-message .infos-id').append("<div class='recipe-data'><span class='numero'>"+req.recipe.session + req.recipe.id + "</span><br><span class='recipe-time'>" + req.recipe.humanTime +"</span>");
+		}, 3000);
+
 		setTimeout(reset, 10000);
 	}
 	//

@@ -4,12 +4,18 @@ html
     link(rel='stylesheet', href='/css/style.css')
     title #{session} | #{recipeId}
   body.print
+    
+    div.infos
+        h2 Va & Vient
+        div.recette-id
+            h3 Recette #{recipe.session}#{recipe.id} 
+            span #{recipe.humanTime}
+        div.consignes
+            p Veuillez emmener cette fiche recette au chef cuisinier.
+            p Votre plat sera prêt à desguter d'un instant à l'autre.
 
     div.recette
         img(src='/#{session}/#{recipeId}.png').img-responsive
-    
-    div.infos
-        h1 Recette n°#{recipe.session}#{recipe.id} à #{recipe.humanTime}
 
     //- scripts
     script(src='/socket.io/socket.io.js')
