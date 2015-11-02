@@ -14,6 +14,7 @@
     "phantom": "^0.8.0",
     "socket.io": "^1.3.7",
     "underscore": "*",
-    "weak": "^1.0.0"
+    "weak": "^1.0.0",
+    "zuzel-printer": "^1.0.4"
   }
 }

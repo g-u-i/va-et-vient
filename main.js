@@ -6,6 +6,16 @@ var fs = require('fs-extra'),
 		exec = require('child_process').exec,
 		phantom = require('phantom');
 
+//option impression
+var Printer = require('zuzel-printer');
+var options = {
+		  'fitplot': true,
+		};
+
+
+// Create a new Pinter from available devices
+var printer = new Printer('HP_Officejet_7500_E910');
+
 module.exports = function(app, io){
 
 	console.log("main module initialized");
@@ -74,12 +84,29 @@ module.exports = function(app, io){
 		        console.log('Page Rendered',url);
 						fs.copy(pdf, 'printbox/'+session+'_'+recipeId+'.pdf', function(err){
 							console.log(err);
-						});
+							//CODE FOR PRINTING WITH NODE MODULE
+							var filePath = 'printbox/'+session+'_'+recipeId+'.pdf';
+							var jobFromFile = printer.printFile(filePath);
+							jobFromFile.once('sent', function() {
+						    jobFromFile.on('completed', function() {
+						        console.log('Job ' + jobFromFile.identifier + 'has been printed');
+						        jobFromFile.removeAllListeners();
+						        //Move the file from printbox to archivebox when finishing
+						        fs.rename(filePath, 'archivebox/'+session+'_'+recipeId+'.pdf', function (err) {
+										  if (err) {
+										    throw err;
+										  }
+										  console.log('Moved '+filePath+' to archivebox/'+session+'_'+recipeId+'.pdf');
+										});
+						    });
+							});
+							//FIN DU CODE POUR IMPRIMER
 		        ph.exit();
 		      });
 		    });
 		  });
 		});
+});
  	};
 
 	this.getRecipe = function(session, recipeId){return getRecipe(session, recipeId);};
