@@ -50,8 +50,8 @@ module.exports = function(app, io){
 		recipe.id = recipeId;
 		recipe.humanTime = timestampToTimer(recipe.time);
 
-		exec('import '+path+'.png',function(error, stdout, stderr){
-		//exec('screencapture -x '+path+'.png',function(error, stdout, stderr){
+		//exec('import '+path+'.png',function(error, stdout, stderr){ //pour Linux KDE
+		exec('screencapture -x '+path+'.png',function(error, stdout, stderr){ //Pour OSX
 			fs.writeFile(path+'.json', JSON.stringify(recipe), function(err) {
 				io.sockets.emit("newRecipeId", {recipe: recipe});
 				console.log('new recipe recorded', recipeId);
@@ -65,7 +65,6 @@ module.exports = function(app, io){
 
  		var url = 'http://localhost:1337/print/'+session+'/'+recipeId+'/',
  				pdf = sessions_p+'/'+session+'/'+recipeId+'.pdf';
-
 	 	phantom.create(function(ph){
 		  ph.createPage(function(page) {
 		  	//page.set('viewportSize', { width : "2970", height : "21cm"});

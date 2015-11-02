@@ -2,9 +2,11 @@
 # set -x
 
 # settings
-# lanch with $ watch -n 10 print-deamon.sh 
+# find the printer $ lpstat -p
+# install watch with brew
+# lanch with $ watch -n 10 bash print-deamon.sh 
 
-printer=Canon_LBP7100C_7110C
+printer=HP_Officejet_7500_E910
 archivebox="archivebox/"
 printinbox="printbox/"
 
