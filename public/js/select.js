@@ -57,7 +57,7 @@ jQuery(document).ready(function($) {
 			$('#end-message .infos-id').append("<div class='recipe-data'><span class='numero'>"+req.recipe.session + req.recipe.id + "</span><br><span class='recipe-time'>" + req.recipe.humanTime +"</span>");
 		}, 3000);
 
-		setTimeout(reset, 10000);
+		setTimeout(reset, 15000);
 	}
 	//
 	function setRecipe(){
